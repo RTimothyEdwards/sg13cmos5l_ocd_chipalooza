@@ -17,6 +17,6 @@ ext2spice lvs
 ext2spice -p extfiles -o ../netlist/layout/${project}.spice
 quit -noprompt
 EOF
-rm -r extfiles
+# rm -r extfiles
 exit 0
 

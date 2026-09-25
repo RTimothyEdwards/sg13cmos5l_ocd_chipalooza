@@ -13,6 +13,7 @@ module digital_top (
     inout AVSS,     // common ground
     inout DVDD,     // 1.2V supply
     inout DVSS,     // common ground
+    inout VDDD,	    // digital 1.2V supply
 `endif
   
     input wire clk,
@@ -242,7 +243,7 @@ module digital_top (
     /* Instantiate the housekeeping top module */
     housekeeping_top hk_top (
 	`ifdef USE_POWER_PINS
-	    .VPWR(DVDD),
+	    .VPWR(VDDD),
 	    .VGND(DVSS),
 	`endif
 	    .porb(porb),
@@ -294,7 +295,9 @@ module digital_top (
 	    .project_zero(project_zero)
     );
 
-    /* Instantiate the SRAM */
+    /* Instantiate the SRAM (NOTE:  The IHP SRAM verilog does not have
+     * power pins defined)
+     */
 
     RM_IHPSG13_1P_1024x8_c2_bm_bist sram (
 	.A_CLK(sram_clk),

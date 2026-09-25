@@ -8,6 +8,7 @@
 *.gtkw
 a.out
 *.vvp
+xschem/simulations
 
 # cocotb/iverilog build directory.  Note that *.vvp alone is not
 # enough:  sim_build also holds cmds.f and results.xml.

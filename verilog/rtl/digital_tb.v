@@ -7,10 +7,7 @@
 module digital_tb ();
 
     /* Define inputs to the digital top module */
-    /* porb is no longer a port:  it is generated on chip by the POR
-     * block inside digital_top.  Nothing here drives it;  the sequence
-     * below simply waits the POR out.  See verilog/dv/harness.py for
-     * why a cocotb suite needs more than that. */
+
     reg SCK, SDI, CSB;
     reg clk;
     wire SDO, sdo_ena;

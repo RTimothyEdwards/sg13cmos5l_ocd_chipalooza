@@ -390,3 +390,25 @@ async def apply_bias_defaults(spi):
     """Program the bias generator to its documented working settings."""
     for addr, value, _ in BIAS_DEFAULTS:
         await spi.write_reg(addr, value)
+
+
+# ---------------------------------------------------------------------
+# Bandgap trim curve
+# ---------------------------------------------------------------------
+# Simulated 2026-09-21, after the trim resistor chain was changed from
+# "rhigh" to "rppd".  Indexed by j, the number of bits set in the 16-bit
+# thermometer code, so 17 entries for j = 0..16.  These are the values
+# sg13cmos5l_ocd_ip__bandgap_v2 looks up;  duplicating them here is
+# deliberate, so that a change to the model has to be a change to the
+# test as well rather than the test silently following it.
+BANDGAP_TRIM_V = [
+    1.184, 1.188, 1.192, 1.198, 1.204, 1.211, 1.217, 1.224, 1.231,
+    1.238, 1.246, 1.254, 1.261, 1.270, 1.278, 1.287, 1.295,
+]
+
+# Half trim, which is where the tempco curve is flattest.  This is the
+# setting the part is meant to run at, and it is the middle of the code
+# range rather than an arbitrary point --- that is what the rppd change
+# bought.
+BANDGAP_NOMINAL_TRIM = 8
+BANDGAP_NOMINAL_V = BANDGAP_TRIM_V[BANDGAP_NOMINAL_TRIM]

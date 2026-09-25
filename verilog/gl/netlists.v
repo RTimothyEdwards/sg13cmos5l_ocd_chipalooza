@@ -5,7 +5,7 @@
  * Netlists for sg13cmos5l openframe project
  *
  * This file includes all of the verilog modules for openframe
- * for use in simulation (e.g., iverilog).
+ * that are not specified in sim_defs.v
  *
  *------------------------------------------------------------------------
  */ 
@@ -17,12 +17,11 @@
 
 `default_nettype none
 
-/* Foundry PDK libraries */
-/* Need to pass the PDK root directory to iverilog with option -I */
-/* (Local PDK root directory is ~/gits/ihp-sg13cmos5l) */
-
-`include "libs.ref/sg13cmos5l_stdcell/verilog/sg13cmos5l_stdcell.v"
+/* Foundry IP blocks (I/O library) */
 `include "libs.ref/sg13cmos5l_io/verilog/sg13cmos5l_io.v"
+
+/* Custom I/O cell */
+`include "sg13cmos5l_ocd_Split2000.v"
 
 /* Layout blocks (no behavioral or functional content) */
 `include "caravel_logo.v"
@@ -31,20 +30,14 @@
 `include "user_id_textblock.v"
 `include "open_source.v"
 
-/* Basic building blocks */
-`include "constant_block.v"
-
 /* ROM program for project ID */
 `include "user_id_programming.v"
 
-/* User project wrapper */
-`include "openframe_project_wrapper.v"
-
-/* User project */
-`include "openframe_user_project.v"
+/* Chip core */
+`include "chipalooza_frame.v"
 
 /* Padframe */
 `include "sg13cmos5l_padframe.v"
 
 /* Top level cell */
-`include "sg13cmos5l_caravel_openframe.v"
+`include "sg13cmos5l_ocd_chipalooza.v"

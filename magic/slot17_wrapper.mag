@@ -1,9 +1,9 @@
 magic
 tech ihp-sg13cmos5l
 magscale 1 2
-timestamp 1788914928
+timestamp 1790277761
 << checkpaint >>
-rect -2068 -2000 110081 56600
+rect -2068 -2000 110008 56600
 << obsm1 >>
 rect 107030 0 107430 54600
 << obsm2 >>
@@ -28,7 +28,8 @@ rect 0 19431 400 19831
 rect 0 19311 400 19363
 rect 0 18843 400 19243
 rect 0 18723 400 18775
-rect 0 17870 400 17914
+rect 0 17960 400 18004
+rect 0 17872 400 17916
 rect 0 17782 400 17826
 rect 0 17694 400 17738
 rect 0 17606 400 17650
@@ -156,30 +157,32 @@ flabel metal3 0 14526 400 14570 0 FreeSans 352 180 0 0 dig_out[1]
 port 178 nsew
 flabel metal3 0 14438 400 14482 0 FreeSans 352 180 0 0 dig_out[0]
 port 179 nsew
-flabel metal3 0 17870 400 17914 0 FreeSans 352 180 0 0 clk
+flabel metal3 0 19431 400 19831 0 FreeSans 1600 180 0 0 ibias0
 port 180 nsew
-flabel metal3 0 17782 400 17826 0 FreeSans 352 180 0 0 enable
+flabel metal3 0 20019 400 20419 0 FreeSans 1600 180 0 0 ibias1
 port 181 nsew
-flabel metal3 0 19431 400 19831 0 FreeSans 1600 180 0 0 ibias[1]
+flabel metal3 0 20607 400 21007 0 FreeSans 1600 180 0 0 analog_bus3
 port 182 nsew
-flabel metal3 0 20019 400 20419 0 FreeSans 1600 180 0 0 ibias[0]
+flabel metal3 0 21195 400 21595 0 FreeSans 1600 180 0 0 analog_bus2
 port 183 nsew
-flabel metal3 0 20607 400 21007 0 FreeSans 1600 180 0 0 analog_bus[0]
+flabel metal3 0 21783 400 22183 0 FreeSans 1600 180 0 0 analog_bus1
 port 184 nsew
-flabel metal3 0 21195 400 21595 0 FreeSans 1600 180 0 0 analog_bus[1]
+flabel metal3 0 22371 400 22771 0 FreeSans 1600 180 0 0 analog_bus0
 port 185 nsew
-flabel metal3 0 21783 400 22183 0 FreeSans 1600 180 0 0 analog_bus[2]
-port 186 nsew
-flabel metal3 0 22371 400 22771 0 FreeSans 1600 180 0 0 analog_bus[3]
-port 187 nsew
 flabel metal5 0 13273 400 19273 0 FreeSans 2400 90 0 0 vss_1v2
-port 188 nsew
+port 186 nsew
 flabel metal5 0 400 400 11359 0 FreeSans 2400 90 0 0 vdd_1v2
-port 189 nsew
+port 187 nsew
 flabel metal5 0 22709 400 28709 0 FreeSans 2400 90 0 0 vss_3v3
-port 190 nsew
+port 188 nsew
 flabel metal5 0 30225 400 51216 0 FreeSans 2400 90 0 0 vdd_3v3
+port 189 nsew
+flabel metal3 0 17872 400 17916 0 FreeSans 352 180 0 0 enable
+port 190 nsew
+flabel metal3 0 17960 400 18004 0 FreeSans 352 180 0 0 clk
 port 191 nsew
+flabel metal3 0 17782 400 17826 0 FreeSans 352 180 0 0 reset
+port 192 nsew
 flabel metal3 107030 36641 107430 36739 0 FreeSans 480 180 0 0 s17_an_0_esd
 port 141 nsew
 flabel metal3 107070 38036 107230 42990 0 FreeSans 480 90 0 0 s17_an[0]
