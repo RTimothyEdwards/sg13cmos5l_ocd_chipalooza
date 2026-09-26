@@ -1,10 +1,16 @@
 #! /bin/bash
+#
+# run_extract_chipalooza_frame.sh ---
+#
+# Run xschem schematic extraction of the chip core (padframe not included
+# at this level).
+
 mkdir -p ../netlist/schematic
 
-project=openframe_user_project
+project=chipalooza_frame
 
-echo ${PDK_ROOT:=/home/tim/gits} > /dev/null
-echo ${PDK:=ihp-sg13cmos5l} > /dev/null
+export PDK_ROOT=${PDK_ROOT:-/home/tim/gits}
+export PDK=${PDK:-ihp-sg13cmos5l}
 
 # Source the local xschemrc, which recursively reads the xschemrc files
 # of the dependencies, then reads the PDK xschemrc file.

@@ -13,7 +13,7 @@ verilog, not structural.  netgen currently accepts one silently and
 drops the pin from the comparison, which is how 18 proj_addr buses and
 40 SRAM tie-off pins came to be unchecked;  the netgen bug is filed, and
 the correct behaviour there is to stop with an error.  This does that
-here and now, so a literal reintroduced into digital_top.v fails at
+here and now, so a literal reintroduced into chipalooza_frame.v fails at
 "make netlist" with a clear message rather than quietly shrinking what
 LVS covers.
 

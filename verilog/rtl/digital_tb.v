@@ -7,43 +7,18 @@
 module digital_tb ();
 
     /* Define inputs to the digital top module */
-    /* porb is no longer a port:  it is generated on chip by the POR
-     * block inside digital_top.  Nothing here drives it;  the sequence
-     * below simply waits the POR out.  See verilog/dv/harness.py for
-     * why a cocotb suite needs more than that. */
+
     reg SCK, SDI, CSB;
     reg clk;
     wire SDO, sdo_ena;
-    wire reset;
     reg [31:0] mask_rev_in;
     reg [11:0] io_in;
     wire [11:0] io_out;
     wire [11:0] io_oe;
 
-    wire [4:0] proj_sel;
-    wire proj_ena;
-    wire proj_dig_ena;
-    wire proj_3v3_ena;
-    wire proj_1v2_ena;
-    wire [1:0] proj_ibias_ena;
-    wire proj_vbias_ena;
-    wire [3:0] analog_bus_ena;
-    wire [4:0] idac1_value;
-    wire [4:0] idac2_value;
-    wire [2:0] voltgen_ena;
-    wire voltgen_high;
-    wire [2:0] voltgen_value;
-    wire bandgap_ena;
-    wire [15:0] bandgap_trim;
-    wire biasgen_ena;
-    wire biasgen_coarse;
-    wire biasgen_fine;
-    wire biasgen_ref_vbg;
-    wire [2:0] bandgap_sink1;
-    wire [1:0] bandgap_sink2;
-    wire [2:0] voltgen_sink1;
-    wire [2:0] voltgen_sink2;
-    wire [4:0] voltgen_source;
+    `ifdef USE_POWER_PINS
+	reg AVDD, AVSS, DVDD, DVSS;
+    `endif
 
     integer i;
     reg [7:0] tbdata;
@@ -120,6 +95,13 @@ module digital_tb ();
 	$dumpfile("digital_tb.vcd");
 	$dumpvars(0, digital_tb);
 
+	`ifdef USE_POWER_PINS
+	AVDD <= 1'b1;
+	AVSS <= 1'b0;
+	DVDD <= 1'b1;
+	DVSS <= 1'b0;
+	`endif
+
 	SCK <= 1'b0;
 	SDI <= 1'b0;
 	CSB <= 1'b1;	// SPI disabled
@@ -131,9 +113,9 @@ module digital_tb ();
 	 * then let the released reset propagate. */
 	#1000;
 	#1000;
-	if (dig_top.porb !== 1'b1)
+	if (harness_core.porb !== 1'b1)
 	    $display("ERROR: porb = %b after the POR should have released",
-		     dig_top.porb);
+		     harness_core.porb);
 
 	// Test 1:  Read from housekeeping fixed value register
 
@@ -415,7 +397,7 @@ module digital_tb ();
     wire real analog_pin0_out, analog_pin1_out;
     wire real analog_pin2_out, analog_pin3_out;
 
-    digital_top dig_top (
+    chipalooza_frame harness_core (
 	    .analog_pin0_in(analog_pin_unconnected),
 	    .analog_pin1_in(analog_pin_unconnected),
 	    .analog_pin2_in(analog_pin_unconnected),
@@ -425,44 +407,43 @@ module digital_tb ();
 	    .analog_pin2_out(analog_pin2_out),
 	    .analog_pin3_out(analog_pin3_out),
 	`ifdef USE_POWER_PINS
-	    .VPWR(VPWR),
-	    .VGND(VGND),
+	    .vdd3v3(AVDD),
+	    .vss3v3(AVSS),
+	    .vdd1v2(DVDD),
+	    .vss1v2(DVSS),
+	    .vddd(DVDD),
 	`endif
-	    .clk(clk),
-	    .SCK(SCK),
-	    .SDI(SDI),
-	    .CSB(CSB),
-	    .SDO(SDO),
-	    .sdo_ena(sdo_ena),
-	    .reset(reset),
-	    .mask_rev_in(mask_rev_in),
-	    .io_in(io_in),
-	    .io_out(io_out),
-	    .io_oe(io_oe),
-	    .proj_sel(proj_sel),
-	    .proj_ena(proj_ena),
-	    .proj_dig_ena(proj_dig_ena),
-	    .proj_3v3_ena(proj_3v3_ena),
-	    .proj_1v2_ena(proj_1v2_ena),
-	    .proj_ibias_ena(proj_ibias_ena),
-	    .proj_vbias_ena(proj_vbias_ena),
-	    .analog_bus_ena(analog_bus_ena),
-	    .idac1_value(idac1_value),
-	    .idac2_value(idac2_value),
-            .voltgen_ena(voltgen_ena),
-            .voltgen_high(voltgen_high),
-            .voltgen_value(voltgen_value),
-            .bandgap_ena(bandgap_ena),
-            .bandgap_trim(bandgap_trim),
-            .biasgen_ena(biasgen_ena),
-            .biasgen_coarse(biasgen_coarse),
-            .biasgen_fine(biasgen_fine),
-            .biasgen_ref_vbg(biasgen_ref_vbg),
-            .bandgap_sink1(bandgap_sink1),
-            .bandgap_sink2(bandgap_sink2),
-            .voltgen_sink1(voltgen_sink1),
-            .voltgen_sink2(voltgen_sink2),
-            .voltgen_source(voltgen_source)
+	    .clk_in(clk),
+	    .SCK_in(SCK),
+	    .SDI_in(SDI),
+	    .CSB_in(CSB),
+	    .SDO_out(SDO),
+	    .SDO_ena(sdo_ena),
+	    .mask_rev(mask_rev_in),
+	    .gpio_in(io_in),
+	    .gpio_out(io_out),
+	    .gpio_oe(io_oe),
+
+	    /* Additional pins left unconnected here */
+	    .analog_esd(),
+	    .s1_an(),
+	    .s2_an(),
+	    .s3_an(),
+	    .s4_an(),
+	    .s5_an(),
+	    .s6_an(),
+	    .s7_an(),
+	    .s8_an(),
+	    .s9_an(),
+	    .s10_an(),
+	    .s11_an(),
+	    .s12_an(),
+	    .s13_an(),
+	    .s14_an(),
+	    .s15_an(),
+	    .s16_an(),
+	    .s17_an(),
+	    .s18_an()
     );
 
 endmodule

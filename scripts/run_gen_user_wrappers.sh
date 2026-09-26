@@ -22,8 +22,8 @@
 # to the magic/ directory to run magic.
 
 
-echo ${PDK_ROOT:=/home/tim/gits} > /dev/null
-echo ${PDK:=ihp-sg13cmos5l} > /dev/null
+export PDK_ROOT=${PDK_ROOT:-/home/tim/gits}
+export PDK=${PDK:-ihp-sg13cmos5l}
 
 cd magic
 
@@ -45,8 +45,15 @@ load chipalooza_frame
 select top cell
 expand
 
-units microns
-snap internal
+# Remove the existing wrappers (this change will not be saved!---but
+# note that this creates a timestamp difference between the wrapper
+# instances and the new wrapper cells).
+
+for {set i 1} {\$i <= 18} {incr i} {
+    select cell slot\${i}_wrapper_0
+    delete
+    cellname delete slot\${i}_wrapper
+}
 
 # Place box at slot 18 position
 box position 279 503.95
@@ -75,8 +82,24 @@ for {set i 1} {\$i <= 18} {incr i} {
     load slot\${i}_wrapper
     select top cell
 
+    # Collect the labels this slot actually has.
+    #
+    # The padframe power names (no underscore:  vdd1v2, vss1v2, vss3v3)
+    # belong to the frame's ungated supplies and appear on only a few
+    # slots.  "goto" on an absent label prints "Couldn't find label ..."
+    # and returns an empty string;  that is not an error, and it cannot
+    # be silenced with "catch" because goto reports through magic's own
+    # error channel rather than raising a Tcl error.  So test first.
+    select area label
+    set haslabel {}
+    foreach item [lindex [what -list] 1] {
+	lappend haslabel [lindex \$item 0]
+    }
+    select top cell
+
     # Find and replace power connections on the frame with obstructions
-    set result [goto vdd1v2]
+    set result ""
+    if {[lsearch -exact \$haslabel vdd1v2] >= 0} { set result [goto vdd1v2] }
     if {\$result == "metal5"} {
 	box grow c 1
 	select area m5
@@ -87,12 +110,14 @@ for {set i 1} {\$i <= 18} {incr i} {
     # Note:  No slots have "vdd3v3" adjacent.
     # Grounds are okay to connect to, but need to have the same name as the
     # other ground connection.
-    set result [goto vss1v2]
+    set result ""
+    if {[lsearch -exact \$haslabel vss1v2] >= 0} { set result [goto vss1v2] }
     if {\$result == "metal2"} {
 	select area label
 	setlabel text vss_1v2
     }
-    set result [goto vss3v3]
+    set result ""
+    if {[lsearch -exact \$haslabel vss3v3] >= 0} { set result [goto vss3v3] }
     if {\$result == "metal2"} {
 	select area label
 	setlabel text vss_3v3

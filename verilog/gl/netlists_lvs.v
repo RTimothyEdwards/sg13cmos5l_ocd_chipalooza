@@ -14,7 +14,6 @@
 
 `define UNIT_DELAY #1
 `define USE_POWER_PINS
-`define HAS_USER_PROJECT
 
 `default_nettype none
 
@@ -24,19 +23,22 @@
 `include "copyright_block.v"
 `include "user_id_textblock.v"
 `include "open_source.v"
-`include "sg13cmos5l_caravel_openframe_fill_pattern.v"
-
-/* Basic building blocks */
-`include "constant_block.v"
 
 /* ROM program for project ID */
 `include "user_id_programming.v"
 
-/* User project wrapper */
-`include "openframe_project_wrapper.v"
+/* Core cell (for LVS, use the schematic) */
+/* `include "chipalooza_frame.v" */
+
+`ifdef HAS_TOP_LEVEL
 
 /* Padframe */
 `include "sg13cmos5l_padframe.v"
 
 /* Top level cell (pre-fill) */
-`include "sg13cmos5l_caravel_openframe.v"
+`include "sg13cmos5l_ocd_chipalooza.v"
+
+`ifdef HAS_FILL_PATTERNS
+`include "sg13cmos5l_caravel_openframe_fill_pattern.v"
+`endif
+`endif

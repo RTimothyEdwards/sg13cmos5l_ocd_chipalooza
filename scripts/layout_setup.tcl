@@ -34,4 +34,9 @@ addpath ../dependencies/sg13cmos5l_ocd_ip__por/magic/paramcells
 
 addpath sg13cmos5l_stdcell
 
+# Other foundry cell libraries
+
+addpath sg13cmos5l_io
+addpath sg13cmos5l_sram
+
 # All local references should already be resolved.

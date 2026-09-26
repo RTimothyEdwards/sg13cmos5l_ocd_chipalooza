@@ -77,7 +77,7 @@ async def test_bias_range_checks_pass_with_the_documented_settings(dut):
     assert int(dut.bandgap.bias_ok.value) == 1, (
         f"bandgap bias out of range: ibias1_250n = "
         f"{float(dut.bandgap.ibias1_250n.value):g} A (wants -250e-9), "
-        f"ibias2_1 = {float(dut.bandgap.ibias2_1.value):g} A (wants -1e-6)"
+        f"ibias2_1u = {float(dut.bandgap.ibias2_1u.value):g} A (wants -1e-6)"
     )
     assert int(dut.voltgen.bias_ok.value) == 1, (
         f"voltgen bias out of range: "

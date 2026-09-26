@@ -59,8 +59,21 @@ module slot11_wrapper (
     input  wire [23:0] dig_in,	// 24 digital bit shared bus
     output wire [11:0] dig_out,	// 12 digital bit shared bus
 
-    /* Analog I/O.  See the note above on why these are scalar reals. */
-    input real analog_pin0,	// dedicated analog pin 0
+    /* Dedicated analog pads.
+     *
+     * These are plain wires, not reals, unlike every other analog
+     * port here.  The bias, bus and supply ports carry a value the
+     * harness computes through a switch or a power gate, which is
+     * the thing worth modelling;  a dedicated pad runs straight to
+     * the bond pad with nothing in between, so there is no value to
+     * compute and a real would only invite the silent wire/real
+     * coercion warned about above.
+     *
+     * The names match the layout and the documented chip pinout,
+     * which is also what LVS compares against.
+     */
+    inout wire [0:0] s11_an,	// dedicated analog pad(s)
+    inout wire s11_an_0_esd,	// secondary ESD-protected pin
     input real ibias0,		// shared current bias 0
     input real ibias1,		// shared current bias 1
     input real vbias,		// shared voltage bias

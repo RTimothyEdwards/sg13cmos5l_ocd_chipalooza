@@ -1,32 +1,44 @@
+`default_nettype none
+
 /*
- * Module which instantiates all of the digital components of the analog
- * harness chip:  housekeeping, SRAM, and the control blocks for the 18
- * project slots.
+ * This module instantiates cells at the level of the "chipalooza_frame"
+ * layout, which is everything except for the padframe (and any
+ * additional pre-tapeout post-processing, such as adding fill patterns).
+ *
+ * This includes purely digital cells (behavioral RTL verilog) for
+ * the housekeeping SPI and sequencer, the SRAM, control blocks for
+ * the 18 project slots.  It also contains behavioral blocks for all
+ * of the analog blocks such as analog switches, bandgap, voltage and
+ * current bias generators, and power-on-reset.
  *
  * This module is used for simulating the digital communication and
  * control.
+ *
+ * It is validated through comparison with the schematic of the same
+ * circuit (chipalooza_frame.sch).  The schematic is separately
+ * compared with the layout.
  */
 
-module digital_top (
+module chipalooza_frame (
 `ifdef USE_POWER_PINS
-    inout AVDD,     // 3.3V supply
-    inout AVSS,     // common ground
-    inout DVDD,     // 1.2V supply
-    inout DVSS,     // common ground
+    inout vdd3v3,     // 3.3V supply
+    inout vss3v3,     // common ground
+    inout vdd1v2,     // 1.2V supply
+    inout vss1v2,     // common ground
+    inout vddd,	    // digital 1.2V supply
 `endif
   
-    input wire clk,
-    input wire SCK,      // from padframe
-    input wire SDI,      // from padframe
-    input wire CSB,      // from padframe
-    output wire SDO,     // to padframe
-    output wire sdo_ena, // to padframe
-    output wire reset,
-    input wire [31:0] mask_rev_in,      // metal programmed;  3.3V domain
+    input wire clk_in,
+    input wire SCK_in,      // from padframe
+    input wire SDI_in,      // from padframe
+    input wire CSB_in,      // from padframe
+    output wire SDO_out,    // to padframe
+    output wire SDO_ena,    // to padframe
+    input wire [31:0] mask_rev,      // metal programmed;  1.2V domain
 
-    input wire [11:0] io_in,    // from shared digital I/O pads
-    output wire [11:0] io_out,  // to shared digital I/O pads
-    output wire [11:0] io_oe,   // to shared digital I/O pads
+    input  wire [11:0] gpio_in,   // from shared digital I/O pads
+    output wire [11:0] gpio_out,  // to shared digital I/O pads
+    output wire [11:0] gpio_oe,   // to shared digital I/O pads
 
     /* The four shared analog pins.
      *
@@ -55,11 +67,14 @@ module digital_top (
      * reals at all, and the split above is an iverilog artifact that
      * must not reach LVS.
      */
+    /* The ESD pads exist in BOTH views.  They are bondpad connections
+     * with nothing attached inside, so unlike "analog" they need no
+     * real/wire split and are declared unconditionally;  declaring them
+     * only under LVS_STRUCTURAL left the simulation view without them. */
+    inout wire [3:0] analog_esd,	// Unconnected in this module
+
 `ifdef LVS_STRUCTURAL
-    inout wire analog_pin0,
-    inout wire analog_pin1,
-    inout wire analog_pin2,
-    inout wire analog_pin3,
+    inout wire [3:0] analog,
 `else
     input real analog_pin0_in,
     input real analog_pin1_in,
@@ -72,36 +87,34 @@ module digital_top (
     output real analog_pin3_out,
 `endif
 
-    /* FIXME---All of the signals below are now internal to this module
-     * They could be exported.  But do they need to be?
-     * Currently the I/O list is left as-is to be compatible with the existing testbenches.
+    /* Dedicated analog signals connected to the user projects */
+
+    /* A handful of the ESD pins fall outside user project boundaries
+     * and are unconnected.
+     *
+     * However, currently the ESD pins are not represented in the
+     * project wrapper verilog module definitions, so they are all
+     * unconnected, but those that are connected in the schematic
+     * and layout will need to be dealt with.
      */
-
-    output wire [4:0] proj_sel,		// selected project slot
-    output wire	      proj_ena,		// project enable
-    output wire	      proj_dig_ena,	// project shared digital bus enable
-    output wire       proj_3v3_ena,	// project 3.3V power gate enable
-    output wire       proj_1v2_ena,	// project 1.2V power gate enable
-    output wire [1:0] proj_ibias_ena,	// project current bias switches
-    output wire       proj_vbias_ena,	// project voltage bias switch
-    output wire [3:0] analog_bus_ena,	// project analog bus enable
-
-    output wire [4:0] idac1_value,
-    output wire [4:0] idac2_value,
-    output wire [2:0] voltgen_ena,               // voltage bias enables
-    output wire voltgen_high,                    // voltage bias high trim
-    output wire [2:0] voltgen_value,             // voltage bias value
-    output wire bandgap_ena,                     // bandgap enable
-    output wire [15:0] bandgap_trim,             // bandgap trim (thermometer code)
-    output wire biasgen_ena,                     // biasgen enable
-    output wire biasgen_coarse,                  // biasgen coarse/fine control
-    output wire biasgen_fine,                    // biasgen coarse/fine control
-    output wire biasgen_ref_vbg,                 // biasgen bandgap-stabilize
-    output wire [2:0] bandgap_sink1,             // bandgap ibias 1 sink tuning
-    output wire [1:0] bandgap_sink2,             // bandgap ibias 2 sink tuning
-    output wire [2:0] voltgen_sink1,             // voltage bias ibias 1 sink tuning
-    output wire [2:0] voltgen_sink2,             // voltage bias ibias 2 sink tuning
-    output wire [4:0] voltgen_source             // voltage bias ibias source tuning
+    inout  [1:0] s1_an,  inout s1_an_0_esd, inout s1_an_1_esd,
+    inout  [1:0] s2_an,  inout s2_an_0_esd, inout s2_an_1_esd,
+    inout  [1:0] s3_an,  inout s3_an_0_esd, inout s3_an_1_esd,
+    inout  [0:0] s4_an,  inout s4_an_0_esd,
+    inout  [2:0] s5_an,  inout s5_an_0_esd, inout s5_an_1_esd, inout s5_an_2_esd,
+    inout  [1:0] s6_an,  inout s6_an_0_esd, inout s6_an_1_esd,
+    inout  [1:0] s7_an,  inout s7_an_0_esd, inout s7_an_1_esd,
+    inout  [0:0] s8_an,  inout s8_an_0_esd,
+    inout  [2:0] s9_an,  inout s9_an_0_esd, inout s9_an_1_esd, inout s9_an_2_esd,
+    inout  [2:0] s10_an,  inout s10_an_0_esd, inout s10_an_1_esd, inout s10_an_2_esd,
+    inout  [0:0] s11_an,  inout s11_an_0_esd,
+    inout  [1:0] s12_an,  inout s12_an_0_esd, inout s12_an_1_esd,
+    inout  [1:0] s13_an,  inout s13_an_0_esd, inout s13_an_1_esd,
+    inout  [2:0] s14_an,  inout s14_an_0_esd, inout s14_an_1_esd, inout s14_an_2_esd,
+    inout  [0:0] s15_an,  inout s15_an_0_esd,
+    inout  [1:0] s16_an,  inout s16_an_0_esd, inout s16_an_1_esd,
+    inout  [1:0] s17_an,  inout s17_an_0_esd, inout s17_an_1_esd,
+    inout  [1:0] s18_an,  inout s18_an_0_esd, inout s18_an_1_esd
 );
 
     /* Tie-off nets for hard-wired constants.
@@ -120,13 +133,35 @@ module digital_top (
 `ifdef LVS_STRUCTURAL
     wire tie_hi;
     wire tie_lo;
-    assign tie_hi = DVDD;
-    assign tie_lo = DVSS;
+
+    /* The two grounds are ONE net physically.  "digisub" only virtually
+     * separates the 1.2 V and 3.3 V substrate domains for extraction, so
+     * the schematic ties them with a zero-ohm resistor (R1) at the top
+     * level.  Mirror that here or the structural view has two ground
+     * pins where the schematic has one, and top level pin matching
+     * fails.  Simulation keeps them separate, which is why this is
+     * guarded:  the testbench drives them independently.
+     */
+    assign vss3v3 = vss1v2;
+
+    assign tie_hi = vdd1v2;
+    assign tie_lo = vss1v2;
+
+    /* The SRAM's tie-highs go to ITS supply, which is vddd, not vdd1v2.
+     * The schematic ties A_BM and A_DLY to vddd alongside VDD and
+     * VDDARRAY;  using the general tie_hi here put 9 extra connections
+     * on vdd1v2 and left netgen unable to tell vddd from vdd1v2 at the
+     * top level.  The tie-LOWS need no equivalent:  the SRAM's VSS is
+     * vss1v2, which is what tie_lo already is. */
+    wire tie_hi_sram;
+    assign tie_hi_sram = vddd;
 `else
     wire tie_hi;
     wire tie_lo;
+    wire tie_hi_sram;
     assign tie_hi = 1'b1;
     assign tie_lo = 1'b0;
+    assign tie_hi_sram = 1'b1;
 `endif
 
     /* Signals between housekeeping and the SRAM */
@@ -146,13 +181,15 @@ module digital_top (
 					// below;  there is no porb pad.
     wire project_zero;			// diagnostic
     wire clk_out;			// buffered clock to the projects
+    wire reset;				// digital reset from housekeeping,
+					// distributed to the 18 slots
 
     /* Shared analog resources */
 `ifdef LVS_STRUCTURAL
-    wire user_ibias_shared [0:1];
+    wire [1:0] user_ibias_shared;
     wire user_vbias_shared;
-    wire user_analog_shared [0:3];
-    wire analog_diag [0:3];
+    wire [3:0] user_analog_shared;
+    wire [3:0] analog_diag;
     wire vbandgap;
 `else
     wire real user_ibias_shared [0:1];
@@ -172,8 +209,8 @@ module digital_top (
      * the rail VALUE comes from, not whether the gating happens.
      */
 `ifdef LVS_STRUCTURAL
-    wire user_avdd [0:17];
-    wire user_dvdd [0:17];
+    wire [17:0] user_avdd;
+    wire [17:0] user_dvdd;
 `else
     wire real user_avdd [0:17];
     wire real user_dvdd [0:17];
@@ -181,7 +218,7 @@ module digital_top (
 
     /* The chip supply rails as real voltages.
      *
-     * The power switch models take real inputs, but AVDD/DVDD are 1-bit
+     * The power switch models take real inputs, but vdd3v3/vdd1v2 are 1-bit
      * supply nets.  DO NOT connect them directly:  iverilog silently
      * coerces a wire at 1'b1 into a real port as 1.0, so a 3.3 V rail
      * would quietly become 1.0 V with no warning, and every downstream
@@ -196,15 +233,15 @@ module digital_top (
      */
     wire avdd_rail;
     wire dvdd_rail;
-    assign avdd_rail = AVDD;
-    assign dvdd_rail = DVDD;
+    assign avdd_rail = vdd3v3;
+    assign dvdd_rail = vdd1v2;
 `else
     wire real avdd_rail;
     wire real dvdd_rail;
 
     `ifdef USE_POWER_PINS
-	assign avdd_rail = (AVDD === 1'b1) ? 3.3 : 0.0;
-	assign dvdd_rail = (DVDD === 1'b1) ? 1.2 : 0.0;
+	assign avdd_rail = (vdd3v3 === 1'b1) ? 3.3 : 0.0;
+	assign dvdd_rail = (vdd1v2 === 1'b1) ? 1.2 : 0.0;
     `else
 	/* No power pins:  the rails are simply at their nominal values,
 	 * so the gates still gate and the enables stay testable. */
@@ -215,9 +252,9 @@ module digital_top (
 
     /* Individual analog resources */
 `ifdef LVS_STRUCTURAL
-    wire user_vbias [0:17];		// 18 * 1
-    wire user_ibias [0:35];		// 18 * 2
-    wire user_analog [0:71];		// 18 * 4
+    wire [17:0] user_vbias;		// 18 * 1
+    wire [35:0] user_ibias;		// 18 * 2
+    wire [71:0] user_analog;		// 18 * 4
 `else
     wire real user_vbias [0:17];	// 18 * 1
     wire real user_ibias [0:35];	// 18 * 2
@@ -239,31 +276,66 @@ module digital_top (
     wire real voltgen_source_ibias;
 `endif
 
+    /* Internal signals */
+    wire [4:0] proj_sel;         // selected project slot
+    wire       proj_ena;         // project enable
+    wire       proj_dig_ena;     // project shared digital bus enable
+    wire       proj_3v3_ena;     // project 3.3V power gate enable
+    wire       proj_1v2_ena;     // project 1.2V power gate enable
+    wire [1:0] proj_ibias_ena;   // project current bias switches
+    wire       proj_vbias_ena;   // project voltage bias switch
+    wire [3:0] analog_bus_ena;   // project analog bus enable
+
+    wire [4:0] idac1_value;
+    wire [4:0] idac2_value;
+    wire [2:0] voltgen_ena;               // voltage bias enables
+    wire voltgen_high;                    // voltage bias high trim
+    wire [2:0] voltgen_value;             // voltage bias value
+    wire bandgap_ena;                     // bandgap enable
+    wire [15:0] bandgap_trim;             // bandgap trim (thermometer code)
+    wire biasgen_ena;                     // biasgen enable
+    wire biasgen_coarse;                  // biasgen coarse/fine control
+    wire biasgen_fine;                    // biasgen coarse/fine control
+    wire biasgen_ref_vbg;                 // biasgen bandgap-stabilize
+    wire [2:0] bandgap_sink1;             // bandgap ibias 1 sink tuning
+    wire [1:0] bandgap_sink2;             // bandgap ibias 2 sink tuning
+    wire [2:0] voltgen_sink1;             // voltage bias ibias 1 sink tuning
+    wire [2:0] voltgen_sink2;             // voltage bias ibias 2 sink tuning
+    wire [4:0] voltgen_source;             // voltage bias ibias source tuning
+
+
     /* Instantiate the housekeeping top module */
     housekeeping_top hk_top (
 	`ifdef USE_POWER_PINS
-	    .VPWR(DVDD),
-	    .VGND(DVSS),
+`ifdef LVS_STRUCTURAL
+	    /* The gate-level netlist and the layout name these vddd/vssd;
+	     * only the behavioural RTL calls them VPWR/VGND. */
+	    .vddd(vddd),
+	    .vssd(vss1v2),
+`else
+	    .VPWR(vddd),
+	    .VGND(vss1v2),
+`endif
 	`endif
 	    .porb(porb),
-	    .clk(clk),
-	    .SCK(SCK),
-	    .SDI(SDI),
-	    .CSB(CSB),
-	    .SDO(SDO),
-	    .sdo_ena(sdo_ena),
+	    .clk(clk_in),
+	    .SCK(SCK_in),
+	    .SDI(SDI_in),
+	    .CSB(CSB_in),
+	    .SDO(SDO_out),
+	    .sdo_ena(SDO_ena),
 	    .reset(reset),
 	    .clk_out(clk_out),
-	    .mask_rev_in(mask_rev_in),
+	    .mask_rev_in(mask_rev),
 	    .sram_clk(sram_clk),
 	    .sram_addr(sram_addr),
 	    .sram_idata(sram_idata),
 	    .sram_odata(sram_odata),
 	    .sram_read(sram_read),
 	    .sram_write(sram_write),
-	    .io_in(io_in),
-	    .io_out(io_out),
-	    .io_oe(io_oe),
+	    .io_in(gpio_in),
+	    .io_out(gpio_out),
+	    .io_oe(gpio_oe),
 	    .dbus_out(dbus_out),
 	    .dbus_in_left(dbus_vec_left[119:108]),
 	    .dbus_in_right(dbus_vec_right[119:108]),
@@ -294,7 +366,9 @@ module digital_top (
 	    .project_zero(project_zero)
     );
 
-    /* Instantiate the SRAM */
+    /* Instantiate the SRAM (NOTE:  The IHP SRAM verilog does not have
+     * power pins defined)
+     */
 
     RM_IHPSG13_1P_1024x8_c2_bm_bist sram (
 	.A_CLK(sram_clk),
@@ -303,9 +377,9 @@ module digital_top (
 	.A_REN(sram_read),	// read enable
 	.A_ADDR(sram_addr),
 	.A_DIN(sram_idata),
-	.A_DLY(tie_hi),		// set to 1 per documentation recommendation
+	.A_DLY(tie_hi_sram),		// set to 1 per documentation recommendation
 	.A_DOUT(sram_odata),
-	.A_BM({8{tie_hi}}),	// bit mask (all bits used)
+	.A_BM({8{tie_hi_sram}}),	// bit mask (all bits used)
 	.A_BIST_CLK(tie_lo),	// not using BIST
 	.A_BIST_EN(tie_lo),
 	.A_BIST_MEN(tie_lo),
@@ -314,6 +388,16 @@ module digital_top (
 	.A_BIST_ADDR({10{tie_lo}}),
 	.A_BIST_DIN({8{tie_lo}}),
 	.A_BIST_BM({8{tie_lo}})
+`ifdef LVS_STRUCTURAL
+	/* The IHP SRAM's Verilog model declares no supply pins at all, so
+	 * these can only be connected in the structural view, where the
+	 * blackbox is generated with the CDL's full pin list.  The mapping
+	 * is the schematic's:  both VDD and VDDARRAY take the digital 1.2 V
+	 * supply, VSS the 1.2 V ground. */
+	, .VDD(vddd),
+	.VDDARRAY(vddd),
+	.VSS(vss1v2)
+`endif
     );
 
     /* Signals between project control and project wrapper (18 instances) */
@@ -335,15 +419,15 @@ module digital_top (
      * Structurally these are not a logical constant.  user_project_control
      * is a hard macro and dig_out_relay[11:0] are 12 real input pins on
      * it, so the schematic has to connect them to something --- which is
-     * DVSS.  Writing 12'h000 in the structural view instead leaves a
+     * vss1v2.  Writing 12'h000 in the structural view instead leaves a
      * bare constant attached to a bus port, which netgen rejects with
      * "Single net 12'h000 is connected to bus port dig_out_relay".
      * CHECK THIS AGAINST THE SCHEMATIC:  those 24 pins (12 on each
      * chain's top slot) must be tied to the digital ground.
      */
 `ifdef LVS_STRUCTURAL
-    assign dbus_vec_left[11:0] = {12{DVSS}};
-    assign dbus_vec_right[11:0] = {12{DVSS}};
+    assign dbus_vec_left[11:0] = {12{vss1v2}};
+    assign dbus_vec_right[11:0] = {12{vss1v2}};
 `else
     assign dbus_vec_left[11:0] = 12'h000;
     assign dbus_vec_right[11:0] = 12'h000;
@@ -380,9 +464,15 @@ module digital_top (
 				    bit_index[0] ? tie_hi : tie_lo};
 
 		user_project_control ctrl (
+`ifdef LVS_STRUCTURAL
+		    /* The RTL declares no supplies;  the gate-level netlist
+		     * and the layout both have them. */
+		    .vddd(vdd1v2),
+		    .vssd(vss1v2),
+`endif
 		    .proj_addr(proj_addr_tie),
 		    .proj_sel(proj_sel),
-		    .clk(clk),
+		    .clk(clk_out),
 		    .dig_ena(proj_dig_ena),
 	  	    .enable(proj_ena),
 	  	    .reset(reset),
@@ -428,9 +518,15 @@ module digital_top (
 				    bit_index[0] ? tie_hi : tie_lo};
 
 		user_project_control ctrl (
+`ifdef LVS_STRUCTURAL
+		    /* The RTL declares no supplies;  the gate-level netlist
+		     * and the layout both have them. */
+		    .vddd(vdd1v2),
+		    .vssd(vss1v2),
+`endif
 		    .proj_addr(proj_addr_tie),
 		    .proj_sel(proj_sel),
-		    .clk(clk),
+		    .clk(clk_out),
 		    .dig_ena(proj_dig_ena),
 	  	    .enable(proj_ena),
 	  	    .reset(reset),
@@ -461,12 +557,12 @@ module digital_top (
     /* Instantiate the three main analog resource blocks (bandgap, biasgen, and voltgen) */
     /* These are behavioral models, using real-type values for currents and voltages */
 
-    sg13cmos5l_ocd_ip__bandgap_v2 bandgap (
+    sg13cmos5l_ocd_ip__bandgap_v3 bandgap (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .vdd(AVDD),
-	    .vss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .vdd(vdd3v3),
+	    .vss(vss3v3),
 	`endif
 	.ena(bandgap_ena),
 	.trim(bandgap_trim),
@@ -476,46 +572,46 @@ module digital_top (
 	 *   biasgen2   bandgap_sink1 is the 1 uA sink   (3-bit trim)
 	 *              bandgap_sink2 is the 250 nA sink (2-bit trim)
 	 *   bandgap    ibias1_250n   wants 250 nA
-	 *              ibias2_1      wants 1 uA
+	 *              ibias2_1u      wants 1 uA
 	 *
 	 * This was .ibias1_250n(bandgap_sink1_ibias) and
-	 * .ibias2_1(bandgap_sink2_ibias), which delivered 1 uA where
+	 * .ibias2_1u(bandgap_sink2_ibias), which delivered 1 uA where
 	 * 250 nA was wanted and 250 nA where 1 uA was wanted --- a clean
 	 * factor of four the wrong way on both pins, with the documented
 	 * register settings (0x1D = 12) correctly programmed.  Caught by
 	 * the bias range check in the bandgap model.
 	 */
 	.ibias1_250n(bandgap_sink2_ibias),
-	.ibias2_1(bandgap_sink1_ibias),
+	.ibias2_1u(bandgap_sink1_ibias),
 	.vbg(vbandgap)
     );
 
     sg13cmos5l_ocd_ip__voltgen_v2 voltgen (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .vdd(AVDD),
-	    .vss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .vdd(vdd3v3),
+	    .vss(vss3v3),
 	`endif
 	.ena(voltgen_ena[0]),
 	.ena1(voltgen_ena[1]),
 	.ena2(voltgen_ena[2]),
 	.high(voltgen_high),
 	.s(voltgen_value),
-	.ibias1u_1(voltgen_sink1_ibias),
+	.ibias1u_1(voltgen_source_ibias),
 	.ibias1u_2(voltgen_sink2_ibias),
-	.ibias1u_3(voltgen_source_ibias),
+	.ibias1u_3(voltgen_sink1_ibias),
 	.vbg(vbandgap),
-	.vout1(user_vbias_shared),
-	.vout2()			/* Not used, maybe should provide a switch? */
+	.vout1(),				/* Not used, maybe should provide a switch? */
+	.vout2(user_vbias_shared)
     );
     
     sg13cmos5l_ocd_ip__biasgen2 biasgen (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .vdd(AVDD),
-	    .vss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .avdd(vdd3v3),
+	    .avss(vss3v3),
 	`endif
 	.ena(biasgen_ena),
 	.ref_sel_vbg(biasgen_ref_vbg),
@@ -528,7 +624,7 @@ module digital_top (
 	.voltgen_source(voltgen_source),
 	.idac1_source(idac1_value),
 	.idac2_source(idac2_value),
-	/* Must be avdd_rail, not AVDD:  AVDD only exists inside the
+	/* Must be avdd_rail, not vdd3v3:  vdd3v3 only exists inside the
 	 * USE_POWER_PINS guard, so without that define this became an
 	 * implicit undeclared net driving a real port, which crashed vvp
 	 * with "vpi_get_value: Assertion `expr' failed".  avdd_rail is
@@ -551,18 +647,18 @@ module digital_top (
 
     sg13cmos5l_ocd_ip__por por (
 	`ifdef USE_POWER_PINS
-	    .vdd1v2(DVDD),
-	    .vss(DVSS),
+	    .vdd1v2(vdd1v2),
+	    .vss(vss1v2),
 	`endif
 	/* "ena" gates the amplifier's tail current and is tied to the
-	 * 1.2 V supply in the layout.  It must NOT be written as DVDD
-	 * unconditionally:  DVDD only exists inside the USE_POWER_PINS
+	 * 1.2 V supply in the layout.  It must NOT be written as vdd1v2
+	 * unconditionally:  vdd1v2 only exists inside the USE_POWER_PINS
 	 * guard, so without that define it becomes an implicit undeclared
 	 * net, the enable is x, and the part never leaves reset.  That is
-	 * the same trap that .ref_in(AVDD) fell into on the biasgen.
+	 * the same trap that .ref_in(vdd3v3) fell into on the biasgen.
 	 */
 	`ifdef USE_POWER_PINS
-	    .ena(DVDD),
+	    .ena(vdd1v2),
 	`else
 	    .ena(1'b1),
 	`endif
@@ -576,51 +672,67 @@ module digital_top (
      * analog pins.  They are enabled by selecting project 0, which is otherwise unassigned.
      */
 
+    /* DIAGNOSTIC SWITCH TO SHARED PAD MAPPING.
+     *
+     * This follows the SCHEMATIC, which was corrected against the
+     * layout:
+     *
+     *     analog[0]  voltgen_vout   (voltage bias)
+     *     analog[1]  idac1_source   (current bias 1, CURRENT_MODE)
+     *     analog[2]  idac2_source   (current bias 2, CURRENT_MODE)
+     *     analog[3]  vbg            (bandgap)
+     *
+     * The Verilog had the first three rotated, putting both current
+     * biases on pads 0 and 1 and the voltage bias on pad 2.  No
+     * simulation can see this:  nothing drives those pads and no test
+     * reads them, so it surfaced only in the comparison against the
+     * schematic.
+     */
     /* The two current bias switches */
     analog_pswitch_small #(.CURRENT_MODE(1)) switch_ibias0_diagnostic (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .avdd(AVDD),
-	    .avss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .avdd(vdd3v3),
+	    .avss(vss3v3),
 	`endif
 	.enable(project_zero),
 	.in(user_ibias_shared[0]),
-	.out(analog_diag[0])
+	.out(analog_diag[1])
     );
 
     analog_pswitch_small #(.CURRENT_MODE(1)) switch_ibias1_diagnostic (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .avdd(AVDD),
-	    .avss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .avdd(vdd3v3),
+	    .avss(vss3v3),
 	`endif
 	.enable(project_zero),
 	.in(user_ibias_shared[1]),
-	.out(analog_diag[1])
+	.out(analog_diag[2])
     );
 
     /* The voltage bias switch */
     analog_switch_small switch_vbias_diagnostic (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .avdd(AVDD),
-	    .avss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .avdd(vdd3v3),
+	    .avss(vss3v3),
 	`endif
 	.enable(project_zero),
 	.in(user_vbias_shared),
-	.out(analog_diag[2])
+	.out(analog_diag[0])
     );
 
     /* The bandgap value switch */
     analog_switch_small switch_vbg_diagnostic (
 	`ifdef USE_POWER_PINS
-	    .dvdd(DVDD),
-	    .dvss(DVSS),
-	    .avdd(AVDD),
-	    .avss(AVSS),
+	    .dvdd(vdd1v2),
+	    .dvss(vss1v2),
+	    .avdd(vdd3v3),
+	    .avss(vss3v3),
 	`endif
 	.enable(project_zero),
 	.in(vbandgap),
@@ -648,15 +760,15 @@ module digital_top (
      * the four nets are simply tied together, which is what LVS has to
      * see.
      */
-    assign user_analog_shared[0] = analog_pin0;
-    assign user_analog_shared[1] = analog_pin1;
-    assign user_analog_shared[2] = analog_pin2;
-    assign user_analog_shared[3] = analog_pin3;
+    assign user_analog_shared[0] = analog[0];
+    assign user_analog_shared[1] = analog[1];
+    assign user_analog_shared[2] = analog[2];
+    assign user_analog_shared[3] = analog[3];
 
-    assign analog_diag[0] = analog_pin0;
-    assign analog_diag[1] = analog_pin1;
-    assign analog_diag[2] = analog_pin2;
-    assign analog_diag[3] = analog_pin3;
+    assign analog_diag[0] = analog[0];
+    assign analog_diag[1] = analog[1];
+    assign analog_diag[2] = analog[2];
+    assign analog_diag[3] = analog[3];
 `else
     assign user_analog_shared[0] = (analog_diag[0] == analog_diag[0]) ?
 					analog_diag[0] : analog_pin0_in;
@@ -683,9 +795,9 @@ module digital_top (
 	    /* Primary analog/high voltage power switch */
 	    power_stage2 switch3v3 (
 		`ifdef USE_POWER_PINS
-		    .DVDD(DVDD),
-		    .DVSS(DVSS),
-		    .IOVSS(AVSS),
+		    .DVDD(vdd1v2),
+		    .DVSS(vss1v2),
+		    .IOVSS(vss3v3),
 		`endif
 		.enable(user_3v3_ena[i]),
 		.IOVDD_IN(avdd_rail),
@@ -695,7 +807,7 @@ module digital_top (
 	    /* Primary digital/low voltage power switch */
 	    power_stage1v2 switch1v2 (
 		`ifdef USE_POWER_PINS
-		    .DVSS(DVSS),
+		    .DVSS(vss1v2),
 		`endif
 		.enable(user_1v2_ena[i]),
 		.DVDD_IN(dvdd_rail),
@@ -705,10 +817,10 @@ module digital_top (
 	    /* The four shared analog bus switches */
 	    analog_switch_med switch_analog0 (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_analog_ena[i*4]),
 		.in(user_analog_shared[0]),
@@ -717,10 +829,10 @@ module digital_top (
 
 	    analog_switch_med switch_analog1 (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_analog_ena[i*4 + 1]),
 		.in(user_analog_shared[1]),
@@ -729,10 +841,10 @@ module digital_top (
 
 	    analog_switch_med switch_analog2 (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_analog_ena[i*4 + 2]),
 		.in(user_analog_shared[2]),
@@ -741,10 +853,10 @@ module digital_top (
 
 	    analog_switch_med switch_analog3 (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_analog_ena[i*4 + 3]),
 		.in(user_analog_shared[3]),
@@ -754,10 +866,10 @@ module digital_top (
 	    /* The two current bias switches */
 	    analog_pswitch_small #(.CURRENT_MODE(1)) switch_ibias0 (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_ibias_ena[i*2]),
 		.in(user_ibias_shared[0]),
@@ -766,10 +878,10 @@ module digital_top (
 
 	    analog_pswitch_small #(.CURRENT_MODE(1)) switch_ibias1 (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_ibias_ena[i*2 + 1]),
 		.in(user_ibias_shared[1]),
@@ -779,10 +891,10 @@ module digital_top (
 	    /* The voltage bias switch */
 	    analog_switch_small switch_vbias (
 		`ifdef USE_POWER_PINS
-		    .dvdd(DVDD),
-		    .dvss(DVSS),
-		    .avdd(AVDD),
-		    .avss(AVSS),
+		    .dvdd(vdd1v2),
+		    .dvss(vss1v2),
+		    .avdd(vdd3v3),
+		    .avss(vss3v3),
 		`endif
 		.enable(user_vbias_ena[i]),
 		.in(user_vbias_shared),
@@ -836,16 +948,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[0]),
 	    .vdd_1v2(user_dvdd[0]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[0]),
 	.clk(user_clk[0]),
 	.reset(user_reset[0]),
 	.dig_in(user_dig_in[0*24 +: 24]),
 	.dig_out(user_dig_out[0*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s1_an(s1_an),
+	.s1_an_0_esd(s1_an_0_esd),
 	.ibias0(user_ibias[0*2 + 0]),
 	.ibias1(user_ibias[0*2 + 1]),
 	.vbias(user_vbias[0]),
@@ -859,16 +971,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[1]),
 	    .vdd_1v2(user_dvdd[1]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[1]),
 	.clk(user_clk[1]),
 	.reset(user_reset[1]),
 	.dig_in(user_dig_in[1*24 +: 24]),
 	.dig_out(user_dig_out[1*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s2_an(s2_an),
+	.s2_an_0_esd(s2_an_0_esd),
+	.s2_an_1_esd(s2_an_1_esd),
 	.ibias0(user_ibias[1*2 + 0]),
 	.ibias1(user_ibias[1*2 + 1]),
 	.vbias(user_vbias[1]),
@@ -882,16 +995,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[2]),
 	    .vdd_1v2(user_dvdd[2]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[2]),
 	.clk(user_clk[2]),
 	.reset(user_reset[2]),
 	.dig_in(user_dig_in[2*24 +: 24]),
 	.dig_out(user_dig_out[2*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s3_an(s3_an),
+	.s3_an_0_esd(s3_an_0_esd),
 	.ibias0(user_ibias[2*2 + 0]),
 	.ibias1(user_ibias[2*2 + 1]),
 	.vbias(user_vbias[2]),
@@ -905,15 +1018,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[3]),
 	    .vdd_1v2(user_dvdd[3]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[3]),
 	.clk(user_clk[3]),
 	.reset(user_reset[3]),
 	.dig_in(user_dig_in[3*24 +: 24]),
 	.dig_out(user_dig_out[3*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
+	.s4_an(s4_an),
+	.s4_an_0_esd(s4_an_0_esd),
 	.ibias0(user_ibias[3*2 + 0]),
 	.ibias1(user_ibias[3*2 + 1]),
 	.vbias(user_vbias[3]),
@@ -927,17 +1041,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[4]),
 	    .vdd_1v2(user_dvdd[4]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[4]),
 	.clk(user_clk[4]),
 	.reset(user_reset[4]),
 	.dig_in(user_dig_in[4*24 +: 24]),
 	.dig_out(user_dig_out[4*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
-	.analog_pin2(pad_not_modelled),
+	.s5_an(s5_an),
+	.s5_an_0_esd(s5_an_0_esd),
+	.s5_an_1_esd(s5_an_1_esd),
 	.ibias0(user_ibias[4*2 + 0]),
 	.ibias1(user_ibias[4*2 + 1]),
 	.vbias(user_vbias[4]),
@@ -951,16 +1065,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[5]),
 	    .vdd_1v2(user_dvdd[5]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[5]),
 	.clk(user_clk[5]),
 	.reset(user_reset[5]),
 	.dig_in(user_dig_in[5*24 +: 24]),
 	.dig_out(user_dig_out[5*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s6_an(s6_an),
+	.s6_an_0_esd(s6_an_0_esd),
+	.s6_an_1_esd(s6_an_1_esd),
 	.ibias0(user_ibias[5*2 + 0]),
 	.ibias1(user_ibias[5*2 + 1]),
 	.vbias(user_vbias[5]),
@@ -974,16 +1089,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[6]),
 	    .vdd_1v2(user_dvdd[6]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[6]),
 	.clk(user_clk[6]),
 	.reset(user_reset[6]),
 	.dig_in(user_dig_in[6*24 +: 24]),
 	.dig_out(user_dig_out[6*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s7_an(s7_an),
+	.s7_an_0_esd(s7_an_0_esd),
 	.ibias0(user_ibias[6*2 + 0]),
 	.ibias1(user_ibias[6*2 + 1]),
 	.vbias(user_vbias[6]),
@@ -997,15 +1112,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[7]),
 	    .vdd_1v2(user_dvdd[7]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[7]),
 	.clk(user_clk[7]),
 	.reset(user_reset[7]),
 	.dig_in(user_dig_in[7*24 +: 24]),
 	.dig_out(user_dig_out[7*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
+	.s8_an(s8_an),
+	.s8_an_0_esd(s8_an_0_esd),
 	.ibias0(user_ibias[7*2 + 0]),
 	.ibias1(user_ibias[7*2 + 1]),
 	.vbias(user_vbias[7]),
@@ -1019,17 +1135,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[8]),
 	    .vdd_1v2(user_dvdd[8]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[8]),
 	.clk(user_clk[8]),
 	.reset(user_reset[8]),
 	.dig_in(user_dig_in[8*24 +: 24]),
 	.dig_out(user_dig_out[8*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
-	.analog_pin2(pad_not_modelled),
+	.s9_an(s9_an),
+	.s9_an_0_esd(s9_an_0_esd),
+	.s9_an_1_esd(s9_an_1_esd),
 	.ibias0(user_ibias[8*2 + 0]),
 	.ibias1(user_ibias[8*2 + 1]),
 	.vbias(user_vbias[8]),
@@ -1043,17 +1159,18 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[9]),
 	    .vdd_1v2(user_dvdd[9]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[9]),
 	.clk(user_clk[9]),
 	.reset(user_reset[9]),
 	.dig_in(user_dig_in[9*24 +: 24]),
 	.dig_out(user_dig_out[9*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
-	.analog_pin2(pad_not_modelled),
+	.s10_an(s10_an),
+	.s10_an_0_esd(s10_an_0_esd),
+	.s10_an_1_esd(s10_an_1_esd),
+	.s10_an_2_esd(s10_an_2_esd),
 	.ibias0(user_ibias[9*2 + 0]),
 	.ibias1(user_ibias[9*2 + 1]),
 	.vbias(user_vbias[9]),
@@ -1067,15 +1184,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[10]),
 	    .vdd_1v2(user_dvdd[10]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[10]),
 	.clk(user_clk[10]),
 	.reset(user_reset[10]),
 	.dig_in(user_dig_in[10*24 +: 24]),
 	.dig_out(user_dig_out[10*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
+	.s11_an(s11_an),
+	.s11_an_0_esd(s11_an_0_esd),
 	.ibias0(user_ibias[10*2 + 0]),
 	.ibias1(user_ibias[10*2 + 1]),
 	.vbias(user_vbias[10]),
@@ -1089,16 +1207,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[11]),
 	    .vdd_1v2(user_dvdd[11]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[11]),
 	.clk(user_clk[11]),
 	.reset(user_reset[11]),
 	.dig_in(user_dig_in[11*24 +: 24]),
 	.dig_out(user_dig_out[11*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s12_an(s12_an),
+	.s12_an_0_esd(s12_an_0_esd),
+	.s12_an_1_esd(s12_an_1_esd),
 	.ibias0(user_ibias[11*2 + 0]),
 	.ibias1(user_ibias[11*2 + 1]),
 	.vbias(user_vbias[11]),
@@ -1112,16 +1231,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[12]),
 	    .vdd_1v2(user_dvdd[12]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[12]),
 	.clk(user_clk[12]),
 	.reset(user_reset[12]),
 	.dig_in(user_dig_in[12*24 +: 24]),
 	.dig_out(user_dig_out[12*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s13_an(s13_an),
+	.s13_an_0_esd(s13_an_0_esd),
+	.s13_an_1_esd(s13_an_1_esd),
 	.ibias0(user_ibias[12*2 + 0]),
 	.ibias1(user_ibias[12*2 + 1]),
 	.vbias(user_vbias[12]),
@@ -1135,17 +1255,18 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[13]),
 	    .vdd_1v2(user_dvdd[13]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[13]),
 	.clk(user_clk[13]),
 	.reset(user_reset[13]),
 	.dig_in(user_dig_in[13*24 +: 24]),
 	.dig_out(user_dig_out[13*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
-	.analog_pin2(pad_not_modelled),
+	.s14_an(s14_an),
+	.s14_an_0_esd(s14_an_0_esd),
+	.s14_an_1_esd(s14_an_1_esd),
+	.s14_an_2_esd(s14_an_2_esd),
 	.ibias0(user_ibias[13*2 + 0]),
 	.ibias1(user_ibias[13*2 + 1]),
 	.vbias(user_vbias[13]),
@@ -1159,15 +1280,16 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[14]),
 	    .vdd_1v2(user_dvdd[14]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[14]),
 	.clk(user_clk[14]),
 	.reset(user_reset[14]),
 	.dig_in(user_dig_in[14*24 +: 24]),
 	.dig_out(user_dig_out[14*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
+	.s15_an(s15_an),
+	.s15_an_0_esd(s15_an_0_esd),
 	.ibias0(user_ibias[14*2 + 0]),
 	.ibias1(user_ibias[14*2 + 1]),
 	.vbias(user_vbias[14]),
@@ -1181,16 +1303,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[15]),
 	    .vdd_1v2(user_dvdd[15]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[15]),
 	.clk(user_clk[15]),
 	.reset(user_reset[15]),
 	.dig_in(user_dig_in[15*24 +: 24]),
 	.dig_out(user_dig_out[15*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s16_an(s16_an),
+	.s16_an_0_esd(s16_an_0_esd),
+	.s16_an_1_esd(s16_an_1_esd),
 	.ibias0(user_ibias[15*2 + 0]),
 	.ibias1(user_ibias[15*2 + 1]),
 	.vbias(user_vbias[15]),
@@ -1204,16 +1327,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[16]),
 	    .vdd_1v2(user_dvdd[16]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[16]),
 	.clk(user_clk[16]),
 	.reset(user_reset[16]),
 	.dig_in(user_dig_in[16*24 +: 24]),
 	.dig_out(user_dig_out[16*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s17_an(s17_an),
+	.s17_an_0_esd(s17_an_0_esd),
+	.s17_an_1_esd(s17_an_1_esd),
 	.ibias0(user_ibias[16*2 + 0]),
 	.ibias1(user_ibias[16*2 + 1]),
 	.vbias(user_vbias[16]),
@@ -1227,16 +1351,17 @@ module digital_top (
 	`ifdef USE_POWER_PINS
 	    .vdd_3v3(user_avdd[17]),
 	    .vdd_1v2(user_dvdd[17]),
-	    .vss_3v3(AVSS),
-	    .vss_1v2(DVSS),
+	    .vss_3v3(vss3v3),
+	    .vss_1v2(vss1v2),
 	`endif
 	.enable(user_ena[17]),
 	.clk(user_clk[17]),
 	.reset(user_reset[17]),
 	.dig_in(user_dig_in[17*24 +: 24]),
 	.dig_out(user_dig_out[17*12 +: 12]),
-	.analog_pin0(pad_not_modelled),
-	.analog_pin1(pad_not_modelled),
+	.s18_an(s18_an),
+	.s18_an_0_esd(s18_an_0_esd),
+	.s18_an_1_esd(s18_an_1_esd),
 	.ibias0(user_ibias[17*2 + 0]),
 	.ibias1(user_ibias[17*2 + 1]),
 	.vbias(user_vbias[17]),
@@ -1246,4 +1371,6 @@ module digital_top (
 	.analog_bus3(user_analog[17*4 + 3])
     );
 
-endmodule
+endmodule	/* chipalooza_frame */
+
+`default_nettype wire
