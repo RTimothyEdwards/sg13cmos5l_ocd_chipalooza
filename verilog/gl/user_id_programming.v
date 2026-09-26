@@ -35,18 +35,10 @@ module user_id_programming #(
     // These must be manually placed in pairs, always in the same order.
 
     sg13cmos5l_tiehi mask_rev_value_one [31:0] (
-`ifdef USE_POWER_PINS
-	    .VDD(VDD),
-	    .VSS(VSS),
-`endif
             .L_HI(user_proj_id_high)
     );
 
     sg13cmos5l_tielo mask_rev_value_zero [31:0] (
-    `ifdef USE_POWER_PINS
-	    .VDD(VDD),
-	    .VSS(VSS),
-    `endif
             .L_LO(user_proj_id_low)
     );
 
@@ -99,10 +91,6 @@ module user_id_programming #(
     /* Enumerate the decap cells for LVS only */
 
     sg13cmos5l_decap_4 user_id_decap [37:0] (
-    `ifdef USE_POWER_PINS
-            .VDD(VDD),
-            .VSS(VSS)
-    `endif
     );
 `endif
 

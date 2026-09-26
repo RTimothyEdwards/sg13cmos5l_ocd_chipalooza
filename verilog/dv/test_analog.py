@@ -25,6 +25,7 @@ from cocotb.triggers import Timer
 from harness import (
     REG, NAN, reset, isnan, proj_config, proj_bias, bandgap_cfg, voltgen_cfg,
     apply_bias_defaults, drive_pad, read_pad, ANALOG_PINS,
+    BANDGAP_TRIM_V, BANDGAP_NOMINAL_TRIM, BANDGAP_NOMINAL_V,
 )
 
 SETTLE_NS = 100
@@ -542,3 +543,80 @@ async def test_diagnostic_drive_takes_precedence_over_the_pad(dut):
     await Timer(SETTLE_NS, unit="ns")
     assert abs(read_pad(dut, 3) - float(dut.vbandgap.value)) < 1e-12, \
         "releasing the pad disturbed the diagnostic measurement"
+
+
+@cocotb.test()
+async def test_bandgap_matches_the_characterised_curve(dut):
+    """Every trim code produces its simulated voltage.
+
+    Deferred until the curve was final, and it is now:  the trim chain
+    was rebuilt with rppd instead of rhigh, which both narrowed the
+    range and centred it, so all 17 codes have been simulated.  j is an
+    integer 0..16 and there are 17 points, so this is an exact check
+    rather than a tolerance on a fit --- the model looks the values up.
+
+    If this fails after a re-characterisation, update BANDGAP_TRIM_V in
+    harness.py AND the table in the model.  The duplication is the
+    point:  a test that imported the model's own numbers would agree
+    with whatever the model said.
+    """
+    spi = await reset(dut)
+    await apply_bias_defaults(spi)
+
+    for trim, want in enumerate(BANDGAP_TRIM_V):
+        await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=1, trim=trim))
+        await Timer(SETTLE_NS, unit="ns")
+        got = float(dut.vbandgap.value)
+        assert abs(got - want) < 1e-9, (
+            f"trim={trim} (j={trim}): bandgap = {got:.6f} V, "
+            f"characterised value is {want} V"
+        )
+
+
+@cocotb.test()
+async def test_bandgap_nominal_is_half_trim(dut):
+    """The nominal setting is the middle of the code range.
+
+    The rppd change put the flattest part of the tempco curve at exactly
+    half trim, so 8-of-16 is both the nominal operating point and the
+    centre of the adjustment range.  Asserting it here means a future
+    re-characterisation that quietly moves the centre off the middle has
+    to be acknowledged rather than absorbed.
+    """
+    spi = await reset(dut)
+    await apply_bias_defaults(spi)
+
+    await spi.write_reg(REG["bandgap"],
+                        bandgap_cfg(ena=1, trim=BANDGAP_NOMINAL_TRIM))
+    await Timer(SETTLE_NS, unit="ns")
+    got = float(dut.vbandgap.value)
+    assert abs(got - BANDGAP_NOMINAL_V) < 1e-9, (
+        f"half trim gives {got:.6f} V, expected {BANDGAP_NOMINAL_V} V"
+    )
+
+    # Centred in CODE space, which is the claim.  Not in voltage space:
+    # the curve is convex, so the middle code sits a little below the
+    # midpoint of the voltage range, and that is expected rather than a
+    # defect.
+    codes = len(BANDGAP_TRIM_V) - 1
+    below, above = BANDGAP_NOMINAL_TRIM, codes - BANDGAP_NOMINAL_TRIM
+    assert below == above, (
+        f"nominal trim {BANDGAP_NOMINAL_TRIM} of {codes} leaves {below} "
+        f"codes below and {above} above;  the point of the rppd change "
+        f"was equal adjustment range in both directions"
+    )
+
+    # Both directions must have usable voltage headroom.  They are NOT
+    # equal -- the roll-off at low trim gives less room downward than
+    # upward -- so this is a floor, not a symmetry check.
+    room_down = got - BANDGAP_TRIM_V[0]
+    room_up   = BANDGAP_TRIM_V[-1] - got
+    dut._log.info(
+        f"bandgap trim headroom from nominal {got:.3f} V: "
+        f"-{room_down*1000:.0f} mV / +{room_up*1000:.0f} mV"
+    )
+    for name, room in (("down", room_down), ("up", room_up)):
+        assert room > 0.030, (
+            f"only {room*1000:.0f} mV of trim headroom {name} from "
+            f"nominal;  the trim cannot correct much in that direction"
+        )

@@ -1,7 +1,7 @@
 # Structural equivalence between the simulated top level and the
 # schematic.  See README.
 #
-#   make netlist     elaborate digital_top into a structural netlist
+#   make netlist     elaborate chipalooza_frame into a structural netlist
 #   make lvs         compare that netlist against the schematic
 #   make selftest    check the comparison can actually detect an error
 #   make clean
@@ -12,8 +12,8 @@ ROOT       := $(abspath ../..)
 RTL        := $(ROOT)/verilog/rtl
 PDK_ROOT   ?= $(HOME)/gits
 PDK        ?= ihp-sg13cmos5l
-TOP        := digital_top
-SCHEMATIC  ?= $(ROOT)/xschem/$(TOP).spice
+TOP        := chipalooza_frame
+SCHEMATIC  ?= $(ROOT)/netlist/schematic/$(TOP).spice
 
 NETLIST := $(TOP).struct.v
 
@@ -51,8 +51,40 @@ lvs: $(NETLIST)
 	    echo "No schematic netlist at $(SCHEMATIC)."; \
 	    echo "Set SCHEMATIC=<path to the xschem .spice output>."; \
 	    exit 1; }
-	netgen -batch lvs "$(NETLIST) $(TOP)" "$(SCHEMATIC) $(TOP)" \
-	    setup.tcl comp.out
+	@# The schematic instantiates the slot wrappers as xschem PRIMITIVES,
+	@# so its netlist has no .subckt for them and netgen builds a
+	@# placeholder whose pins are numbered, not named.  Matched against
+	@# circuit 1's named blackbox that yields nothing:  netgen treats
+	@# both as opaque and verifies none of the ~950 wrapper connections
+	@# (a swap of two analog pads passed).  Reading the generated LVS
+	@# views into circuit 2 gives that side real pin names, in the
+	@# symbol's pin order, so the two match by name and the connections
+	@# are actually compared.
+	@rm -f netgen.tcl
+	@echo 'set c1 [readnet verilog $(NETLIST)]' >> netgen.tcl
+	@# housekeeping_top and user_project_control are primitives in the
+	@# schematic as well, so circuit 2 needs their gate-level netlists or
+	@# their pins come back numbered and none of their connections are
+	@# compared.  run_lvs_chipalooza_frame.sh reads the same two files.
+	@echo 'set c2 [readnet verilog $(ROOT)/verilog/gl/housekeeping_top.pnl.v]' >> netgen.tcl
+	@echo 'readnet verilog $(ROOT)/verilog/gl/user_project_control.pnl.v $$c2' >> netgen.tcl
+	@for i in $$(seq 1 18); do \
+	    echo "readnet verilog $(ROOT)/verilog/gl/slot$${i}_wrapper_lvs.v \$$c2" \
+	        >> netgen.tcl; \
+	done
+	@# The SRAM is a primitive in the schematic too, so circuit 2 needs a
+	@# definition for it or its pins come back numbered.  Reading the CDL
+	@# directly does not work here:  it spells buses A_ADDR<9> while the
+	@# Verilog side has A_ADDR[9], and netgen does not reconcile the two,
+	@# so 70 of the 73 pins proxy out.  The generated view carries the
+	@# CDL's names and order in Verilog spelling.
+	@echo 'readnet verilog $(ROOT)/verilog/gl/RM_IHPSG13_1P_1024x8_c2_bm_bist_lvs.v $$c2' >> netgen.tcl
+	@echo 'readnet spice $(SCHEMATIC) $$c2' >> netgen.tcl
+	@echo 'lvs "$$c1 $(TOP)" "$$c2 $(TOP)" setup.tcl comp.out' >> netgen.tcl
+	@# NETGEN_COLUMNS widens the side-by-side report so net and pin
+	@# names are not truncated;  the default cuts them off mid-name.
+	NETGEN_COLUMNS=50 netgen -batch source netgen.tcl
+	@rm -f netgen.tcl
 	@tail -3 comp.out
 
 selftest: $(NETLIST)

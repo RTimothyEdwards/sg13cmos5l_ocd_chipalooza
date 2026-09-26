@@ -33,3 +33,4 @@ append XSCHEM_LIBRARY_PATH :[file dirname [info script]]
 
 source ../dependencies/sg13cmos5l_ocd_ip__analog_switches/xschem/xschemrc
 source ../dependencies/sg13cmos5l_ocd_ip__biasgen/xschem/xschemrc
+source ../dependencies/sg13cmos5l_ocd_ip__por/xschem/xschemrc
