@@ -1151,8 +1151,8 @@ Circuit 1: analog_pswitch_small                                              |Ci
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
 sg13cmos5l_antennanp (1)                                                     |sg13cmos5l_antennanp (1)                                                     
 sg13_hv_pmos (4->1)                                                          |sg13_hv_pmos (4->1)                                                          
-sg13cmos5l_decap_4 (2->1)                                                    |sg13cmos5l_decap_4 (2->1)                                                    
 sw_lvl_shift (1)                                                             |sw_lvl_shift (1)                                                             
+sg13cmos5l_decap_4 (2->1)                                                    |sg13cmos5l_decap_4 (2->1)                                                    
 sg13cmos5l_inv_4 (2)                                                         |sg13cmos5l_inv_4 (2)                                                         
 Number of devices: 6                                                         |Number of devices: 6                                                         
 Number of nets: 11                                                           |Number of nets: 11                                                           
@@ -1185,8 +1185,8 @@ Circuit 1: analog_switch_small                                               |Ci
 sg13_hv_nmos (4->1)                                                          |sg13_hv_nmos (4->1)                                                          
 sg13cmos5l_antennanp (1)                                                     |sg13cmos5l_antennanp (1)                                                     
 sg13_hv_pmos (4->1)                                                          |sg13_hv_pmos (4->1)                                                          
-sw_lvl_shift (1)                                                             |sw_lvl_shift (1)                                                             
 sg13cmos5l_decap_4 (2->1)                                                    |sg13cmos5l_decap_4 (2->1)                                                    
+sw_lvl_shift (1)                                                             |sw_lvl_shift (1)                                                             
 sg13cmos5l_inv_4 (2)                                                         |sg13cmos5l_inv_4 (2)                                                         
 Number of devices: 7                                                         |Number of devices: 7                                                         
 Number of nets: 11                                                           |Number of nets: 11                                                           
@@ -1977,95 +1977,51 @@ Cell pin lists are equivalent.
 Device classes sg13cmos5l_nor2b_1 and sg13cmos5l_nor2b_1 are equivalent.
 
 Subcircuit summary:
-Circuit 1: sg13cmos5l_a21oi_1                                                |Circuit 2: sg13cmos5l_a21oi_1                                                
+Circuit 1: sg13cmos5l_a221oi_1                                               |Circuit 2: sg13cmos5l_a221oi_1                                               
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_nmos (3)                                                             |sg13_lv_nmos (3)                                                             
-sg13_lv_pmos (3)                                                             |sg13_lv_pmos (3)                                                             
-Number of devices: 6                                                         |Number of devices: 6                                                         
-Number of nets: 8                                                            |Number of nets: 8                                                            
+sg13_lv_nmos (5)                                                             |sg13_lv_nmos (5)                                                             
+sg13_lv_pmos (5)                                                             |sg13_lv_pmos (5)                                                             
+Number of devices: 10                                                        |Number of devices: 10                                                        
+Number of nets: 12                                                           |Number of nets: 12                                                           
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Netlists match uniquely.
 
 Subcircuit pins:
-Circuit 1: sg13cmos5l_a21oi_1                                                |Circuit 2: sg13cmos5l_a21oi_1                                                
+Circuit 1: sg13cmos5l_a221oi_1                                               |Circuit 2: sg13cmos5l_a221oi_1                                               
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-VSS                                                                          |VSS                                                                          
 VDD                                                                          |VDD                                                                          
+VSS                                                                          |VSS                                                                          
+Y                                                                            |Y                                                                            
+C1                                                                           |C1                                                                           
+B2                                                                           |B2                                                                           
 B1                                                                           |B1                                                                           
 A2                                                                           |A2                                                                           
 A1                                                                           |A1                                                                           
-Y                                                                            |Y                                                                            
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
-Device classes sg13cmos5l_a21oi_1 and sg13cmos5l_a21oi_1 are equivalent.
+Device classes sg13cmos5l_a221oi_1 and sg13cmos5l_a221oi_1 are equivalent.
 
 Subcircuit summary:
-Circuit 1: sg13cmos5l_xnor2_1                                                |Circuit 2: sg13cmos5l_xnor2_1                                                
+Circuit 1: sg13cmos5l_or2_1                                                  |Circuit 2: sg13cmos5l_or2_1                                                  
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_pmos (5)                                                             |sg13_lv_pmos (5)                                                             
-sg13_lv_nmos (5)                                                             |sg13_lv_nmos (5)                                                             
-Number of devices: 10                                                        |Number of devices: 10                                                        
-Number of nets: 9                                                            |Number of nets: 9                                                            
+sg13_lv_pmos (3)                                                             |sg13_lv_pmos (3)                                                             
+sg13_lv_nmos (3)                                                             |sg13_lv_nmos (3)                                                             
+Number of devices: 6                                                         |Number of devices: 6                                                         
+Number of nets: 7                                                            |Number of nets: 7                                                            
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Netlists match uniquely.
 
 Subcircuit pins:
-Circuit 1: sg13cmos5l_xnor2_1                                                |Circuit 2: sg13cmos5l_xnor2_1                                                
+Circuit 1: sg13cmos5l_or2_1                                                  |Circuit 2: sg13cmos5l_or2_1                                                  
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-Y                                                                            |Y                                                                            
 VSS                                                                          |VSS                                                                          
 VDD                                                                          |VDD                                                                          
+A                                                                            |A                                                                            
 B                                                                            |B                                                                            
-A                                                                            |A                                                                            
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Cell pin lists are equivalent.
-Device classes sg13cmos5l_xnor2_1 and sg13cmos5l_xnor2_1 are equivalent.
-
-Class sg13cmos5l_buf_2 (0):  Merged 2 parallel devices.
-Subcircuit summary:
-Circuit 1: sg13cmos5l_buf_2                                                  |Circuit 2: sg13cmos5l_buf_2                                                  
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_nmos (3->2)                                                          |sg13_lv_nmos (2)                                                             
-sg13_lv_pmos (3->2)                                                          |sg13_lv_pmos (2)                                                             
-Number of devices: 4                                                         |Number of devices: 4                                                         
-Number of nets: 5                                                            |Number of nets: 5                                                            
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Netlists match uniquely.
-
-Subcircuit pins:
-Circuit 1: sg13cmos5l_buf_2                                                  |Circuit 2: sg13cmos5l_buf_2                                                  
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-A                                                                            |A                                                                            
 X                                                                            |X                                                                            
-VSS                                                                          |VSS                                                                          
-VDD                                                                          |VDD                                                                          
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
-Device classes sg13cmos5l_buf_2 and sg13cmos5l_buf_2 are equivalent.
-
-Subcircuit summary:
-Circuit 1: sg13cmos5l_and4_1                                                 |Circuit 2: sg13cmos5l_and4_1                                                 
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_pmos (5)                                                             |sg13_lv_pmos (5)                                                             
-sg13_lv_nmos (5)                                                             |sg13_lv_nmos (5)                                                             
-Number of devices: 10                                                        |Number of devices: 10                                                        
-Number of nets: 11                                                           |Number of nets: 11                                                           
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Netlists match uniquely.
-
-Subcircuit pins:
-Circuit 1: sg13cmos5l_and4_1                                                 |Circuit 2: sg13cmos5l_and4_1                                                 
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-VSS                                                                          |VSS                                                                          
-C                                                                            |C                                                                            
-B                                                                            |B                                                                            
-A                                                                            |A                                                                            
-D                                                                            |D                                                                            
-X                                                                            |X                                                                            
-VDD                                                                          |VDD                                                                          
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Cell pin lists are equivalent.
-Device classes sg13cmos5l_and4_1 and sg13cmos5l_and4_1 are equivalent.
+Device classes sg13cmos5l_or2_1 and sg13cmos5l_or2_1 are equivalent.
 
 Subcircuit summary:
 Circuit 1: sg13cmos5l_o21ai_1                                                |Circuit 2: sg13cmos5l_o21ai_1                                                
@@ -2091,50 +2047,27 @@ Cell pin lists are equivalent.
 Device classes sg13cmos5l_o21ai_1 and sg13cmos5l_o21ai_1 are equivalent.
 
 Subcircuit summary:
-Circuit 1: sg13cmos5l_or2_1                                                  |Circuit 2: sg13cmos5l_or2_1                                                  
+Circuit 1: sg13cmos5l_a21oi_1                                                |Circuit 2: sg13cmos5l_a21oi_1                                                
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_pmos (3)                                                             |sg13_lv_pmos (3)                                                             
 sg13_lv_nmos (3)                                                             |sg13_lv_nmos (3)                                                             
+sg13_lv_pmos (3)                                                             |sg13_lv_pmos (3)                                                             
 Number of devices: 6                                                         |Number of devices: 6                                                         
-Number of nets: 7                                                            |Number of nets: 7                                                            
+Number of nets: 8                                                            |Number of nets: 8                                                            
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Netlists match uniquely.
 
 Subcircuit pins:
-Circuit 1: sg13cmos5l_or2_1                                                  |Circuit 2: sg13cmos5l_or2_1                                                  
+Circuit 1: sg13cmos5l_a21oi_1                                                |Circuit 2: sg13cmos5l_a21oi_1                                                
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
 VSS                                                                          |VSS                                                                          
 VDD                                                                          |VDD                                                                          
-A                                                                            |A                                                                            
-B                                                                            |B                                                                            
-X                                                                            |X                                                                            
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Cell pin lists are equivalent.
-Device classes sg13cmos5l_or2_1 and sg13cmos5l_or2_1 are equivalent.
-
-Subcircuit summary:
-Circuit 1: sg13cmos5l_a22oi_1                                                |Circuit 2: sg13cmos5l_a22oi_1                                                
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_nmos (4)                                                             |sg13_lv_nmos (4)                                                             
-sg13_lv_pmos (4)                                                             |sg13_lv_pmos (4)                                                             
-Number of devices: 8                                                         |Number of devices: 8                                                         
-Number of nets: 10                                                           |Number of nets: 10                                                           
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Netlists match uniquely.
-
-Subcircuit pins:
-Circuit 1: sg13cmos5l_a22oi_1                                                |Circuit 2: sg13cmos5l_a22oi_1                                                
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-VSS                                                                          |VSS                                                                          
-VDD                                                                          |VDD                                                                          
-Y                                                                            |Y                                                                            
 B1                                                                           |B1                                                                           
-B2                                                                           |B2                                                                           
 A2                                                                           |A2                                                                           
 A1                                                                           |A1                                                                           
+Y                                                                            |Y                                                                            
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
-Device classes sg13cmos5l_a22oi_1 and sg13cmos5l_a22oi_1 are equivalent.
+Device classes sg13cmos5l_a21oi_1 and sg13cmos5l_a21oi_1 are equivalent.
 
 Subcircuit summary:
 Circuit 1: sg13cmos5l_a21o_1                                                 |Circuit 2: sg13cmos5l_a21o_1                                                 
@@ -2158,31 +2091,6 @@ VDD                                                                          |VD
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
 Device classes sg13cmos5l_a21o_1 and sg13cmos5l_a21o_1 are equivalent.
-
-Subcircuit summary:
-Circuit 1: sg13cmos5l_a221oi_1                                               |Circuit 2: sg13cmos5l_a221oi_1                                               
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_nmos (5)                                                             |sg13_lv_nmos (5)                                                             
-sg13_lv_pmos (5)                                                             |sg13_lv_pmos (5)                                                             
-Number of devices: 10                                                        |Number of devices: 10                                                        
-Number of nets: 12                                                           |Number of nets: 12                                                           
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Netlists match uniquely.
-
-Subcircuit pins:
-Circuit 1: sg13cmos5l_a221oi_1                                               |Circuit 2: sg13cmos5l_a221oi_1                                               
------------------------------------------------------------------------------|-----------------------------------------------------------------------------
-VDD                                                                          |VDD                                                                          
-VSS                                                                          |VSS                                                                          
-Y                                                                            |Y                                                                            
-C1                                                                           |C1                                                                           
-B2                                                                           |B2                                                                           
-B1                                                                           |B1                                                                           
-A2                                                                           |A2                                                                           
-A1                                                                           |A1                                                                           
------------------------------------------------------------------------------------------------------------------------------------------------------------
-Cell pin lists are equivalent.
-Device classes sg13cmos5l_a221oi_1 and sg13cmos5l_a221oi_1 are equivalent.
 
 Subcircuit summary:
 Circuit 1: sg13cmos5l_nor4_1                                                 |Circuit 2: sg13cmos5l_nor4_1                                                 
@@ -2209,27 +2117,72 @@ Cell pin lists are equivalent.
 Device classes sg13cmos5l_nor4_1 and sg13cmos5l_nor4_1 are equivalent.
 
 Subcircuit summary:
-Circuit 1: sg13cmos5l_and3_1                                                 |Circuit 2: sg13cmos5l_and3_1                                                 
+Circuit 1: sg13cmos5l_a22oi_1                                                |Circuit 2: sg13cmos5l_a22oi_1                                                
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
 sg13_lv_nmos (4)                                                             |sg13_lv_nmos (4)                                                             
 sg13_lv_pmos (4)                                                             |sg13_lv_pmos (4)                                                             
 Number of devices: 8                                                         |Number of devices: 8                                                         
+Number of nets: 10                                                           |Number of nets: 10                                                           
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_a22oi_1                                                |Circuit 2: sg13cmos5l_a22oi_1                                                
+-----------------------------------------------------------------------------|-----------------------------------------------------------------------------
+VSS                                                                          |VSS                                                                          
+VDD                                                                          |VDD                                                                          
+Y                                                                            |Y                                                                            
+B1                                                                           |B1                                                                           
+B2                                                                           |B2                                                                           
+A2                                                                           |A2                                                                           
+A1                                                                           |A1                                                                           
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_a22oi_1 and sg13cmos5l_a22oi_1 are equivalent.
+
+Class sg13cmos5l_buf_2 (0):  Merged 2 parallel devices.
+Subcircuit summary:
+Circuit 1: sg13cmos5l_buf_2                                                  |Circuit 2: sg13cmos5l_buf_2                                                  
+-----------------------------------------------------------------------------|-----------------------------------------------------------------------------
+sg13_lv_nmos (3->2)                                                          |sg13_lv_nmos (2)                                                             
+sg13_lv_pmos (3->2)                                                          |sg13_lv_pmos (2)                                                             
+Number of devices: 4                                                         |Number of devices: 4                                                         
+Number of nets: 5                                                            |Number of nets: 5                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_buf_2                                                  |Circuit 2: sg13cmos5l_buf_2                                                  
+-----------------------------------------------------------------------------|-----------------------------------------------------------------------------
+A                                                                            |A                                                                            
+X                                                                            |X                                                                            
+VSS                                                                          |VSS                                                                          
+VDD                                                                          |VDD                                                                          
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_buf_2 and sg13cmos5l_buf_2 are equivalent.
+
+Subcircuit summary:
+Circuit 1: sg13cmos5l_xnor2_1                                                |Circuit 2: sg13cmos5l_xnor2_1                                                
+-----------------------------------------------------------------------------|-----------------------------------------------------------------------------
+sg13_lv_pmos (5)                                                             |sg13_lv_pmos (5)                                                             
+sg13_lv_nmos (5)                                                             |sg13_lv_nmos (5)                                                             
+Number of devices: 10                                                        |Number of devices: 10                                                        
 Number of nets: 9                                                            |Number of nets: 9                                                            
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Netlists match uniquely.
 
 Subcircuit pins:
-Circuit 1: sg13cmos5l_and3_1                                                 |Circuit 2: sg13cmos5l_and3_1                                                 
+Circuit 1: sg13cmos5l_xnor2_1                                                |Circuit 2: sg13cmos5l_xnor2_1                                                
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-VDD                                                                          |VDD                                                                          
+Y                                                                            |Y                                                                            
 VSS                                                                          |VSS                                                                          
-X                                                                            |X                                                                            
-C                                                                            |C                                                                            
-A                                                                            |A                                                                            
+VDD                                                                          |VDD                                                                          
 B                                                                            |B                                                                            
+A                                                                            |A                                                                            
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
-Device classes sg13cmos5l_and3_1 and sg13cmos5l_and3_1 are equivalent.
+Device classes sg13cmos5l_xnor2_1 and sg13cmos5l_xnor2_1 are equivalent.
 
 Subcircuit summary:
 Circuit 1: sg13cmos5l_or3_1                                                  |Circuit 2: sg13cmos5l_or3_1                                                  
@@ -2278,24 +2231,51 @@ Cell pin lists are equivalent.
 Device classes sg13cmos5l_nand3b_1 and sg13cmos5l_nand3b_1 are equivalent.
 
 Subcircuit summary:
-Circuit 1: sg13cmos5l_tiehi                                                  |Circuit 2: sg13cmos5l_tiehi                                                  
+Circuit 1: sg13cmos5l_and4_1                                                 |Circuit 2: sg13cmos5l_and4_1                                                 
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13_lv_pmos (2)                                                             |sg13_lv_pmos (2)                                                             
-sg13_lv_nmos (2)                                                             |sg13_lv_nmos (2)                                                             
-Number of devices: 4                                                         |Number of devices: 4                                                         
-Number of nets: 6                                                            |Number of nets: 6                                                            
+sg13_lv_pmos (5)                                                             |sg13_lv_pmos (5)                                                             
+sg13_lv_nmos (5)                                                             |sg13_lv_nmos (5)                                                             
+Number of devices: 10                                                        |Number of devices: 10                                                        
+Number of nets: 11                                                           |Number of nets: 11                                                           
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Netlists match uniquely.
 
 Subcircuit pins:
-Circuit 1: sg13cmos5l_tiehi                                                  |Circuit 2: sg13cmos5l_tiehi                                                  
+Circuit 1: sg13cmos5l_and4_1                                                 |Circuit 2: sg13cmos5l_and4_1                                                 
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
 VSS                                                                          |VSS                                                                          
+C                                                                            |C                                                                            
+B                                                                            |B                                                                            
+A                                                                            |A                                                                            
+D                                                                            |D                                                                            
+X                                                                            |X                                                                            
 VDD                                                                          |VDD                                                                          
-L_HI                                                                         |L_HI                                                                         
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
-Device classes sg13cmos5l_tiehi and sg13cmos5l_tiehi are equivalent.
+Device classes sg13cmos5l_and4_1 and sg13cmos5l_and4_1 are equivalent.
+
+Subcircuit summary:
+Circuit 1: sg13cmos5l_and3_1                                                 |Circuit 2: sg13cmos5l_and3_1                                                 
+-----------------------------------------------------------------------------|-----------------------------------------------------------------------------
+sg13_lv_nmos (4)                                                             |sg13_lv_nmos (4)                                                             
+sg13_lv_pmos (4)                                                             |sg13_lv_pmos (4)                                                             
+Number of devices: 8                                                         |Number of devices: 8                                                         
+Number of nets: 9                                                            |Number of nets: 9                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Netlists match uniquely.
+
+Subcircuit pins:
+Circuit 1: sg13cmos5l_and3_1                                                 |Circuit 2: sg13cmos5l_and3_1                                                 
+-----------------------------------------------------------------------------|-----------------------------------------------------------------------------
+VDD                                                                          |VDD                                                                          
+VSS                                                                          |VSS                                                                          
+X                                                                            |X                                                                            
+C                                                                            |C                                                                            
+A                                                                            |A                                                                            
+B                                                                            |B                                                                            
+-----------------------------------------------------------------------------------------------------------------------------------------------------------
+Cell pin lists are equivalent.
+Device classes sg13cmos5l_and3_1 and sg13cmos5l_and3_1 are equivalent.
 
 Cell slot16_wrapper (0) disconnected node: vss_1v2
 Cell slot16_wrapper (0) disconnected node: s16_an[0]
@@ -6410,53 +6390,51 @@ reset                                                                        |re
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Cell pin lists are equivalent.
 Device classes slot12_wrapper and slot12_wrapper are equivalent.
-Flattening unmatched subcell sg13cmos5l_fill_2 in circuit housekeeping_top (1)(1262 instances)
-Flattening unmatched subcell sg13cmos5l_fill_1 in circuit housekeeping_top (1)(1346 instances)
+Flattening unmatched subcell sg13cmos5l_fill_2 in circuit housekeeping_top (1)(1320 instances)
+Flattening unmatched subcell sg13cmos5l_fill_1 in circuit housekeeping_top (1)(1408 instances)
 
-Class housekeeping_top (0):  Merged 5558 parallel devices.
-Class housekeeping_top (1):  Merged 5558 parallel devices.
+Class housekeeping_top (0):  Merged 5539 parallel devices.
+Class housekeeping_top (1):  Merged 5539 parallel devices.
 Subcircuit summary:
 Circuit 1: housekeeping_top                                                  |Circuit 2: housekeeping_top                                                  
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-sg13cmos5l_decap_8 (4693->1)                                                 |sg13cmos5l_decap_8 (4693->1)                                                 
+sg13cmos5l_decap_8 (4608->1)                                                 |sg13cmos5l_decap_8 (4608->1)                                                 
 sg13cmos5l_buf_16 (121)                                                      |sg13cmos5l_buf_16 (121)                                                      
-sg13cmos5l_nor2b_1 (227)                                                     |sg13cmos5l_nor2b_1 (227)                                                     
+sg13cmos5l_nor2b_1 (228)                                                     |sg13cmos5l_nor2b_1 (228)                                                     
+sg13cmos5l_a221oi_1 (156)                                                    |sg13cmos5l_a221oi_1 (156)                                                    
+sg13cmos5l_nor2_1 (485)                                                      |sg13cmos5l_nor2_1 (485)                                                      
+sg13cmos5l_or2_1 (88)                                                        |sg13cmos5l_or2_1 (88)                                                        
+sg13cmos5l_o21ai_1 (492)                                                     |sg13cmos5l_o21ai_1 (492)                                                     
+sg13cmos5l_decap_4 (933->1)                                                  |sg13cmos5l_decap_4 (933->1)                                                  
+sg13cmos5l_dfrbpq_1 (435)                                                    |sg13cmos5l_dfrbpq_1 (435)                                                    
+sg13cmos5l_dlygate4sd3_1 (1050)                                              |sg13cmos5l_dlygate4sd3_1 (1050)                                              
+sg13cmos5l_buf_4 (34)                                                        |sg13cmos5l_buf_4 (34)                                                        
+sg13cmos5l_nand2_1 (339)                                                     |sg13cmos5l_nand2_1 (339)                                                     
 sg13cmos5l_mux2_1 (158)                                                      |sg13cmos5l_mux2_1 (158)                                                      
-sg13cmos5l_decap_4 (867->1)                                                  |sg13cmos5l_decap_4 (867->1)                                                  
-sg13cmos5l_a21oi_1 (426)                                                     |sg13cmos5l_a21oi_1 (426)                                                     
-sg13cmos5l_nand3_1 (72)                                                      |sg13cmos5l_nand3_1 (72)                                                      
-sg13cmos5l_nand2_1 (366)                                                     |sg13cmos5l_nand2_1 (366)                                                     
-sg13cmos5l_xnor2_1 (41)                                                      |sg13cmos5l_xnor2_1 (41)                                                      
-sg13cmos5l_nor3_1 (206)                                                      |sg13cmos5l_nor3_1 (206)                                                      
-sg13cmos5l_dfrbpq_1 (434)                                                    |sg13cmos5l_dfrbpq_1 (434)                                                    
-sg13cmos5l_dlygate4sd3_1 (1041)                                              |sg13cmos5l_dlygate4sd3_1 (1041)                                              
-sg13cmos5l_buf_2 (11)                                                        |sg13cmos5l_buf_2 (11)                                                        
-sg13cmos5l_buf_4 (35)                                                        |sg13cmos5l_buf_4 (35)                                                        
-sg13cmos5l_and4_1 (2)                                                        |sg13cmos5l_and4_1 (2)                                                        
-sg13cmos5l_nand2b_1 (150)                                                    |sg13cmos5l_nand2b_1 (150)                                                    
-sg13cmos5l_o21ai_1 (514)                                                     |sg13cmos5l_o21ai_1 (514)                                                     
-sg13cmos5l_nor2_1 (475)                                                      |sg13cmos5l_nor2_1 (475)                                                      
-sg13cmos5l_or2_1 (78)                                                        |sg13cmos5l_or2_1 (78)                                                        
-sg13cmos5l_and2_1 (95)                                                       |sg13cmos5l_and2_1 (95)                                                       
-sg13cmos5l_buf_1 (418)                                                       |sg13cmos5l_buf_1 (418)                                                       
-sg13cmos5l_a22oi_1 (97)                                                      |sg13cmos5l_a22oi_1 (97)                                                      
-sg13cmos5l_a21o_1 (64)                                                       |sg13cmos5l_a21o_1 (64)                                                       
+sg13cmos5l_a21oi_1 (431)                                                     |sg13cmos5l_a21oi_1 (431)                                                     
+sg13cmos5l_and2_1 (105)                                                      |sg13cmos5l_and2_1 (105)                                                      
+sg13cmos5l_buf_1 (420)                                                       |sg13cmos5l_buf_1 (420)                                                       
+sg13cmos5l_a21o_1 (65)                                                       |sg13cmos5l_a21o_1 (65)                                                       
+sg13cmos5l_nor3_1 (210)                                                      |sg13cmos5l_nor3_1 (210)                                                      
+sg13cmos5l_nor4_1 (61)                                                       |sg13cmos5l_nor4_1 (61)                                                       
+sg13cmos5l_inv_1 (222)                                                       |sg13cmos5l_inv_1 (222)                                                       
+sg13cmos5l_a22oi_1 (113)                                                     |sg13cmos5l_a22oi_1 (113)                                                     
 sg13cmos5l_antennanp (136)                                                   |sg13cmos5l_antennanp (136)                                                   
-sg13cmos5l_inv_1 (214)                                                       |sg13cmos5l_inv_1 (214)                                                       
-sg13cmos5l_a221oi_1 (148)                                                    |sg13cmos5l_a221oi_1 (148)                                                    
+sg13cmos5l_nand2b_1 (135)                                                    |sg13cmos5l_nand2b_1 (135)                                                    
+sg13cmos5l_buf_2 (10)                                                        |sg13cmos5l_buf_2 (10)                                                        
+sg13cmos5l_xnor2_1 (37)                                                      |sg13cmos5l_xnor2_1 (37)                                                      
 sg13cmos5l_nand4_1 (33)                                                      |sg13cmos5l_nand4_1 (33)                                                      
-sg13cmos5l_buf_8 (92)                                                        |sg13cmos5l_buf_8 (92)                                                        
-sg13cmos5l_nor4_1 (77)                                                       |sg13cmos5l_nor4_1 (77)                                                       
-sg13cmos5l_and3_1 (9)                                                        |sg13cmos5l_and3_1 (9)                                                        
-sg13cmos5l_or3_1 (11)                                                        |sg13cmos5l_or3_1 (11)                                                        
-sg13cmos5l_or4_1 (5)                                                         |sg13cmos5l_or4_1 (5)                                                         
-sg13cmos5l_xor2_1 (23)                                                       |sg13cmos5l_xor2_1 (23)                                                       
-sg13cmos5l_nand3b_1 (9)                                                      |sg13cmos5l_nand3b_1 (9)                                                      
+sg13cmos5l_buf_8 (98)                                                        |sg13cmos5l_buf_8 (98)                                                        
+sg13cmos5l_nand3_1 (87)                                                      |sg13cmos5l_nand3_1 (87)                                                      
+sg13cmos5l_or3_1 (13)                                                        |sg13cmos5l_or3_1 (13)                                                        
+sg13cmos5l_nand3b_1 (7)                                                      |sg13cmos5l_nand3b_1 (7)                                                      
+sg13cmos5l_xor2_1 (24)                                                       |sg13cmos5l_xor2_1 (24)                                                       
+sg13cmos5l_and4_1 (1)                                                        |sg13cmos5l_and4_1 (1)                                                        
 sg13cmos5l_inv_4 (2)                                                         |sg13cmos5l_inv_4 (2)                                                         
-sg13cmos5l_inv_2 (1)                                                         |sg13cmos5l_inv_2 (1)                                                         
-sg13cmos5l_tiehi (8)                                                         |sg13cmos5l_tiehi (8)                                                         
-Number of devices: 5801                                                      |Number of devices: 5801                                                      
-Number of nets: 5746                                                         |Number of nets: 5746                                                         
+sg13cmos5l_and3_1 (4)                                                        |sg13cmos5l_and3_1 (4)                                                        
+sg13cmos5l_or4_1 (6)                                                         |sg13cmos5l_or4_1 (6)                                                         
+Number of devices: 5808                                                      |Number of devices: 5808                                                      
+Number of nets: 5753                                                         |Number of nets: 5753                                                         
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Resolving symmetries by property value.
 Resolving symmetries by pin name.
@@ -6466,85 +6444,85 @@ Netlists match with 11 symmetries.
 Subcircuit pins:
 Circuit 1: housekeeping_top                                                  |Circuit 2: housekeeping_top                                                  
 -----------------------------------------------------------------------------|-----------------------------------------------------------------------------
-SDI                                                                          |SDI                                                                          
-io_in[0]                                                                     |io_in[0]                                                                     
-_3465_/Y                                                                     |(no pin, node is _0617_)                                                     
-dbus_in_left[6]                                                              |dbus_in_left[6]                                                              
-dbus_in_right[6]                                                             |dbus_in_right[6]                                                             
+sram_odata[3]                                                                |sram_odata[3]                                                                
 dbus_in_left[5]                                                              |dbus_in_left[5]                                                              
-dbus_in_left[4]                                                              |dbus_in_left[4]                                                              
 dbus_in_right[5]                                                             |dbus_in_right[5]                                                             
+dbus_in_left[4]                                                              |dbus_in_left[4]                                                              
 dbus_in_right[4]                                                             |dbus_in_right[4]                                                             
-dbus_in_left[7]                                                              |dbus_in_left[7]                                                              
-dbus_in_left[11]                                                             |dbus_in_left[11]                                                             
-dbus_in_right[7]                                                             |dbus_in_right[7]                                                             
-dbus_in_right[11]                                                            |dbus_in_right[11]                                                            
-dbus_in_left[2]                                                              |dbus_in_left[2]                                                              
-dbus_in_right[2]                                                             |dbus_in_right[2]                                                             
-dbus_in_left[10]                                                             |dbus_in_left[10]                                                             
-dbus_in_right[10]                                                            |dbus_in_right[10]                                                            
-dbus_in_left[9]                                                              |dbus_in_left[9]                                                              
-dbus_in_right[9]                                                             |dbus_in_right[9]                                                             
-dbus_in_left[1]                                                              |dbus_in_left[1]                                                              
 dbus_in_left[3]                                                              |dbus_in_left[3]                                                              
-dbus_in_left[0]                                                              |dbus_in_left[0]                                                              
-dbus_in_right[1]                                                             |dbus_in_right[1]                                                             
+dbus_in_left[6]                                                              |dbus_in_left[6]                                                              
+dbus_in_left[7]                                                              |dbus_in_left[7]                                                              
+dbus_in_right[7]                                                             |dbus_in_right[7]                                                             
 dbus_in_right[3]                                                             |dbus_in_right[3]                                                             
+dbus_in_right[6]                                                             |dbus_in_right[6]                                                             
+dbus_in_left[10]                                                             |dbus_in_left[10]                                                             
+dbus_in_left[11]                                                             |dbus_in_left[11]                                                             
+dbus_in_left[1]                                                              |dbus_in_left[1]                                                              
+dbus_in_right[10]                                                            |dbus_in_right[10]                                                            
+dbus_in_right[11]                                                            |dbus_in_right[11]                                                            
+dbus_in_right[1]                                                             |dbus_in_right[1]                                                             
+dbus_in_left[9]                                                              |dbus_in_left[9]                                                              
+dbus_in_left[0]                                                              |dbus_in_left[0]                                                              
 dbus_in_right[0]                                                             |dbus_in_right[0]                                                             
+dbus_in_right[9]                                                             |dbus_in_right[9]                                                             
 dbus_in_left[8]                                                              |dbus_in_left[8]                                                              
+dbus_in_left[2]                                                              |dbus_in_left[2]                                                              
 dbus_in_right[8]                                                             |dbus_in_right[8]                                                             
-CSB                                                                          |CSB                                                                          
-_7075_/Q                                                                     |(no pin, node is \hk.voltgen_source[2] )                                     
-sram_odata[7]                                                                |sram_odata[7]                                                                
-mask_rev_in[9]                                                               |mask_rev_in[9]                                                               
+dbus_in_right[2]                                                             |dbus_in_right[2]                                                             
+porb                                                                         |porb                                                                         
+mask_rev_in[19]                                                              |mask_rev_in[19]                                                              
 mask_rev_in[4]                                                               |mask_rev_in[4]                                                               
-mask_rev_in[13]                                                              |mask_rev_in[13]                                                              
-mask_rev_in[10]                                                              |mask_rev_in[10]                                                              
-mask_rev_in[31]                                                              |mask_rev_in[31]                                                              
-mask_rev_in[7]                                                               |mask_rev_in[7]                                                               
-mask_rev_in[6]                                                               |mask_rev_in[6]                                                               
 mask_rev_in[14]                                                              |mask_rev_in[14]                                                              
 mask_rev_in[15]                                                              |mask_rev_in[15]                                                              
-mask_rev_in[22]                                                              |mask_rev_in[22]                                                              
-mask_rev_in[23]                                                              |mask_rev_in[23]                                                              
-mask_rev_in[5]                                                               |mask_rev_in[5]                                                               
-mask_rev_in[12]                                                              |mask_rev_in[12]                                                              
-mask_rev_in[11]                                                              |mask_rev_in[11]                                                              
+mask_rev_in[9]                                                               |mask_rev_in[9]                                                               
 mask_rev_in[3]                                                               |mask_rev_in[3]                                                               
-mask_rev_in[19]                                                              |mask_rev_in[19]                                                              
-mask_rev_in[20]                                                              |mask_rev_in[20]                                                              
-mask_rev_in[27]                                                              |mask_rev_in[27]                                                              
-mask_rev_in[28]                                                              |mask_rev_in[28]                                                              
-mask_rev_in[2]                                                               |mask_rev_in[2]                                                               
+mask_rev_in[6]                                                               |mask_rev_in[6]                                                               
+mask_rev_in[7]                                                               |mask_rev_in[7]                                                               
+mask_rev_in[5]                                                               |mask_rev_in[5]                                                               
 mask_rev_in[21]                                                              |mask_rev_in[21]                                                              
+mask_rev_in[20]                                                              |mask_rev_in[20]                                                              
+mask_rev_in[28]                                                              |mask_rev_in[28]                                                              
+mask_rev_in[11]                                                              |mask_rev_in[11]                                                              
+mask_rev_in[27]                                                              |mask_rev_in[27]                                                              
+mask_rev_in[2]                                                               |mask_rev_in[2]                                                               
+mask_rev_in[13]                                                              |mask_rev_in[13]                                                              
+mask_rev_in[10]                                                              |mask_rev_in[10]                                                              
+mask_rev_in[23]                                                              |mask_rev_in[23]                                                              
+mask_rev_in[12]                                                              |mask_rev_in[12]                                                              
+mask_rev_in[22]                                                              |mask_rev_in[22]                                                              
 mask_rev_in[18]                                                              |mask_rev_in[18]                                                              
-mask_rev_in[26]                                                              |mask_rev_in[26]                                                              
 mask_rev_in[30]                                                              |mask_rev_in[30]                                                              
 mask_rev_in[29]                                                              |mask_rev_in[29]                                                              
+mask_rev_in[26]                                                              |mask_rev_in[26]                                                              
 mask_rev_in[1]                                                               |mask_rev_in[1]                                                               
 mask_rev_in[17]                                                              |mask_rev_in[17]                                                              
 mask_rev_in[25]                                                              |mask_rev_in[25]                                                              
-mask_rev_in[8]                                                               |mask_rev_in[8]                                                               
 mask_rev_in[0]                                                               |mask_rev_in[0]                                                               
+mask_rev_in[8]                                                               |mask_rev_in[8]                                                               
 mask_rev_in[16]                                                              |mask_rev_in[16]                                                              
+mask_rev_in[31]                                                              |mask_rev_in[31]                                                              
 mask_rev_in[24]                                                              |mask_rev_in[24]                                                              
+io_in[0]                                                                     |io_in[0]                                                                     
+CSB                                                                          |CSB                                                                          
 SDO                                                                          |SDO                                                                          
 clk                                                                          |clk                                                                          
 SCK                                                                          |SCK                                                                          
-io_in[9]                                                                     |io_in[9]                                                                     
+io_in[8]                                                                     |io_in[8]                                                                     
 io_in[7]                                                                     |io_in[7]                                                                     
-io_in[6]                                                                     |io_in[6]                                                                     
+io_in[3]                                                                     |io_in[3]                                                                     
+io_in[4]                                                                     |io_in[4]                                                                     
+sram_odata[7]                                                                |sram_odata[7]                                                                
 sram_odata[6]                                                                |sram_odata[6]                                                                
 sram_odata[5]                                                                |sram_odata[5]                                                                
 sram_odata[4]                                                                |sram_odata[4]                                                                
-sram_odata[3]                                                                |sram_odata[3]                                                                
-sram_odata[1]                                                                |sram_odata[1]                                                                
 sram_odata[2]                                                                |sram_odata[2]                                                                
+sram_odata[1]                                                                |sram_odata[1]                                                                
 sram_odata[0]                                                                |sram_odata[0]                                                                
-sram_idata[1]                                                                |sram_idata[1]                                                                
-sram_idata[0]                                                                |sram_idata[0]                                                                
+io_in[2]                                                                     |io_in[2]                                                                     
 sram_idata[2]                                                                |sram_idata[2]                                                                
 sram_idata[3]                                                                |sram_idata[3]                                                                
+sram_idata[0]                                                                |sram_idata[0]                                                                
+sram_idata[1]                                                                |sram_idata[1]                                                                
 sram_idata[4]                                                                |sram_idata[4]                                                                
 sram_idata[5]                                                                |sram_idata[5]                                                                
 sram_idata[6]                                                                |sram_idata[6]                                                                
@@ -6552,151 +6530,149 @@ sram_idata[7]                                                                |sr
 sram_write                                                                   |sram_write                                                                   
 sram_read                                                                    |sram_read                                                                    
 sdo_ena                                                                      |sdo_ena                                                                      
-io_in[3]                                                                     |io_in[3]                                                                     
-io_in[2]                                                                     |io_in[2]                                                                     
-io_in[4]                                                                     |io_in[4]                                                                     
-io_in[1]                                                                     |io_in[1]                                                                     
-io_in[5]                                                                     |io_in[5]                                                                     
-io_in[8]                                                                     |io_in[8]                                                                     
-io_in[10]                                                                    |io_in[10]                                                                    
-porb                                                                         |porb                                                                         
+io_in[9]                                                                     |io_in[9]                                                                     
 io_in[11]                                                                    |io_in[11]                                                                    
+io_in[5]                                                                     |io_in[5]                                                                     
+io_in[1]                                                                     |io_in[1]                                                                     
+io_in[6]                                                                     |io_in[6]                                                                     
+io_in[10]                                                                    |io_in[10]                                                                    
+SDI                                                                          |SDI                                                                          
+sram_addr[2]                                                                 |sram_addr[2]                                                                 
 sram_addr[5]                                                                 |sram_addr[5]                                                                 
+sram_addr[3]                                                                 |sram_addr[3]                                                                 
 sram_addr[9]                                                                 |sram_addr[9]                                                                 
 sram_addr[7]                                                                 |sram_addr[7]                                                                 
-sram_addr[8]                                                                 |sram_addr[8]                                                                 
 sram_addr[6]                                                                 |sram_addr[6]                                                                 
+sram_addr[8]                                                                 |sram_addr[8]                                                                 
 sram_addr[4]                                                                 |sram_addr[4]                                                                 
-sram_addr[2]                                                                 |sram_addr[2]                                                                 
-sram_addr[3]                                                                 |sram_addr[3]                                                                 
-sram_addr[0]                                                                 |sram_addr[0]                                                                 
 sram_addr[1]                                                                 |sram_addr[1]                                                                 
+sram_addr[0]                                                                 |sram_addr[0]                                                                 
+reset                                                                        |reset                                                                        
 proj_sel[0]                                                                  |proj_sel[0]                                                                  
+proj_sel[2]                                                                  |proj_sel[2]                                                                  
 proj_sel[4]                                                                  |proj_sel[4]                                                                  
+proj_sel[1]                                                                  |proj_sel[1]                                                                  
 proj_sel[3]                                                                  |proj_sel[3]                                                                  
-bandgap_ena                                                                  |bandgap_ena                                                                  
+voltgen_ena[0]                                                               |voltgen_ena[0]                                                               
 voltgen_ena[1]                                                               |voltgen_ena[1]                                                               
+bandgap_ena                                                                  |bandgap_ena                                                                  
 bandgap_trim[11]                                                             |bandgap_trim[11]                                                             
 bandgap_trim[13]                                                             |bandgap_trim[13]                                                             
-bandgap_trim[5]                                                              |bandgap_trim[5]                                                              
-voltgen_source[2]                                                            |voltgen_source[2]                                                            
-voltgen_sink1[0]                                                             |voltgen_sink1[0]                                                             
-bandgap_trim[7]                                                              |bandgap_trim[7]                                                              
-voltgen_source[1]                                                            |voltgen_source[1]                                                            
+bandgap_trim[1]                                                              |bandgap_trim[1]                                                              
 biasgen_fine                                                                 |biasgen_fine                                                                 
-voltgen_ena[0]                                                               |voltgen_ena[0]                                                               
-voltgen_sink2[1]                                                             |voltgen_sink2[1]                                                             
-voltgen_value[0]                                                             |voltgen_value[0]                                                             
 idac2_value[2]                                                               |idac2_value[2]                                                               
+proj_ibias_ena[1]                                                            |proj_ibias_ena[1]                                                            
+bandgap_trim[5]                                                              |bandgap_trim[5]                                                              
+idac1_value[1]                                                               |idac1_value[1]                                                               
+bandgap_trim[9]                                                              |bandgap_trim[9]                                                              
+io_out[2]                                                                    |io_out[2]                                                                    
 io_out[9]                                                                    |io_out[9]                                                                    
-dbus_out[20]                                                                 |dbus_out[20]                                                                 
 bandgap_trim[2]                                                              |bandgap_trim[2]                                                              
-io_out[11]                                                                   |io_out[11]                                                                   
+dbus_out[22]                                                                 |dbus_out[22]                                                                 
+io_oe[0]                                                                     |io_oe[0]                                                                     
 bandgap_trim[4]                                                              |bandgap_trim[4]                                                              
-io_oe[2]                                                                     |io_oe[2]                                                                     
+dbus_out[6]                                                                  |dbus_out[6]                                                                  
+dbus_out[13]                                                                 |dbus_out[13]                                                                 
 bandgap_trim[6]                                                              |bandgap_trim[6]                                                              
-io_oe[9]                                                                     |io_oe[9]                                                                     
 io_oe[4]                                                                     |io_oe[4]                                                                     
-io_out[4]                                                                    |io_out[4]                                                                    
 bandgap_trim[8]                                                              |bandgap_trim[8]                                                              
+io_oe[7]                                                                     |io_oe[7]                                                                     
 io_oe[11]                                                                    |io_oe[11]                                                                    
 bandgap_trim[15]                                                             |bandgap_trim[15]                                                             
-bandgap_trim[10]                                                             |bandgap_trim[10]                                                             
-io_out[2]                                                                    |io_out[2]                                                                    
-io_out[1]                                                                    |io_out[1]                                                                    
-dbus_out[19]                                                                 |dbus_out[19]                                                                 
-io_out[3]                                                                    |io_out[3]                                                                    
-bandgap_trim[1]                                                              |bandgap_trim[1]                                                              
-dbus_out[3]                                                                  |dbus_out[3]                                                                  
 dbus_out[4]                                                                  |dbus_out[4]                                                                  
+dbus_out[17]                                                                 |dbus_out[17]                                                                 
+io_oe[6]                                                                     |io_oe[6]                                                                     
+io_out[6]                                                                    |io_out[6]                                                                    
+bandgap_trim[10]                                                             |bandgap_trim[10]                                                             
+dbus_out[12]                                                                 |dbus_out[12]                                                                 
+io_out[1]                                                                    |io_out[1]                                                                    
+io_out[4]                                                                    |io_out[4]                                                                    
+io_oe[9]                                                                     |io_oe[9]                                                                     
+io_out[8]                                                                    |io_out[8]                                                                    
+io_out[3]                                                                    |io_out[3]                                                                    
+dbus_out[3]                                                                  |dbus_out[3]                                                                  
+dbus_out[1]                                                                  |dbus_out[1]                                                                  
+io_out[10]                                                                   |io_out[10]                                                                   
 bandgap_trim[3]                                                              |bandgap_trim[3]                                                              
 project_zero                                                                 |project_zero                                                                 
-dbus_out[7]                                                                  |dbus_out[7]                                                                  
-dbus_out[0]                                                                  |dbus_out[0]                                                                  
-bandgap_trim[12]                                                             |bandgap_trim[12]                                                             
-dbus_out[14]                                                                 |dbus_out[14]                                                                 
-dbus_out[2]                                                                  |dbus_out[2]                                                                  
-bandgap_trim[0]                                                              |bandgap_trim[0]                                                              
-io_oe[3]                                                                     |io_oe[3]                                                                     
 io_oe[8]                                                                     |io_oe[8]                                                                     
+dbus_out[10]                                                                 |dbus_out[10]                                                                 
+dbus_out[7]                                                                  |dbus_out[7]                                                                  
+dbus_out[15]                                                                 |dbus_out[15]                                                                 
+dbus_out[2]                                                                  |dbus_out[2]                                                                  
+bandgap_trim[12]                                                             |bandgap_trim[12]                                                             
+bandgap_trim[0]                                                              |bandgap_trim[0]                                                              
+io_oe[1]                                                                     |io_oe[1]                                                                     
+io_oe[3]                                                                     |io_oe[3]                                                                     
 io_oe[10]                                                                    |io_oe[10]                                                                    
 bandgap_trim[14]                                                             |bandgap_trim[14]                                                             
-dbus_out[16]                                                                 |dbus_out[16]                                                                 
-io_oe[0]                                                                     |io_oe[0]                                                                     
-io_oe[1]                                                                     |io_oe[1]                                                                     
-io_oe[5]                                                                     |io_oe[5]                                                                     
-dbus_out[6]                                                                  |dbus_out[6]                                                                  
-dbus_out[8]                                                                  |dbus_out[8]                                                                  
-dbus_out[5]                                                                  |dbus_out[5]                                                                  
-dbus_out[9]                                                                  |dbus_out[9]                                                                  
-dbus_out[10]                                                                 |dbus_out[10]                                                                 
-dbus_out[13]                                                                 |dbus_out[13]                                                                 
-dbus_out[21]                                                                 |dbus_out[21]                                                                 
-dbus_out[22]                                                                 |dbus_out[22]                                                                 
-dbus_out[23]                                                                 |dbus_out[23]                                                                 
-bandgap_trim[9]                                                              |bandgap_trim[9]                                                              
-dbus_out[15]                                                                 |dbus_out[15]                                                                 
-io_out[0]                                                                    |io_out[0]                                                                    
 io_out[5]                                                                    |io_out[5]                                                                    
-io_out[8]                                                                    |io_out[8]                                                                    
-io_out[10]                                                                   |io_out[10]                                                                   
+io_oe[5]                                                                     |io_oe[5]                                                                     
+dbus_out[23]                                                                 |dbus_out[23]                                                                 
+io_out[0]                                                                    |io_out[0]                                                                    
+io_out[11]                                                                   |io_out[11]                                                                   
+dbus_out[5]                                                                  |dbus_out[5]                                                                  
+dbus_out[14]                                                                 |dbus_out[14]                                                                 
+dbus_out[16]                                                                 |dbus_out[16]                                                                 
+dbus_out[19]                                                                 |dbus_out[19]                                                                 
 dbus_out[11]                                                                 |dbus_out[11]                                                                 
-dbus_out[12]                                                                 |dbus_out[12]                                                                 
-dbus_out[17]                                                                 |dbus_out[17]                                                                 
+dbus_out[20]                                                                 |dbus_out[20]                                                                 
+dbus_out[21]                                                                 |dbus_out[21]                                                                 
+dbus_out[8]                                                                  |dbus_out[8]                                                                  
+dbus_out[0]                                                                  |dbus_out[0]                                                                  
 clk_out                                                                      |clk_out                                                                      
-io_oe[6]                                                                     |io_oe[6]                                                                     
-io_oe[7]                                                                     |io_oe[7]                                                                     
-io_out[6]                                                                    |io_out[6]                                                                    
+dbus_out[9]                                                                  |dbus_out[9]                                                                  
+io_oe[2]                                                                     |io_oe[2]                                                                     
 io_out[7]                                                                    |io_out[7]                                                                    
 dbus_out[18]                                                                 |dbus_out[18]                                                                 
-dbus_out[1]                                                                  |dbus_out[1]                                                                  
 voltgen_value[1]                                                             |voltgen_value[1]                                                             
-proj_ibias_ena[1]                                                            |proj_ibias_ena[1]                                                            
 idac2_value[1]                                                               |idac2_value[1]                                                               
-bandgap_sink1[2]                                                             |bandgap_sink1[2]                                                             
 voltgen_high                                                                 |voltgen_high                                                                 
+proj_dig_ena                                                                 |proj_dig_ena                                                                 
+voltgen_sink1[0]                                                             |voltgen_sink1[0]                                                             
 voltgen_sink1[2]                                                             |voltgen_sink1[2]                                                             
 idac2_value[3]                                                               |idac2_value[3]                                                               
-reset                                                                        |reset                                                                        
+idac1_value[0]                                                               |idac1_value[0]                                                               
+voltgen_source[1]                                                            |voltgen_source[1]                                                            
 biasgen_ena                                                                  |biasgen_ena                                                                  
-proj_sel[2]                                                                  |proj_sel[2]                                                                  
 voltgen_source[3]                                                            |voltgen_source[3]                                                            
-voltgen_sink2[0]                                                             |voltgen_sink2[0]                                                             
 analog_bus_ena[1]                                                            |analog_bus_ena[1]                                                            
 analog_bus_ena[3]                                                            |analog_bus_ena[3]                                                            
 bandgap_sink2[1]                                                             |bandgap_sink2[1]                                                             
 voltgen_source[0]                                                            |voltgen_source[0]                                                            
+voltgen_value[0]                                                             |voltgen_value[0]                                                             
 voltgen_sink2[2]                                                             |voltgen_sink2[2]                                                             
-proj_ibias_ena[0]                                                            |proj_ibias_ena[0]                                                            
 idac2_value[0]                                                               |idac2_value[0]                                                               
-idac1_value[0]                                                               |idac1_value[0]                                                               
+bandgap_sink1[1]                                                             |bandgap_sink1[1]                                                             
+bandgap_sink1[2]                                                             |bandgap_sink1[2]                                                             
 idac1_value[2]                                                               |idac1_value[2]                                                               
 idac1_value[3]                                                               |idac1_value[3]                                                               
 voltgen_value[2]                                                             |voltgen_value[2]                                                             
 proj_3v3_ena                                                                 |proj_3v3_ena                                                                 
+voltgen_sink2[0]                                                             |voltgen_sink2[0]                                                             
 voltgen_sink1[1]                                                             |voltgen_sink1[1]                                                             
-proj_1v2_ena                                                                 |proj_1v2_ena                                                                 
-biasgen_ref_vbg                                                              |biasgen_ref_vbg                                                              
 idac1_value[4]                                                               |idac1_value[4]                                                               
-proj_dig_ena                                                                 |proj_dig_ena                                                                 
 proj_ena                                                                     |proj_ena                                                                     
+proj_1v2_ena                                                                 |proj_1v2_ena                                                                 
 idac2_value[4]                                                               |idac2_value[4]                                                               
 biasgen_coarse                                                               |biasgen_coarse                                                               
-proj_sel[1]                                                                  |proj_sel[1]                                                                  
-idac1_value[1]                                                               |idac1_value[1]                                                               
+voltgen_source[2]                                                            |voltgen_source[2]                                                            
 analog_bus_ena[0]                                                            |analog_bus_ena[0]                                                            
+bandgap_trim[7]                                                              |bandgap_trim[7]                                                              
 voltgen_source[4]                                                            |voltgen_source[4]                                                            
 analog_bus_ena[2]                                                            |analog_bus_ena[2]                                                            
 bandgap_sink2[0]                                                             |bandgap_sink2[0]                                                             
-bandgap_sink1[1]                                                             |bandgap_sink1[1]                                                             
+voltgen_sink2[1]                                                             |voltgen_sink2[1]                                                             
+biasgen_ref_vbg                                                              |biasgen_ref_vbg                                                              
 proj_vbias_ena                                                               |proj_vbias_ena                                                               
+proj_ibias_ena[0]                                                            |proj_ibias_ena[0]                                                            
 voltgen_ena[2]                                                               |voltgen_ena[2]                                                               
 bandgap_sink1[0]                                                             |bandgap_sink1[0]                                                             
 sram_clk                                                                     |sram_clk                                                                     
 vddd                                                                         |vddd                                                                         
 vssd                                                                         |vssd                                                                         
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
-Cell pin lists for housekeeping_top and housekeeping_top altered to match.
+Cell pin lists are equivalent.
 Device classes housekeeping_top and housekeeping_top are equivalent.
 Flattening unmatched subcell analog_switch_array in circuit chipalooza_frame (0)(9 instances)
 Flattening unmatched subcell project_control_area in circuit chipalooza_frame (0)(18 instances)
@@ -6778,7 +6754,7 @@ sg13cmos5l_ocd_ip__bandgap_v3 (1)                                            |sg
 slot12_wrapper (1)                                                           |slot12_wrapper (1)                                                           
 housekeeping_top (1)                                                         |housekeeping_top (1)                                                         
 Number of devices: 208                                                       |Number of devices: 208                                                       
-Number of nets: 1532                                                         |Number of nets: 1532                                                         
+Number of nets: 1530                                                         |Number of nets: 1530                                                         
 -----------------------------------------------------------------------------------------------------------------------------------------------------------
 Netlists match uniquely with port errors.
 
