@@ -21,7 +21,7 @@
 `include "user_project_control_base.v"
 
 // User project slot wrappers, one per slot.  Empty of user content, but
-// instantiated by digital_top.v so that the digital signalling to and
+// instantiated by chipalooza_frame.v so that the digital signalling to and
 // from each slot is observable rather than dangling.
 `include "slot1_wrapper.v"
 `include "slot2_wrapper.v"
@@ -43,7 +43,7 @@
 `include "slot18_wrapper.v"
 
 // Behavioural models of the analog blocks, from the IP repositories
-// where the blocks themselves are defined.  These make digital_top the
+// where the blocks themselves are defined.  These make chipalooza_frame the
 // digital equivalent of the whole chip:  switches, power gates and bias
 // generators modelled with real-valued ports so that connectivity and
 // control can be checked as though everything were digital.
@@ -53,7 +53,7 @@
 `include "../../dependencies/sg13cmos5l_ocd_ip__analog_switches/verilog/analog_pswitch_small.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__analog_switches/verilog/power_stage1v2.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__analog_switches/verilog/power_stage2.v"
-`include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__bandgap_v2.v"
+`include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__bandgap_v3.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__voltgen_v2.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__biasgen2.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__por/verilog/sg13cmos5l_ocd_ip__por.v"
@@ -65,4 +65,4 @@
 `include "libs.ref/sg13cmos5l_stdcell/verilog/sg13cmos5l_udp.v"
 
 // All the digital, cobbled together for simulation
-`include "digital_top.v"
+`include "chipalooza_frame.v"

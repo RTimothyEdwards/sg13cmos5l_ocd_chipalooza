@@ -14,9 +14,10 @@ PDK_ROOT      ?= $(HOME)/gits
 PDK           ?= ihp-sg13cmos5l
 
 RTL := $(abspath $(shell pwd)/../rtl)
+DEPS := $(abspath $(shell pwd)/../../dependencies)
 
 VERILOG_SOURCES = $(shell pwd)/dut.v
-COCOTB_TOPLEVEL = digital_top
+COCOTB_TOPLEVEL = chipalooza_frame
 # cocotb 2.x renamed these:  MODULE -> COCOTB_TEST_MODULES and
 # TOPLEVEL -> COCOTB_TOPLEVEL.  The old names still work but emit a
 # deprecation warning on every run.  (TOPLEVEL_LANG was not renamed.)
@@ -51,7 +52,14 @@ include $(shell cocotb-config --makefiles)/Makefile.sim
 # RTL.  That cost real time: a fix to the dig_ena latch appeared to have
 # no effect at all until sim_build was removed by hand.  Naming the RTL
 # as an extra prerequisite of the compiled image makes it rebuild.
-$(SIM_BUILD)/sim.vvp: $(wildcard $(RTL)/*.v) $(wildcard $(RTL)/*.vh)
+#
+# The behavioural analog models live under dependencies/, not in RTL, and
+# arrive through the same `include chain, so they need naming too.  Their
+# absence bit exactly as described above:  a polarity fix to the voltgen
+# bias check appeared to do nothing, and the test kept failing against
+# the stale image until sim.vvp was deleted by hand.
+$(SIM_BUILD)/sim.vvp: $(wildcard $(RTL)/*.v) $(wildcard $(RTL)/*.vh) \
+                      $(wildcard $(DEPS)/*/verilog/*.v)
 
 clean::
 	rm -rf __pycache__ results.xml sim_build *.vcd

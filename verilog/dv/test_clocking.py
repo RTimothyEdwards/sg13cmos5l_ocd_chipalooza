@@ -32,11 +32,11 @@ from harness import (
 async def run_clock(dut, periods, half_ns=7.5):
     """Drive clk for a number of periods (15 ns nominal)."""
     for _ in range(periods):
-        dut.clk.value = 0
+        dut.clk_in.value = 0
         await Timer(half_ns, unit="ns")
-        dut.clk.value = 1
+        dut.clk_in.value = 1
         await Timer(half_ns, unit="ns")
-    dut.clk.value = 0
+    dut.clk_in.value = 0
 
 
 @cocotb.test()
@@ -78,11 +78,11 @@ async def test_sram_clock_follows_selected_source(dut):
     # Sequencer stopped: sram_clk must follow SCK, not clk.  Toggle clk
     # with SCK parked low and check sram_clk stays put.
     assert int(dut.hk_top.hk.seq_ena.value) == 0
-    dut.SCK.value = 0
+    dut.SCK_in.value = 0
     await Timer(20, unit="ns")
     before = int(dut.hk_top.sram_clk.value)
     await run_clock(dut, 3)
-    dut.clk.value = 0
+    dut.clk_in.value = 0
     await Timer(20, unit="ns")
     assert int(dut.hk_top.sram_clk.value) == before, \
         "sram_clk moved with clk while the sequencer was stopped"
@@ -92,11 +92,11 @@ async def test_sram_clock_follows_selected_source(dut):
     await run_clock(dut, 2)
     assert int(dut.hk_top.hk.seq_ena.value) == 1
 
-    dut.clk.value = 1
+    dut.clk_in.value = 1
     await Timer(10, unit="ns")
     assert int(dut.hk_top.sram_clk.value) == 1, \
         "sram_clk did not follow clk high while the sequencer was running"
-    dut.clk.value = 0
+    dut.clk_in.value = 0
     await Timer(10, unit="ns")
     assert int(dut.hk_top.sram_clk.value) == 0, \
         "sram_clk did not follow clk low while the sequencer was running"
@@ -174,7 +174,7 @@ async def test_digital_reset_clears_sequencer(dut):
     assert int(dut.hk_top.hk.seq_ena.value) == 1
 
     # Park clk low, then issue the digital reset.  No clk edges occur.
-    dut.clk.value = 0
+    dut.clk_in.value = 0
     await Timer(50, unit="ns")
     await spi.command(0x04)
     await Timer(50, unit="ns")

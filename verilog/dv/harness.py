@@ -82,31 +82,31 @@ class SPI:
         self.dut = dut
 
     async def _idle(self):
-        self.dut.SCK.value = 0
-        self.dut.SDI.value = 0
+        self.dut.SCK_in.value = 0
+        self.dut.SDI_in.value = 0
 
     async def start(self):
         """Assert CSB low and settle."""
         await self._idle()
-        self.dut.CSB.value = 0
+        self.dut.CSB_in.value = 0
         await Timer(QUARTER_NS, unit="ns")
 
     async def end(self):
         """Raise CSB, which also resets the SPI state machine."""
         await self._idle()
-        self.dut.CSB.value = 1
+        self.dut.CSB_in.value = 1
         await Timer(QUARTER_NS, unit="ns")
 
     async def write_byte(self, value):
         """Shift one byte out, MSB first."""
-        self.dut.SCK.value = 0
+        self.dut.SCK_in.value = 0
         for i in range(7, -1, -1):
             await Timer(QUARTER_NS, unit="ns")
-            self.dut.SDI.value = (value >> i) & 1
+            self.dut.SDI_in.value = (value >> i) & 1
             await Timer(QUARTER_NS, unit="ns")
-            self.dut.SCK.value = 1
+            self.dut.SCK_in.value = 1
             await Timer(2 * QUARTER_NS, unit="ns")
-            self.dut.SCK.value = 0
+            self.dut.SCK_in.value = 0
 
     async def read_byte(self, allow_x=False):
         """Shift one byte in, MSB first.
@@ -121,11 +121,11 @@ class SPI:
         is expected.
         """
         value = 0
-        self.dut.SCK.value = 0
-        self.dut.SDI.value = 0
+        self.dut.SCK_in.value = 0
+        self.dut.SDI_in.value = 0
         for i in range(7, -1, -1):
             await Timer(QUARTER_NS, unit="ns")
-            bit = self.dut.SDO.value
+            bit = self.dut.SDO_out.value
             try:
                 value |= (int(bit) & 1) << i
             except ValueError:
@@ -136,9 +136,9 @@ class SPI:
                         f"usually means the location was never written."
                     ) from None
             await Timer(QUARTER_NS, unit="ns")
-            self.dut.SCK.value = 1
+            self.dut.SCK_in.value = 1
             await Timer(2 * QUARTER_NS, unit="ns")
-            self.dut.SCK.value = 0
+            self.dut.SCK_in.value = 0
         return value
 
     # -----------------------------------------------------------------
@@ -258,12 +258,12 @@ async def reset(dut, clk_running=True):
     testbench affordance, and the model documents it as such.
     """
     dut.por.por_int.value = 1
-    dut.SCK.value = 0
-    dut.SDI.value = 0
-    dut.CSB.value = 1
-    dut.clk.value = 0
-    dut.mask_rev_in.value = 0xDEADBEEF
-    dut.io_in.value = 0
+    dut.SCK_in.value = 0
+    dut.SDI_in.value = 0
+    dut.CSB_in.value = 1
+    dut.clk_in.value = 0
+    dut.mask_rev.value = 0xDEADBEEF
+    dut.gpio_in.value = 0
 
     # The shared analog pads start DISCONNECTED, which is NaN and not
     # 0.0.  An undriven "input real" reads 0.0, and 0.0 is a legitimate
@@ -398,7 +398,7 @@ async def apply_bias_defaults(spi):
 # Simulated 2026-09-21, after the trim resistor chain was changed from
 # "rhigh" to "rppd".  Indexed by j, the number of bits set in the 16-bit
 # thermometer code, so 17 entries for j = 0..16.  These are the values
-# sg13cmos5l_ocd_ip__bandgap_v2 looks up;  duplicating them here is
+# sg13cmos5l_ocd_ip__bandgap_v3 looks up;  duplicating them here is
 # deliberate, so that a change to the model has to be a change to the
 # test as well rather than the test silently following it.
 BANDGAP_TRIM_V = [

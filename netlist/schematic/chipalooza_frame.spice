@@ -240,45 +240,45 @@ x50 clk_out proj_dig_ena proj_ena proj_1v2_ena proj_3v3_ena net68 net67 net185 n
 x5 s18_an[0] s18_an[1] s18_an_0_esd s18_an_1_esd vbias18 net182[23] net182[22] net182[21] net182[20] net182[19] net182[18]
 + net182[17] net182[16] net182[15] net182[14] net182[13] net182[12] net182[11] net182[10] net182[9] net182[8] net182[7] net182[6] net182[5]
 + net182[4] net182[3] net182[2] net182[1] net182[0] net72[11] net72[10] net72[9] net72[8] net72[7] net72[6] net72[5] net72[4] net72[3]
-+ net72[2] net72[1] net72[0] ibias18[1] ibias18[0] ana18[0] ana18[1] ana18[2] ana18[3] vss1v2 net187 vss3v3 net184 net186 net185 net183
++ net72[2] net72[1] net72[0] ibias18[0] ibias18[1] ana18[3] ana18[2] ana18[1] ana18[0] vss1v2 net187 vss3v3 net184 net186 net185 net183
 + slot18_wrapper
 x11 s17_an[0] s17_an[1] s17_an_0_esd s17_an_1_esd vbias17 net178[23] net178[22] net178[21] net178[20] net178[19] net178[18]
 + net178[17] net178[16] net178[15] net178[14] net178[13] net178[12] net178[11] net178[10] net178[9] net178[8] net178[7] net178[6] net178[5]
 + net178[4] net178[3] net178[2] net178[1] net178[0] net65[11] net65[10] net65[9] net65[8] net65[7] net65[6] net65[5] net65[4] net65[3]
-+ net65[2] net65[1] net65[0] ibias17[1] ibias17[0] ana17[0] ana17[1] ana17[2] ana17[3] vss1v2 net60 vss3v3 net74 net181 net180 net179
++ net65[2] net65[1] net65[0] ibias17[0] ibias17[1] ana17[3] ana17[2] ana17[1] ana17[0] vss1v2 net60 vss3v3 net74 net181 net180 net179
 + slot17_wrapper
 x19 vss1v2 s16_an[0] s16_an[1] s16_an_0_esd s16_an_1_esd vbias16 net168[23] net168[22] net168[21] net168[20] net168[19] net168[18]
 + net168[17] net168[16] net168[15] net168[14] net168[13] net168[12] net168[11] net168[10] net168[9] net168[8] net168[7] net168[6] net168[5]
 + net168[4] net168[3] net168[2] net168[1] net168[0] net57[11] net57[10] net57[9] net57[8] net57[7] net57[6] net57[5] net57[4] net57[3]
-+ net57[2] net57[1] net57[0] ibias16[1] ibias16[0] ana16[0] ana16[1] ana16[2] ana16[3] net167 vss3v3 net169 net172 net171 net170
++ net57[2] net57[1] net57[0] ibias16[0] ibias16[1] ana16[3] ana16[2] ana16[1] ana16[0] net167 vss3v3 net169 net172 net171 net170
 + slot16_wrapper
 x28 vss3v3 s15_an[0] s15_an_0_esd vbias15 net49[23] net49[22] net49[21] net49[20] net49[19] net49[18] net49[17] net49[16]
 + net49[15] net49[14] net49[13] net49[12] net49[11] net49[10] net49[9] net49[8] net49[7] net49[6] net49[5] net49[4] net49[3] net49[2]
-+ net49[1] net49[0] net50[11] net50[10] net50[9] net50[8] net50[7] net50[6] net50[5] net50[4] net50[3] net50[2] net50[1] net50[0] ibias15[1]
-+ ibias15[0] ana15[0] ana15[1] ana15[2] ana15[3] vss1v2 net173 net174 net177 net176 net175 slot15_wrapper
++ net49[1] net49[0] net50[11] net50[10] net50[9] net50[8] net50[7] net50[6] net50[5] net50[4] net50[3] net50[2] net50[1] net50[0] ibias15[0]
++ ibias15[1] ana15[3] ana15[2] ana15[1] ana15[0] vss1v2 net173 net174 net177 net176 net175 slot15_wrapper
 x31 s14_an[0] s14_an[1] s14_an[2] s14_an_0_esd s14_an_1_esd s14_an_2_esd vbias14 net162[23] net162[22] net162[21] net162[20]
 + net162[19] net162[18] net162[17] net162[16] net162[15] net162[14] net162[13] net162[12] net162[11] net162[10] net162[9] net162[8] net162[7]
 + net162[6] net162[5] net162[4] net162[3] net162[2] net162[1] net162[0] net42[11] net42[10] net42[9] net42[8] net42[7] net42[6] net42[5]
-+ net42[4] net42[3] net42[2] net42[1] net42[0] ibias14[1] ibias14[0] ana14[0] ana14[1] ana14[2] ana14[3] vss1v2 net161 vss3v3 net163 net166
++ net42[4] net42[3] net42[2] net42[1] net42[0] ibias14[0] ibias14[1] ana14[3] ana14[2] ana14[1] ana14[0] vss1v2 net161 vss3v3 net163 net166
 + net165 net164 slot14_wrapper
 x36 s13_an[0] s13_an[1] s13_an_0_esd s13_an_1_esd vbias13 net156[23] net156[22] net156[21] net156[20] net156[19] net156[18]
 + net156[17] net156[16] net156[15] net156[14] net156[13] net156[12] net156[11] net156[10] net156[9] net156[8] net156[7] net156[6] net156[5]
 + net156[4] net156[3] net156[2] net156[1] net156[0] net35[11] net35[10] net35[9] net35[8] net35[7] net35[6] net35[5] net35[4] net35[3]
-+ net35[2] net35[1] net35[0] ibias13[1] ibias13[0] ana13[0] ana13[1] ana13[2] ana13[3] vss1v2 net155 vss3v3 net157 net160 net159 net158
++ net35[2] net35[1] net35[0] ibias13[0] ibias13[1] ana13[3] ana13[2] ana13[1] ana13[0] vss1v2 net155 vss3v3 net157 net160 net159 net158
 + slot13_wrapper
 x41 vss3v3 s12_an[0] s12_an[1] s12_an_0_esd s12_an_1_esd vbias12 net150[23] net150[22] net150[21] net150[20] net150[19] net150[18]
 + net150[17] net150[16] net150[15] net150[14] net150[13] net150[12] net150[11] net150[10] net150[9] net150[8] net150[7] net150[6] net150[5]
 + net150[4] net150[3] net150[2] net150[1] net150[0] net28[11] net28[10] net28[9] net28[8] net28[7] net28[6] net28[5] net28[4] net28[3]
-+ net28[2] net28[1] net28[0] ibias12[1] ibias12[0] ana12[0] ana12[1] ana12[2] ana12[3] vss1v2 net149 net151 net154 net153 net152
++ net28[2] net28[1] net28[0] ibias12[0] ibias12[1] ana12[3] ana12[2] ana12[1] ana12[0] vss1v2 net149 net151 net154 net153 net152
 + slot12_wrapper
 x46 vss1v2 s11_an[0] s11_an_0_esd vbias11 net144[23] net144[22] net144[21] net144[20] net144[19] net144[18] net144[17] net144[16]
 + net144[15] net144[14] net144[13] net144[12] net144[11] net144[10] net144[9] net144[8] net144[7] net144[6] net144[5] net144[4] net144[3]
 + net144[2] net144[1] net144[0] net21[11] net21[10] net21[9] net21[8] net21[7] net21[6] net21[5] net21[4] net21[3] net21[2] net21[1] net21[0]
-+ ibias11[1] ibias11[0] ana11[0] ana11[1] ana11[2] ana11[3] net143 vss3v3 net145 net148 net147 net146 slot11_wrapper
++ ibias11[0] ibias11[1] ana11[3] ana11[2] ana11[1] ana11[0] net143 vss3v3 net145 net148 net147 net146 slot11_wrapper
 x51 s10_an[0] s10_an[1] s10_an[2] s10_an_0_esd s10_an_1_esd s10_an_2_esd vbias10 net13[23] net13[22] net13[21] net13[20] net13[19]
 + net13[18] net13[17] net13[16] net13[15] net13[14] net13[13] net13[12] net13[11] net13[10] net13[9] net13[8] net13[7] net13[6] net13[5]
 + net13[4] net13[3] net13[2] net13[1] net13[0] net14[11] net14[10] net14[9] net14[8] net14[7] net14[6] net14[5] net14[4] net14[3] net14[2]
-+ net14[1] net14[0] ibias10[1] ibias10[0] ana10[0] ana10[1] ana10[2] ana10[3] vss1v2 net8 vss3v3 net73 net142 net141 net140 slot10_wrapper
++ net14[1] net14[0] ibias10[0] ibias10[1] ana10[3] ana10[2] ana10[1] ana10[0] vss1v2 net8 vss3v3 net73 net142 net141 net140 slot10_wrapper
 x20[1] vdd1v2 vss1v2 vdd3v3 ibias9[1] vss3v3 net79[1] idac2_source analog_pswitch_small
 x20[0] vdd1v2 vss1v2 vdd3v3 ibias9[0] vss3v3 net79[0] idac1_source analog_pswitch_small
 x52 vdd1v2 vss1v2 vdd3v3 vbias9 vss3v3 net80 voltgen_vout analog_switch_small
@@ -454,42 +454,42 @@ x87 clk_out proj_dig_ena proj_ena proj_1v2_ena proj_3v3_ena net133 net132 net238
 x88 s1_an[0] s1_an[1] s1_an_0_esd vbias1 net237[23] net237[22] net237[21] net237[20] net237[19] net237[18] net237[17] net237[16]
 + net237[15] net237[14] net237[13] net237[12] net237[11] net237[10] net237[9] net237[8] net237[7] net237[6] net237[5] net237[4] net237[3]
 + net237[2] net237[1] net237[0] net137[11] net137[10] net137[9] net137[8] net137[7] net137[6] net137[5] net137[4] net137[3] net137[2]
-+ net137[1] net137[0] ibias1[1] ibias1[0] ana1[0] ana1[1] ana1[2] ana1[3] vss1v2 net233 vss3v3 net234 net235 net238 net236 slot1_wrapper
++ net137[1] net137[0] ibias1[0] ibias1[1] ana1[3] ana1[2] ana1[1] ana1[0] vss1v2 net233 vss3v3 net234 net235 net238 net236 slot1_wrapper
 x89 s2_an[0] s2_an[1] s2_an_0_esd s2_an_1_esd vbias2 net231[23] net231[22] net231[21] net231[20] net231[19] net231[18] net231[17]
 + net231[16] net231[15] net231[14] net231[13] net231[12] net231[11] net231[10] net231[9] net231[8] net231[7] net231[6] net231[5] net231[4]
 + net231[3] net231[2] net231[1] net231[0] net130[11] net130[10] net130[9] net130[8] net130[7] net130[6] net130[5] net130[4] net130[3]
-+ net130[2] net130[1] net130[0] ibias2[1] ibias2[0] ana2[0] ana2[1] ana2[2] ana2[3] vss1v2 net227 vss3v3 net228 net229 net232 net230
++ net130[2] net130[1] net130[0] ibias2[0] ibias2[1] ana2[3] ana2[2] ana2[1] ana2[0] vss1v2 net227 vss3v3 net228 net229 net232 net230
 + slot2_wrapper
 x90 vss3v3 s3_an[0] s3_an[1] s3_an_0_esd vbias3 net225[23] net225[22] net225[21] net225[20] net225[19] net225[18] net225[17]
 + net225[16] net225[15] net225[14] net225[13] net225[12] net225[11] net225[10] net225[9] net225[8] net225[7] net225[6] net225[5] net225[4]
 + net225[3] net225[2] net225[1] net225[0] net123[11] net123[10] net123[9] net123[8] net123[7] net123[6] net123[5] net123[4] net123[3]
-+ net123[2] net123[1] net123[0] ibias3[1] ibias3[0] ana3[0] ana3[1] ana3[2] ana3[3] vss1v2 net221 net222 net223 net226 net224 slot3_wrapper
++ net123[2] net123[1] net123[0] ibias3[0] ibias3[1] ana3[3] ana3[2] ana3[1] ana3[0] vss1v2 net221 net222 net223 net226 net224 slot3_wrapper
 x91 s4_an[0] vss1v2 s4_an_0_esd vbias4 net219[23] net219[22] net219[21] net219[20] net219[19] net219[18] net219[17] net219[16]
 + net219[15] net219[14] net219[13] net219[12] net219[11] net219[10] net219[9] net219[8] net219[7] net219[6] net219[5] net219[4] net219[3]
 + net219[2] net219[1] net219[0] net116[11] net116[10] net116[9] net116[8] net116[7] net116[6] net116[5] net116[4] net116[3] net116[2]
-+ net116[1] net116[0] ibias4[1] ibias4[0] ana4[0] ana4[1] ana4[2] ana4[3] net215 vss3v3 net216 net217 net220 net218 slot4_wrapper
++ net116[1] net116[0] ibias4[0] ibias4[1] ana4[3] ana4[2] ana4[1] ana4[0] net215 vss3v3 net216 net217 net220 net218 slot4_wrapper
 x92 s5_an[0] s5_an[1] s5_an[2] s5_an_0_esd s5_an_1_esd vbias5 net213[23] net213[22] net213[21] net213[20] net213[19] net213[18]
 + net213[17] net213[16] net213[15] net213[14] net213[13] net213[12] net213[11] net213[10] net213[9] net213[8] net213[7] net213[6] net213[5]
 + net213[4] net213[3] net213[2] net213[1] net213[0] net109[11] net109[10] net109[9] net109[8] net109[7] net109[6] net109[5] net109[4]
-+ net109[3] net109[2] net109[1] net109[0] ibias5[1] ibias5[0] ana5[0] ana5[1] ana5[2] ana5[3] vss1v2 net209 vss3v3 net210 net211 net214
++ net109[3] net109[2] net109[1] net109[0] ibias5[0] ibias5[1] ana5[3] ana5[2] ana5[1] ana5[0] vss1v2 net209 vss3v3 net210 net211 net214
 + net212 slot5_wrapper
 x93 s6_an[0] s6_an[1] s6_an_0_esd s6_an_1_esd vbias6 net207[23] net207[22] net207[21] net207[20] net207[19] net207[18] net207[17]
 + net207[16] net207[15] net207[14] net207[13] net207[12] net207[11] net207[10] net207[9] net207[8] net207[7] net207[6] net207[5] net207[4]
 + net207[3] net207[2] net207[1] net207[0] net102[11] net102[10] net102[9] net102[8] net102[7] net102[6] net102[5] net102[4] net102[3]
-+ net102[2] net102[1] net102[0] ibias6[1] ibias6[0] ana6[0] ana6[1] ana6[2] ana6[3] vss1v2 net203 vss3v3 net204 net205 net208 net206
++ net102[2] net102[1] net102[0] ibias6[0] ibias6[1] ana6[3] ana6[2] ana6[1] ana6[0] vss1v2 net203 vss3v3 net204 net205 net208 net206
 + slot6_wrapper
 x94 vss1v2 s7_an[0] s7_an[1] s7_an_0_esd vbias7 net201[23] net201[22] net201[21] net201[20] net201[19] net201[18] net201[17]
 + net201[16] net201[15] net201[14] net201[13] net201[12] net201[11] net201[10] net201[9] net201[8] net201[7] net201[6] net201[5] net201[4]
 + net201[3] net201[2] net201[1] net201[0] net95[11] net95[10] net95[9] net95[8] net95[7] net95[6] net95[5] net95[4] net95[3] net95[2]
-+ net95[1] net95[0] ibias7[1] ibias7[0] ana7[0] ana7[1] ana7[2] ana7[3] net197 vss3v3 net198 net199 net202 net200 slot7_wrapper
++ net95[1] net95[0] ibias7[0] ibias7[1] ana7[3] ana7[2] ana7[1] ana7[0] net197 vss3v3 net198 net199 net202 net200 slot7_wrapper
 x95 vss3v3 s8_an[0] s8_an_0_esd vbias8 net195[23] net195[22] net195[21] net195[20] net195[19] net195[18] net195[17] net195[16]
 + net195[15] net195[14] net195[13] net195[12] net195[11] net195[10] net195[9] net195[8] net195[7] net195[6] net195[5] net195[4] net195[3]
 + net195[2] net195[1] net195[0] net88[11] net88[10] net88[9] net88[8] net88[7] net88[6] net88[5] net88[4] net88[3] net88[2] net88[1] net88[0]
-+ ibias8[1] ibias8[0] ana8[0] ana8[1] ana8[2] ana8[3] vss1v2 net191 net192 net193 net196 net194 slot8_wrapper
++ ibias8[0] ibias8[1] ana8[3] ana8[2] ana8[1] ana8[0] vss1v2 net191 net192 net193 net196 net194 slot8_wrapper
 x96 s9_an[0] s9_an[1] s9_an[2] s9_an_0_esd s9_an_1_esd vbias9 net189[23] net189[22] net189[21] net189[20] net189[19] net189[18]
 + net189[17] net189[16] net189[15] net189[14] net189[13] net189[12] net189[11] net189[10] net189[9] net189[8] net189[7] net189[6] net189[5]
 + net189[4] net189[3] net189[2] net189[1] net189[0] net81[11] net81[10] net81[9] net81[8] net81[7] net81[6] net81[5] net81[4] net81[3]
-+ net81[2] net81[1] net81[0] ibias9[1] ibias9[0] ana9[0] ana9[1] ana9[2] ana9[3] vss1v2 net76 vss3v3 net138 net139 net190 net188
++ net81[2] net81[1] net81[0] ibias9[0] ibias9[1] ana9[3] ana9[2] ana9[1] ana9[0] vss1v2 net76 vss3v3 net138 net139 net190 net188
 + slot9_wrapper
 x100 vdd1v2 vss1v2 vdd3v3 analog[2] vss3v3 project_zero idac2_source analog_pswitch_small
 x99 vdd1v2 vss1v2 vdd3v3 analog[0] vss3v3 project_zero voltgen_vout analog_switch_small

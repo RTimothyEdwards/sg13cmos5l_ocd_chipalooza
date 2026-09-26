@@ -30,24 +30,24 @@ B 5 -22.5 -22.5 -17.5 -17.5 {name=dig_in[23:0] dir=in}
 L 4 200 -20 220 -20 {}
 T {dig_out[11:0]} 195 -20.0 0 1 0.25 0.25 {vcenter=true}
 B 5 217.5 -22.5 222.5 -17.5 {name=dig_out[11:0] dir=out}
-L 4 -20 -120 0 -120 {}
-T {ibias1} 5 -120.0 0 0 0.25 0.25 {vcenter=true}
-B 5 -22.5 -122.5 -17.5 -117.5 {name=ibias1 dir=inout}
 L 4 -20 -100 0 -100 {}
 T {ibias0} 5 -100.0 0 0 0.25 0.25 {vcenter=true}
 B 5 -22.5 -102.5 -17.5 -97.5 {name=ibias0 dir=inout}
-L 4 -20 -160 0 -160 {}
-T {analog_bus0} 5 -160.0 0 0 0.25 0.25 {vcenter=true}
-B 5 -22.5 -162.5 -17.5 -157.5 {name=analog_bus0 dir=inout}
-L 4 -20 -180 0 -180 {}
-T {analog_bus1} 5 -180.0 0 0 0.25 0.25 {vcenter=true}
-B 5 -22.5 -182.5 -17.5 -177.5 {name=analog_bus1 dir=inout}
-L 4 -20 -200 0 -200 {}
-T {analog_bus2} 5 -200.0 0 0 0.25 0.25 {vcenter=true}
-B 5 -22.5 -202.5 -17.5 -197.5 {name=analog_bus2 dir=inout}
+L 4 -20 -120 0 -120 {}
+T {ibias1} 5 -120.0 0 0 0.25 0.25 {vcenter=true}
+B 5 -22.5 -122.5 -17.5 -117.5 {name=ibias1 dir=inout}
 L 4 -20 -220 0 -220 {}
 T {analog_bus3} 5 -220.0 0 0 0.25 0.25 {vcenter=true}
 B 5 -22.5 -222.5 -17.5 -217.5 {name=analog_bus3 dir=inout}
+L 4 -20 -200 0 -200 {}
+T {analog_bus2} 5 -200.0 0 0 0.25 0.25 {vcenter=true}
+B 5 -22.5 -202.5 -17.5 -197.5 {name=analog_bus2 dir=inout}
+L 4 -20 -180 0 -180 {}
+T {analog_bus1} 5 -180.0 0 0 0.25 0.25 {vcenter=true}
+B 5 -22.5 -182.5 -17.5 -177.5 {name=analog_bus1 dir=inout}
+L 4 -20 -160 0 -160 {}
+T {analog_bus0} 5 -160.0 0 0 0.25 0.25 {vcenter=true}
+B 5 -22.5 -162.5 -17.5 -157.5 {name=analog_bus0 dir=inout}
 L 4 -20 -260 0 -260 {}
 T {vss_1v2} 5 -260.0 0 0 0.25 0.25 {vcenter=true}
 B 5 -22.5 -262.5 -17.5 -257.5 {name=vss_1v2 dir=inout}

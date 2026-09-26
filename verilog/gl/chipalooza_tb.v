@@ -1,6 +1,6 @@
 /*
  * Testbench for the entire harness chip.
- * This is effectively "digital_top.v" with some extra layers of
+ * This is effectively "chipalooza_frame.v" with some extra layers of
  * hierarchy reaching to the chip top level (sg13cmos5l_ocd_chipalooza.v)
  */
 
@@ -134,9 +134,9 @@ module chipalooza_tb ();
 	 * then let the released reset propagate. */
 	#1000;
 	#1000;
-	if (harness_chip.harness_core.core_top.porb !== 1'b1)
+	if (harness_chip.harness_core.porb !== 1'b1)
 	    $display("ERROR: porb = %b after the POR should have released",
-		     harness_chip.harness_core.core_top.porb);
+		     harness_chip.harness_core.porb);
 
 	// Test 1:  Read from housekeeping fixed value register
 
@@ -426,14 +426,9 @@ module chipalooza_tb ();
 	    .vss1v2(vss1v2),
 	    .vddd(vddd),
 	`endif
-	.analog_pin0_in(analog_pin_unconnected),
-	.analog_pin1_in(analog_pin_unconnected),
-	.analog_pin2_in(analog_pin_unconnected),
-	.analog_pin3_in(analog_pin_unconnected),
-	.analog_pin0_out(analog_pin0_out),
-	.analog_pin1_out(analog_pin1_out),
-	.analog_pin2_out(analog_pin2_out),
-	.analog_pin3_out(analog_pin3_out),
+
+	.analog_esd({4{analog_pin_unconnected}}),
+	.analog({analog_pin3_out, analog_pin2_out, analog_pin1_out, analog_pin0_out}),
 
 	.clk(clk),
 	.SCK(SCK),

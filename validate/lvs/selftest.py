@@ -11,7 +11,7 @@ copies of the structural netlist:
 
 Both injected errors are real.
 
-The crossing is the bug found in digital_top on 2026-09-18:  biasgen
+The crossing is the bug found in chipalooza_frame on 2026-09-18:  biasgen
 numbers its bandgap sinks 1 = 1 uA, 2 = 250 nA, while the bandgap
 numbers its inputs 1 = 250 nA, 2 = 1 uA, so pairing them by ordinal
 crossed the magnitudes.
@@ -21,7 +21,7 @@ was written as a literal, 5'h01 and so on, and netgen drops a constant
 connection instead of comparing it --- no warning, the pin just does not
 take part.  LVS reported "match uniquely" with two slots' addresses
 swapped, which would have passed a chip where every project answered to
-the wrong selector.  digital_top now ties those pins to DVDD/DVSS, and
+the wrong selector.  chipalooza_frame now ties those pins to DVDD/DVSS, and
 this test is what stops the literals coming back.
 
     ./selftest.py          (or: make selftest)
@@ -35,13 +35,13 @@ import sys
 import tempfile
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-NETLIST = os.path.join(HERE, "digital_top.struct.v")
+NETLIST = os.path.join(HERE, "chipalooza_frame.struct.v")
 SETUP = os.path.join(HERE, "setup.tcl")
 
 
 def lvs(a, b, log):
     subprocess.run(
-        ["netgen", "-batch", "lvs", f"{a} digital_top", f"{b} digital_top",
+        ["netgen", "-batch", "lvs", f"{a} chipalooza_frame", f"{b} chipalooza_frame",
          SETUP, log],
         cwd=HERE, capture_output=True, text=True)
     with open(log) as f:
@@ -69,16 +69,16 @@ def swap_slot_addresses(src):
 
 def cross_bandgap_biases(src):
     """Swap the bandgap's two bias connections."""
-    i = src.index("sg13cmos5l_ocd_ip__bandgap_v2 bandgap")
+    i = src.index("sg13cmos5l_ocd_ip__bandgap_v3 bandgap")
     j = src.index(");", i)
     blk = src[i:j]
     out = (blk.replace(".ibias1_250n(bandgap_sink2_ibias)", ".ibias1_250n(TMP)")
-              .replace(".ibias2_1(bandgap_sink1_ibias)",
-                       ".ibias2_1(bandgap_sink2_ibias)")
+              .replace(".ibias2_1u(bandgap_sink1_ibias)",
+                       ".ibias2_1u(bandgap_sink2_ibias)")
               .replace(".ibias1_250n(TMP)", ".ibias1_250n(bandgap_sink1_ibias)"))
     if out == blk:
         sys.exit("selftest: could not inject the crossing;  the bandgap "
-                 "connections in digital_top.v have changed shape.  Update "
+                 "connections in chipalooza_frame.v have changed shape.  Update "
                  "cross_bandgap_biases() rather than deleting this test.")
     return src[:i] + out + src[j:]
 

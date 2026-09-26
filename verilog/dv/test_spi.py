@@ -39,7 +39,7 @@ async def test_mask_rev_passthrough(dut):
     digital_tb.v drove 0xdeadbeef but never checked it came back.
     """
     spi = await reset(dut)
-    dut.mask_rev_in.value = 0xDEADBEEF
+    dut.mask_rev.value = 0xDEADBEEF
     await Timer(100, unit="ns")
 
     got = await spi.read_regs(REG["mask_rev_3"], 4)

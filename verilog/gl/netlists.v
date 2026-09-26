@@ -33,9 +33,6 @@
 /* ROM program for project ID */
 `include "user_id_programming.v"
 
-/* Chip core */
-`include "chipalooza_frame.v"
-
 /* Padframe */
 `include "sg13cmos5l_padframe.v"
 

@@ -227,7 +227,7 @@ async def test_proj_clk_runs_only_on_the_selected_slot(dut):
     await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
     await Timer(SETTLE_NS, unit="ns")
 
-    cocotb.start_soon(Clock(dut.clk, CLK_NS, unit="ns").start())
+    cocotb.start_soon(Clock(dut.clk_in, CLK_NS, unit="ns").start())
 
     seen_high = 0
     for _ in range(40):
@@ -255,7 +255,7 @@ async def test_proj_clk_has_no_glitch_when_selection_changes(dut):
     spi = await reset(dut)
 
     # Park clk high with nothing selected.
-    dut.clk.value = 1
+    dut.clk_in.value = 1
     await Timer(SETTLE_NS, unit="ns")
 
     old = int(dut.user_clk.value)
@@ -275,9 +275,9 @@ async def test_proj_clk_has_no_glitch_when_selection_changes(dut):
     )
 
     # Bring clk low, then high:  now the gate may open, and must.
-    dut.clk.value = 0
+    dut.clk_in.value = 0
     await Timer(CLK_NS, unit="ns")
-    dut.clk.value = 1
+    dut.clk_in.value = 1
     await Timer(CLK_NS, unit="ns")
 
     assert int(dut.user_clk.value) == (1 << 5), (
@@ -298,17 +298,17 @@ async def test_proj_clk_stops_cleanly_on_deselect(dut):
 
     await spi.write_reg(REG["proj_sel"], 6)
     await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
-    dut.clk.value = 0
+    dut.clk_in.value = 0
     await Timer(CLK_NS, unit="ns")
-    dut.clk.value = 1
+    dut.clk_in.value = 1
     await Timer(CLK_NS, unit="ns")
     assert int(dut.user_clk.value) == (1 << 5), "slot 6 is not clocked"
 
     # Deselect while clk is high, then complete one cycle.
     await spi.write_reg(REG["proj_sel"], 7)
-    dut.clk.value = 0
+    dut.clk_in.value = 0
     await Timer(CLK_NS, unit="ns")
-    dut.clk.value = 1
+    dut.clk_in.value = 1
     await Timer(CLK_NS, unit="ns")
 
     got = int(dut.user_clk.value)
@@ -327,7 +327,7 @@ async def test_proj_reset_is_synchronised_and_per_slot(dut):
     spi = await reset(dut)
     slot = 15
 
-    cocotb.start_soon(Clock(dut.clk, CLK_NS, unit="ns").start())
+    cocotb.start_soon(Clock(dut.clk_in, CLK_NS, unit="ns").start())
 
     await spi.write_reg(REG["proj_sel"], slot)
     await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
