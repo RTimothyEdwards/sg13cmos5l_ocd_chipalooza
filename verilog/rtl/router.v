@@ -37,8 +37,15 @@
  *
  * If the configuration attempts to route more than one signal to an output,
  * then the lowest numbered output is the one that is connected to that
- * signal.  One output signal, however, can be connected to more than one
- * output pin.
+ * signal.
+ *
+ * NOTE:  an earlier expectation was that one output signal could also be
+ * connected to more than one output pin.  The register layout cannot
+ * express that:  the output table is indexed BY PROJECT OUTPUT and each
+ * entry holds a single pin number, so an output reaches exactly the one
+ * pin it names.  Fan-out would need the table indexed by PIN instead,
+ * which would in turn make the contention rule above impossible, since
+ * each pin could then name only one source.
  *
  */
 

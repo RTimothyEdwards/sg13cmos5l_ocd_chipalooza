@@ -1,0 +1,62 @@
+#!/bin/bash
+#
+# run_gen_prefill_gds.sh ---
+#
+# Run layout GDS generation on sg13cmos5l_ocd_chipalooza for klayout DRC
+# Run this script from the top level directory.
+#
+# The result is considered temporary and is excluded in .gitignore from
+# being written back to the repository.  Only the final post-fill GDS
+# should exist in the repository.
+#
+# NOTE:  This script depends on knowing that certain layouts do not interact
+# with each other and so it is valid to import the layout as a read-only
+
+export PDK_ROOT=${PDK_ROOT:-/home/tim/gits}
+export PDK=${PDK:-ihp-sg13cmos5l}
+
+echo "Generating (temporary) GDS for sg13cmos5l_ocd_chipalooza"
+
+cd magic
+
+magic -dnull -noconsole -rcfile ${PDK_ROOT}/${PDK}/libs.tech/magic/${PDK}.magicrc << EOF
+drc off
+crashbackups stop
+locking disable
+
+source ../scripts/layout_setup.tcl
+
+# Read chipalooza_frame and write GDS (with hierarchical processing)
+load chipalooza_frame
+gds write chipalooza_frame
+
+# Now delete the chipalooza_frame cell and re-read as a readonly GDS:
+load (UNNAMED)
+cellname delete chipalooza_frame
+gds readonly true
+gds read chipalooza_frame 
+
+# Do the same for the sealring;  otherwise the seal boundary does not
+# cover the entire chip area.
+load sealring_complete
+gds write sealring_complete
+load (UNNAMED)
+cellname delete sealring_complete
+gds readonly true
+gds read sealring_complete
+
+# Now read the top level cell and write without hiearchical processing:
+load sg13cmos5l_ocd_chipalooza
+cif *hier write disable
+cif *array write disable
+gds compress 9
+gds write ../gds/sg13cmos5l_ocd_chipalooza.gds.gz
+quit -noprompt
+EOF
+
+# Remove the temporary chipalooza_frame and sealring_complete GDS
+rm chipalooza_frame.gds
+rm sealring_complete.gds
+
+echo "Done!"
+exit 0

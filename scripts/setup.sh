@@ -32,8 +32,8 @@
 #	PDK.  If the IHP PDK gets updated, then the references may
 #	become invalid, and this setup should be re-run.
 
-echo ${PDK_ROOT:=/home/tim/gits} > /dev/null
-echo ${PDK:=ihp-sg13cmos5l} > /dev/null
+export PDK_ROOT=${PDK_ROOT:-/home/tim/gits}
+export PDK=${PDK:-ihp-sg13cmos5l}
 
 cd magic
 

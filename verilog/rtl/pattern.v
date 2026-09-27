@@ -31,15 +31,20 @@
  * connect to the right locations in the project.
  *
  * The arbitrary pattern generator with constant time steps walks through
- * memory.  The first memory location holds the count at which the sequence
- * recycles.  A memory value of all ones at the 1st location past the end of
- * the sequence indicates a one-shot.
+ * memory from address 0 up to the address in the pat_stop register
+ * (housekeeping registers 0x16/0x17), then either wraps or halts.
  *
  * The arbitrary pattern generator with variable time steps uses every
  * other memory location to store the bit pattern, and the locations in
  * between store a clock count indicating the delay before the next step in
- * the sequence.  The first memory value is interpreted the same way as for
- * the constant-delay sequence.
+ * the sequence.
+ *
+ * NOTE:  an earlier plan put the loop control in memory --- the first
+ * location holding the recycle count, and an all-ones byte past the end
+ * marking a one-shot.  That was never implemented and proved unnecessary:
+ * the end of the sequence comes from pat_stop, and loop versus one-shot
+ * from the SPI command (CMD_SEQ_LOOP / CMD_SEQ_SINGLE) by way of
+ * loop_mode.
  *
  * A separate counter counts intervals between steps.  For the variable time
  * step sequencer, the variable time is multiplied by the interval counter.
@@ -79,6 +84,14 @@ reg  [2:0]  state;	// state for variable length patterns
 `define INCR_ADDR_1 3'b010
 `define TIMER_LATCH 3'b011
 `define INCR_ADDR_2 3'b100
+/* The SRAM is synchronous:  it registers the address on one clock and
+ * presents the data on the next.  INCR_ADDR_1 changes the address, so a
+ * TIMER_LATCH on the following clock would capture the PREVIOUS byte ---
+ * the pattern byte, not the timer byte.  TIMER_WAIT gives the read the
+ * clock it needs.  The data fetch needs no equivalent because IDLE
+ * always supplies one clock between INCR_ADDR_2 and DATA_LATCH.
+ */
+`define TIMER_WAIT  3'b101
 
 assign enabled = ena_pipe[1] && ~pat_end;
 
@@ -91,6 +104,7 @@ always @(posedge clk or posedge reset) begin
 	sram_addr <= 10'd0;
 	strobe_out <= 1'b0;
 	pat_end <= 1'b0;
+	sram_data_out <= 8'h00;
 	timer <= 8'b0;
 	state <= `IDLE;
 	count <= 8'b0;
@@ -99,6 +113,7 @@ always @(posedge clk or posedge reset) begin
 	sram_addr <= 10'd0;
 	strobe_out <= 1'b0;
 	pat_end <= 1'b0;
+	sram_data_out <= 8'h00;
 	timer <= 8'b0;
 	state <= `IDLE;
 	count <= 8'h00;
@@ -132,6 +147,9 @@ always @(posedge clk or posedge reset) begin
 		state <= `INCR_ADDR_1;
 	    end else if (state == `INCR_ADDR_1) begin
 		sram_addr <= sram_addr + 1;
+		state <= `TIMER_WAIT;
+	    end else if (state == `TIMER_WAIT) begin
+		/* Let the SRAM present the byte at the new address. */
 		state <= `TIMER_LATCH;
 	    end else if (state == `TIMER_LATCH) begin
 		timer <= sram_data_in;

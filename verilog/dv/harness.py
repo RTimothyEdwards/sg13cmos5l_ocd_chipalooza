@@ -62,7 +62,7 @@ REG = {
     "voltgen_sink":    0x1E,
     "voltgen_source":  0x1F,
     "in_route_0":      0x20,   # .. 0x37, one nibble each, 24 entries
-    "out_route_0":     0x38,   # .. 0x43
+    "out_route_0":     0x40,   # .. 0x4B (12 registers, one per project output)
     "sram_monitor":    0x4C,
     "strobe_monitor":  0x4D,
     "proj_sel":        0x50,
@@ -326,7 +326,11 @@ def isnan(x):
 # Router input routing (registers 0x20..0x37, one nibble each)
 # ---------------------------------------------------------------------
 IN_ROUTE_BASE  = 0x20      # dbus_out[k] is configured by 0x20 + k
-OUT_ROUTE_BASE = 0x38      # dbus_in[k]  is configured by 0x38 + k
+OUT_ROUTE_BASE = 0x40      # dbus_in[k]  is configured by 0x40 + k
+                           # (0x38/0x39 are the SAMPLED dbus_in readback
+                           #  registers, not the routing controls;  this
+                           #  constant said 0x38 and was never used, so
+                           #  the error stayed hidden.)
 
 ROUTE_PIN_0    = 0x0       # .. 0xB select io_in[0] .. io_in[11]
 ROUTE_CONST_0  = 0xD
