@@ -10,6 +10,8 @@ a.out
 *.vvp
 xschem/simulations
 magic/extfiles
+gds/sg13cmos5l_ocd_chipalooza.gds*
+gds/chipalooza_frame.gds*
 
 # cocotb/iverilog build directory.  Note that *.vvp alone is not
 # enough:  sim_build also holds cmds.f and results.xml.
