@@ -1,9 +1,16 @@
-#-----------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 # config.txt:  Project and I/O configuration for the Chipalooza Harness
 #
 # Editable fields:
 #
-# 1. The project ID number is an arbitrary user-selected 8 hex digits
+# 1. The project ID number is an arbitrary user-selected 8 hex digits.
+#    This value applies for the entire chip.
+#
+# 2. The "s[x]_source" for [x] = 1 to 18 are the URLs for the
+#		user projects and are used to automatically
+#		clone the user repositories into submodules,
+#		check them, and integrate them into the chip
+#		top level.
 #
 # 2. The "pad type" is one of 11 valid pad types:
 #		sg13cmos5l_IOPadIn
@@ -25,13 +32,57 @@
 #
 # Do *not* change the key values ("project_id" and "s*_an[x]"),
 # which are fixed by the harness chip definition.
-#-----------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 
 project_id: 20260908
 
-#-----------------------------------------------------------------
+#--------------------------------------------------------------------------------------
+# Project	URL
+#--------------------------------------------------------------------------------------
+s1_source:	https://github.com/rcyaon/bidir-level-shifter
+s2_source:	https://github.com/robertsaabwoo/ttsky-analog-equalizer
+s3_source:	https://github.com/htfab/hsxo-cpz2
+s4_source:	https://github.com/phdridha_12/sg13cmos5l_Wind_Comp
+s5_source:	https://github.com/YacineSot/sg13cmos5l_yacinesot_ip__diff_opamp_cmfb
+s6_source:	https://github.com/vyges/sg13cmos5l_vyges_ip__pll_rosc
+s7_source:	https://github.com/tatzelbrumm/sg13cmos5l_cm_ip__draft_single2diff2single
+s8_source:	https://github.com/adankvitschal/sg13g2_mh_ip__cmos_vref
+s9_source:	https://github.com/orpheus016/Programmable-Instrumentation-Amplifier-IP
+s10_source:	https://github.com/lhrodovalho/sg13cmos5l_rodovalho_ip__lpopamp
+s11_source:	https://github.com/vyges/sg13cmos5l_vyges_ip__ldo_capless
+s12_source:	https://github.com/RFICExplorer/sg13cmos5l_chipalooza_analog_project
+s13_source:	https://github.com/
+s14_source:	https://github.com/Intubun/chipalooza_lvds_pll
+s15_source:	https://github.com/srout/sg13cmos5l_srout_ip__tinyBGR
+s16_source:	https://github.com/arjun2000ananth/SAR_ADC_IHP
+s17_source:	https://github.com/AouissiBrahim/SG13CMOS5L_LPSVS
+s18_source:	https://bitbucket.org/chrisgj198/sg13cmos5l_chipalooza2_ic_vco
+
+#--------------------------------------------------------------------------------------
+# Project	Author
+#--------------------------------------------------------------------------------------
+slot_1:		Araujo
+slot_2:		Saab
+slot_3:		Hubai
+slot_4:		Ridha
+slot_5:		Sotehi
+slot_6:		Mysore
+slot_7:		Maier
+slot_8:		Kvitschal
+slot_9:		Malik et al.
+slot_10:	Rodovalho
+slot_11:	Mysore
+slot_12:	Mahmoud
+slot_13:	(none)
+slot_14:	Bhagwat & Schnackenberg
+slot_15:	Rout
+slot_16:	Yu, Ananth, & Olonande
+slot_17:	Brahim
+slot_18:	Jones
+
+#--------------------------------------------------------------------------------------
 # Pad name	Pad type			Core signal name
-#-----------------------------------------------------------------
+#--------------------------------------------------------------------------------------
 s1_an[0]:	sg13cmos5l_IOPadAnalog		s1_an_0
 s1_an[1]:	sg13cmos5l_IOPadAnalog		s1_an_1
 s2_an[0]:	sg13cmos5l_IOPadAnalog		s2_an_0
