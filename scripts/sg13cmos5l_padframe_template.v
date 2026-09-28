@@ -25,6 +25,14 @@ module sg13cmos5l_padframe (
     // Pad signal connections
     inout wire [11:0] gpio,
     inout wire [3:0]  analog,
+    // Secondary ESD connections for the four shared analog pads.
+    // Scalars, to match the layout labels and the per-slot style;
+    // they are fixed pads, so unlike the slot ESD pins they are not
+    // emitted into INPUT_OUTPUT_LIST from config.txt.
+    inout wire analog_0_esd,
+    inout wire analog_1_esd,
+    inout wire analog_2_esd,
+    inout wire analog_3_esd,
     inout wire SDO,
     input wire SDI,
     input wire CSB,
@@ -639,7 +647,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[0]),
-	.padres(analog_esd[0])
+	.padres(analog_0_esd)
     );
 
     sg13cmos5l_IOPadAnalog pad_analog_1 (
@@ -650,7 +658,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[1]),
-	.padres(analog_esd[1])
+	.padres(analog_1_esd)
     );
 
     sg13cmos5l_IOPadAnalog pad_analog_2 (
@@ -661,7 +669,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[2]),
-	.padres(analog_esd[2])
+	.padres(analog_2_esd)
     );
 
     sg13cmos5l_IOPadAnalog pad_analog_3 (
@@ -672,7 +680,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[3]),
-	.padres(analog_esd[3])
+	.padres(analog_3_esd)
     );
 
     sg13cmos5l_IOPadIOVss pad_vss3v3_4 (

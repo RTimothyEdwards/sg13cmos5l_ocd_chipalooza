@@ -50,49 +50,49 @@ module sg13cmos5l_padframe (
     inout wire [1:0] s18_an,
 
     // Core signal digital connections
-    output wire SDO_out,
-    output wire SDO_ena,
-    input wire CSB_in,
-    input wire SCK_in,
-    input wire SDI_in,
-    input wire clk_in,
+    input wire SDO_out,
+    input wire SDO_ena,
+    output wire CSB_in,
+    output wire SCK_in,
+    output wire SDI_in,
+    output wire clk_in,
 
-    input wire gpio_0_in,
-    output wire gpio_0_out,
-    output wire gpio_0_oe,
-    input wire gpio_1_in,
-    output wire gpio_1_out,
-    output wire gpio_1_oe,
-    input wire gpio_2_in,
-    output wire gpio_2_out,
-    output wire gpio_2_oe,
-    input wire gpio_3_in,
-    output wire gpio_3_out,
-    output wire gpio_3_oe,
-    input wire gpio_4_in,
-    output wire gpio_4_out,
-    output wire gpio_4_oe,
-    input wire gpio_5_in,
-    output wire gpio_5_out,
-    output wire gpio_5_oe,
-    input wire gpio_6_in,
-    output wire gpio_6_out,
-    output wire gpio_6_oe,
-    input wire gpio_7_in,
-    output wire gpio_7_out,
-    output wire gpio_7_oe,
-    input wire gpio_8_in,
-    output wire gpio_8_out,
-    output wire gpio_8_oe,
-    input wire gpio_9_in,
-    output wire gpio_9_out,
-    output wire gpio_9_oe,
-    input wire gpio_10_in,
-    output wire gpio_10_out,
-    output wire gpio_10_oe,
-    input wire gpio_11_in,
-    output wire gpio_11_out,
-    output wire gpio_11_oe,
+    output wire gpio_0_in,
+    input wire gpio_0_out,
+    input wire gpio_0_oe,
+    output wire gpio_1_in,
+    input wire gpio_1_out,
+    input wire gpio_1_oe,
+    output wire gpio_2_in,
+    input wire gpio_2_out,
+    input wire gpio_2_oe,
+    output wire gpio_3_in,
+    input wire gpio_3_out,
+    input wire gpio_3_oe,
+    output wire gpio_4_in,
+    input wire gpio_4_out,
+    input wire gpio_4_oe,
+    output wire gpio_5_in,
+    input wire gpio_5_out,
+    input wire gpio_5_oe,
+    output wire gpio_6_in,
+    input wire gpio_6_out,
+    input wire gpio_6_oe,
+    output wire gpio_7_in,
+    input wire gpio_7_out,
+    input wire gpio_7_oe,
+    output wire gpio_8_in,
+    input wire gpio_8_out,
+    input wire gpio_8_oe,
+    output wire gpio_9_in,
+    input wire gpio_9_out,
+    input wire gpio_9_oe,
+    output wire gpio_10_in,
+    input wire gpio_10_out,
+    input wire gpio_10_oe,
+    output wire gpio_11_in,
+    input wire gpio_11_out,
+    input wire gpio_11_oe,
 
     // Core signal analog connections
     inout wire s1_an_0_esd,
@@ -132,7 +132,15 @@ module sg13cmos5l_padframe (
     inout wire s18_an_0_esd,
     inout wire s18_an_1_esd,
 
-    inout wire [3:0] analog_esd,
+    // The four shared analog pads' secondary ESD connections.  These
+    // are SCALARS named analog_<N>_esd, not a bus:  that is what the
+    // layout labels them (gen_padframe_template.tcl), and it matches
+    // the per-slot style s<N>_an_<K>_esd.  As a bus they did not match
+    // the layout by name and would have proxied out in LVS.
+    inout wire analog_0_esd,
+    inout wire analog_1_esd,
+    inout wire analog_2_esd,
+    inout wire analog_3_esd,
 
     // Core signal connections:  User ID ROM
     output wire [31:0] mask_rev
@@ -179,14 +187,17 @@ module sg13cmos5l_padframe (
     );
 
     // 1.2V domain power split cells (custom)
+    // NOTE:  This has been removed because
+    // it optimizes out of the layout, since
+    // it has no circuit components.
 
-    sg13cmos5l_ocd_Split2000 splitter[1:0] (
-	`ifdef USE_POWER_PINS
-	    .iovdd(vdd3v3),
-	    .iovss(vss3v3),
-	    .vss(vss1v2)
-	`endif	/* USE_POWER_PINS */
-    );
+    // sg13cmos5l_ocd_Split2000 splitter[1:0] (
+    //	`ifdef USE_POWER_PINS
+    //	    .iovdd(vdd3v3),
+    //	    .iovss(vss3v3),
+    //	    .vss(vss1v2)
+    //	`endif	/* USE_POWER_PINS */
+    //  );
 
     // Bottom side pads
 
@@ -371,7 +382,7 @@ module sg13cmos5l_padframe (
 
     // Right side pads
 
-    sg13cmos5l_IOPadVss pad_vss1v2_0 (
+    sg13cmos5l_IOPadIOVdd pad_vdd3v3_0 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -380,7 +391,9 @@ module sg13cmos5l_padframe (
 	`endif	/* USE_POWER_PINS */
     );
 
-    sg13cmos5l_IOPadVss pad_vss1v2_1 (
+    /* Voltage split between vddd and vdd1v2 is here */
+
+    sg13cmos5l_IOPadVdd pad_vdd1v2_0 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -389,16 +402,7 @@ module sg13cmos5l_padframe (
 	`endif	/* USE_POWER_PINS */
     );
 
-    sg13cmos5l_IOPadIOVdd pad_vdd3v3_0 (
-	`ifdef USE_POWER_PINS
-	    .iovdd(vdd3v3),
-	    .iovss(vss3v3),
-	    .vdd(vdd1v2),
-	    .vss(vss1v2)
-	`endif	/* USE_POWER_PINS */
-    );
-
-    sg13cmos5l_IOPadIOVdd pad_vdd3v3_1 (
+    sg13cmos5l_IOPadVdd pad_vdd1v2_1 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -493,7 +497,7 @@ module sg13cmos5l_padframe (
 	.padres(s4_an_0_esd)
     );
 
-    sg13cmos5l_IOPadVss pad_vss1v2_2 (
+    sg13cmos5l_IOPadVss pad_vss1v2_0 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -557,7 +561,7 @@ module sg13cmos5l_padframe (
 	.padres(s6_an_1_esd)
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_1 (
+    sg13cmos5l_IOPadVss pad_vss1v2_1 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -599,7 +603,7 @@ module sg13cmos5l_padframe (
 	.padres(s8_an_0_esd)
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_2 (
+    sg13cmos5l_IOPadIOVss pad_vss3v3_1 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -643,7 +647,7 @@ module sg13cmos5l_padframe (
 
     // Top side pads
 
-    sg13cmos5l_IOPadVss pad_vss1v2_3 (
+    sg13cmos5l_IOPadVdd pad_vdd1v2_2 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -704,7 +708,7 @@ module sg13cmos5l_padframe (
 	.c2p_en(gpio_11_oe)
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_3 (
+    sg13cmos5l_IOPadIOVss pad_vss3v3_2 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -721,7 +725,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[0]),
-	.padres(analog_esd[0])
+	.padres(analog_0_esd)
     );
 
     sg13cmos5l_IOPadAnalog pad_analog_1 (
@@ -732,7 +736,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[1]),
-	.padres(analog_esd[1])
+	.padres(analog_1_esd)
     );
 
     sg13cmos5l_IOPadAnalog pad_analog_2 (
@@ -743,7 +747,7 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[2]),
-	.padres(analog_esd[2])
+	.padres(analog_2_esd)
     );
 
     sg13cmos5l_IOPadAnalog pad_analog_3 (
@@ -754,10 +758,10 @@ module sg13cmos5l_padframe (
 	    .vss(vss1v2),
 	`endif	/* USE_POWER_PINS */
 	.pad(analog[3]),
-	.padres(analog_esd[3])
+	.padres(analog_3_esd)
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_4 (
+    sg13cmos5l_IOPadIOVss pad_vss3v3_3 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -766,7 +770,7 @@ module sg13cmos5l_padframe (
 	`endif	/* USE_POWER_PINS */
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_5 (
+    sg13cmos5l_IOPadIOVdd pad_vdd3v3_1 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -794,15 +798,6 @@ module sg13cmos5l_padframe (
     );
 
     sg13cmos5l_IOPadIOVdd pad_vdd3v3_4 (
-	`ifdef USE_POWER_PINS
-	    .iovdd(vdd3v3),
-	    .iovss(vss3v3),
-	    .vdd(vdd1v2),
-	    .vss(vss1v2)
-	`endif	/* USE_POWER_PINS */
-    );
-
-    sg13cmos5l_IOPadIOVdd pad_vdd3v3_5 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -846,7 +841,7 @@ module sg13cmos5l_padframe (
 	.padres(s10_an_2_esd)
     );
 
-    sg13cmos5l_IOPadVss pad_vss1v2_4 (
+    sg13cmos5l_IOPadVss pad_vss1v2_2 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -888,7 +883,7 @@ module sg13cmos5l_padframe (
 	.padres(s12_an_1_esd)
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_6 (
+    sg13cmos5l_IOPadIOVss pad_vss3v3_4 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -952,7 +947,7 @@ module sg13cmos5l_padframe (
 	.padres(s14_an_2_esd)
     );
 
-    sg13cmos5l_IOPadIOVss pad_vss3v3_7 (
+    sg13cmos5l_IOPadIOVss pad_vss3v3_5 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -994,7 +989,7 @@ module sg13cmos5l_padframe (
 	.padres(s16_an_1_esd)
     );
 
-    sg13cmos5l_IOPadVss pad_vss1v2_5 (
+    sg13cmos5l_IOPadVss pad_vss1v2_3 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -1047,7 +1042,7 @@ module sg13cmos5l_padframe (
 	.padres(s18_an_1_esd)
     );
 
-    sg13cmos5l_IOPadVdd pad_vdd1v2_1 (
+    sg13cmos5l_IOPadVdd pad_vdd1v2_3 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -1056,7 +1051,7 @@ module sg13cmos5l_padframe (
 	`endif	/* USE_POWER_PINS */
     );
 
-    sg13cmos5l_IOPadVdd pad_vdd1v2_2 (
+    sg13cmos5l_IOPadVdd pad_vdd1v2_4 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),
@@ -1065,7 +1060,9 @@ module sg13cmos5l_padframe (
 	`endif	/* USE_POWER_PINS */
     );
 
-    sg13cmos5l_IOPadVss pad_vss1v2_6 (
+    /* Voltage split between vdd1v2 and vddd is here */
+
+    sg13cmos5l_IOPadVss pad_vss1v2_4 (
 	`ifdef USE_POWER_PINS
 	    .iovdd(vdd3v3),
 	    .iovss(vss3v3),

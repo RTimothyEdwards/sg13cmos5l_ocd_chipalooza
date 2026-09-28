@@ -1,0 +1,799 @@
+* NGSPICE file created from sg13cmos5l_padframe.ext - technology: ihp-sg13cmos5l
+
+.subckt sg13cmos5l_SecondaryProtection core pad iovss iovdd
+X0 core iovdd dpantenna l=0.64u w=4.98u
+X1 core pad iovss rppd l=2u w=1u
+X2 iovss core dantenna l=3.1u w=0.64u
+.ends
+
+.subckt sg13cmos5l_DCPDiode anode cathode guard anode_uq0
+X0 anode_uq0 cathode dpantenna l=1.26u w=27.78u
+X1 anode cathode dpantenna l=1.26u w=27.78u
+.ends
+
+.subckt sg13cmos5l_Clamp_P20N0D iovdd iovss pad pad_uq0 pad_uq1 pad_uq2 pad_uq3 pad_uq4
++ pad_uq5 pad_uq6 pad_uq7 pad_uq8
+X0 iovdd a_5044_476# pad_uq3 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X1 pad_uq5 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X2 iovdd a_5044_476# pad_uq1 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X3 pad_uq7 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X4 pad_uq6 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X5 iovdd a_5044_476# pad_uq2 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X6 a_5044_476# iovdd iovdd rppd l=12.9u w=0.5u
+X7 pad_uq6 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X8 iovdd a_5044_476# pad_uq6 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X9 pad_uq2 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X10 iovdd a_5044_476# pad iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X11 iovdd a_5044_476# pad_uq6 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X12 pad_uq2 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X13 iovdd a_5044_476# pad_uq5 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X14 iovdd a_5044_476# pad_uq1 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X15 pad_uq3 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X16 pad_uq1 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X17 iovdd a_5044_476# pad_uq7 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X18 pad_uq0 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X19 iovdd a_5044_476# pad_uq3 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X20 pad_uq7 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X21 iovdd a_5044_476# pad_uq0 iovdd sg13_hv_pmos ad=3.1302p pd=14.26u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X22 pad_uq8 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=3.1302p ps=14.26u w=6.66u l=0.6u
+X23 pad_uq8 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=3.1302p ps=14.26u w=6.66u l=0.6u
+X24 iovdd a_5044_476# pad iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X25 pad_uq4 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X26 iovdd a_5044_476# pad_uq7 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X27 pad_uq3 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X28 iovdd a_5044_476# pad_uq8 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X29 pad_uq5 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X30 pad_uq0 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X31 iovdd a_5044_476# pad_uq0 iovdd sg13_hv_pmos ad=3.1302p pd=14.26u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X32 pad a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X33 iovdd a_5044_476# pad_uq8 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X34 iovdd a_5044_476# pad_uq4 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X35 iovdd a_5044_476# pad_uq2 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X36 iovdd a_5044_476# pad_uq4 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X37 pad_uq4 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X38 pad a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X39 iovdd a_5044_476# pad_uq5 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X40 pad_uq1 a_5044_476# iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+.ends
+
+.subckt sg13cmos5l_DCNDiode anode cathode guard cathode_uq0
+X0 anode cathode_uq0 dantenna l=1.26u w=27.78u
+X1 anode cathode dantenna l=1.26u w=27.78u
+.ends
+
+.subckt sg13cmos5l_Clamp_N20N0D iovss pad pad_uq0 pad_uq1 pad_uq2 pad_uq3 pad_uq4
++ pad_uq5 pad_uq6 pad_uq7 pad_uq8 w_n124_n124#
+X0 pad_uq5 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X1 iovss a_5044_476# pad_uq1 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X2 pad_uq6 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X3 iovss a_5044_476# pad_uq2 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X4 a_5044_476# iovss iovss rppd l=3.54u w=0.5u
+X5 iovss a_5044_476# pad_uq6 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X6 pad_uq2 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X7 pad_uq3 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X8 iovss a_5044_476# pad_uq7 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X9 pad_uq0 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X10 iovss a_5044_476# pad_uq3 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X11 pad_uq7 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X12 iovss a_5044_476# pad_uq0 iovss sg13_hv_nmos ad=2.068p pd=9.74u as=2.596p ps=5.58u w=4.4u l=0.6u
+X13 pad_uq8 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=2.068p ps=9.74u w=4.4u l=0.6u
+X14 iovss a_5044_476# pad iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X15 pad_uq4 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X16 iovss a_5044_476# pad_uq8 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X17 pad a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X18 iovss a_5044_476# pad_uq4 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X19 iovss a_5044_476# pad_uq5 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X20 pad_uq1 a_5044_476# iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+.ends
+
+.subckt sg13cmos5l_IOPadAnalog pad padres vdd iovdd iovss iovdd_uq0 sg13cmos5l_DCNDiode_0/guard
++ vss
+Xsg13cmos5l_SecondaryProtection_0 padres pad vss iovdd sg13cmos5l_SecondaryProtection
+Xsg13cmos5l_DCPDiode_0 pad iovdd_uq0 vss pad sg13cmos5l_DCPDiode
+Xsg13cmos5l_Clamp_P20N0D_0 iovdd_uq0 vss pad pad pad pad pad pad pad pad pad pad sg13cmos5l_Clamp_P20N0D
+Xsg13cmos5l_DCNDiode_0 vss pad sg13cmos5l_DCNDiode_0/guard pad sg13cmos5l_DCNDiode
+Xsg13cmos5l_Clamp_N20N0D_0 vss pad pad pad pad pad pad pad pad pad pad sg13cmos5l_DCNDiode_0/guard
++ sg13cmos5l_Clamp_N20N0D
+.ends
+
+.subckt sg13cmos5l_IOPadVss vdd vss iovdd sg13cmos5l_DCNDiode_0/guard
+Xsg13cmos5l_DCPDiode_0 vss iovdd vss vss sg13cmos5l_DCPDiode
+Xsg13cmos5l_DCNDiode_0 vss vss sg13cmos5l_DCNDiode_0/guard vss sg13cmos5l_DCNDiode
+.ends
+
+.subckt sg13cmos5l_Clamp_P8N8D gate iovdd iovss pad pad_uq0 pad_uq1 pad_uq2
+X0 iovdd gate pad iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X1 pad_uq2 gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=3.1302p ps=14.26u w=6.66u l=0.6u
+X2 iovdd gate pad_uq0 iovdd sg13_hv_pmos ad=3.1302p pd=14.26u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X3 gate iovdd dpantenna l=0.48u w=0.48u
+X4 pad_uq0 gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X5 pad_uq0 gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X6 iovdd gate pad_uq2 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X7 pad gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X8 iovdd gate pad iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X9 pad_uq1 gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X10 pad gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X11 pad_uq2 gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=3.1302p ps=14.26u w=6.66u l=0.6u
+X12 iovdd gate pad_uq1 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X13 iovdd gate pad_uq0 iovdd sg13_hv_pmos ad=3.1302p pd=14.26u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X14 iovdd gate pad_uq1 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+X15 pad_uq1 gate iovdd iovdd sg13_hv_pmos ad=3.9294p pd=7.84u as=2.1312p ps=7.3u w=6.66u l=0.6u
+X16 iovdd gate pad_uq2 iovdd sg13_hv_pmos ad=2.1312p pd=7.3u as=3.9294p ps=7.84u w=6.66u l=0.6u
+.ends
+
+.subckt sg13cmos5l_Clamp_N8N8D gate iovss pad pad_uq0 pad_uq1 pad_uq2 w_n124_n124#
+X0 pad_uq2 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=2.068p ps=9.74u w=4.4u l=0.6u
+X1 iovss gate pad_uq0 iovss sg13_hv_nmos ad=2.068p pd=9.74u as=2.596p ps=5.58u w=4.4u l=0.6u
+X2 iovss gate dantenna l=0.78u w=0.78u
+X3 pad_uq0 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X4 pad gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X5 iovss gate pad iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X6 pad_uq1 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X7 iovss gate pad_uq1 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X8 iovss gate pad_uq2 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+.ends
+
+.subckt sg13g2_SecondaryProtection plus minus core pad
+X0 core plus dpantenna l=0.64u w=4.98u
+X1 core pad minus rppd l=2u w=1u
+X2 minus core dantenna l=3.1u w=0.64u
+.ends
+
+.subckt sg13cmos5l_LevelDown core pad vdd a_1826_n1666# vss iovdd
+Xsg13g2_SecondaryProtection_0 iovdd vss sg13g2_SecondaryProtection_0/core pad sg13g2_SecondaryProtection
+X0 vss sg13g2_SecondaryProtection_0/core a_525_1768# vss sg13_hv_nmos ad=0.247p pd=1.68u as=0.442p ps=3.28u w=1.3u l=0.45u
+X1 a_359_1768# a_525_1768# iovdd iovdd sg13_hv_pmos ad=0.437p pd=2.68u as=0.437p ps=2.68u w=2.3u l=0.45u
+X2 a_525_1768# sg13g2_SecondaryProtection_0/core iovdd iovdd sg13_hv_pmos ad=0.437p pd=2.68u as=0.782p ps=5.28u w=2.3u l=0.45u
+X3 vdd a_89_1790# core vdd sg13_lv_pmos ad=1.615p pd=10.18u as=1.615p ps=10.18u w=4.75u l=0.13u
+X4 a_89_1790# a_359_1768# vss vss sg13_hv_nmos ad=0.5035p pd=3.03u as=0.901p ps=5.98u w=2.65u l=0.45u
+X5 vss a_89_1790# core vss sg13_lv_nmos ad=0.935p pd=6.18u as=0.935p ps=6.18u w=2.75u l=0.13u
+X6 iovdd sg13g2_SecondaryProtection_0/core a_525_1768# iovdd sg13_hv_pmos ad=0.437p pd=2.68u as=0.437p ps=2.68u w=2.3u l=0.45u
+X7 iovdd a_525_1768# a_359_1768# iovdd sg13_hv_pmos ad=0.782p pd=5.28u as=0.437p ps=2.68u w=2.3u l=0.45u
+X8 a_359_1768# a_525_1768# vss vss sg13_hv_nmos ad=0.442p pd=3.28u as=0.247p ps=1.68u w=1.3u l=0.45u
+X9 vdd a_525_1768# a_89_1790# vss sg13_hv_nmos ad=0.901p pd=5.98u as=0.5035p ps=3.03u w=2.65u l=0.45u
+X10 vdd vdd vdd vdd sg13_hv_pmos ad=1.581p pd=9.98u as=0 ps=0 w=4.65u l=0.45u
+.ends
+
+.subckt sg13cmos5l_io_inv_x1 nq i vdd vss
+X0 nq i vss vss sg13_lv_nmos ad=1.3362p pd=8.54u as=1.3362p ps=8.54u w=3.93u l=0.13u
+X1 nq i vdd vdd sg13_lv_pmos ad=1.4994p pd=9.5u as=1.4994p ps=9.5u w=4.41u l=0.13u
+.ends
+
+.subckt sg13cmos5l_LevelUp o i iovdd vdd vss
+X0 a_89_470# i vss vss sg13_hv_nmos ad=0.646p pd=4.48u as=0.361p ps=2.28u w=1.9u l=0.45u
+X1 iovdd a_89_470# a_21_506# iovdd sg13_hv_pmos ad=57f pd=0.68u as=0.102p ps=1.28u w=0.3u l=0.45u
+X2 vdd i a_21_1826# vdd sg13_lv_pmos ad=1.615p pd=10.18u as=1.615p ps=10.18u w=4.75u l=0.13u
+X3 a_89_470# a_21_506# iovdd iovdd sg13_hv_pmos ad=0.102p pd=1.28u as=57f ps=0.68u w=0.3u l=0.45u
+X4 vss i a_21_1826# vss sg13_lv_nmos ad=0.935p pd=6.18u as=0.935p ps=6.18u w=2.75u l=0.13u
+X5 vss a_21_1826# a_21_506# vss sg13_hv_nmos ad=0.361p pd=2.28u as=0.646p ps=4.48u w=1.9u l=0.45u
+X6 o a_89_470# vss vss sg13_hv_nmos ad=0.646p pd=4.48u as=0.646p ps=4.48u w=1.9u l=0.45u
+X7 o a_89_470# iovdd iovdd sg13_hv_pmos ad=1.326p pd=8.48u as=1.326p ps=8.48u w=3.9u l=0.45u
+.ends
+
+.subckt sg13cmos5l_io_nor2_x1 nq i0 i1 vdd vss
+X0 vss i1 nq vss sg13_lv_nmos ad=1.4148p pd=8.58u as=0.7467p ps=4.31u w=3.93u l=0.13u
+X1 nq i0 vss vss sg13_lv_nmos ad=0.7467p pd=4.31u as=1.3362p ps=8.54u w=3.93u l=0.13u
+X2 nq i1 a_115_1276# vdd sg13_lv_pmos ad=1.5876p pd=9.54u as=0.8379p ps=4.79u w=4.41u l=0.13u
+X3 a_115_1276# i0 vdd vdd sg13_lv_pmos ad=0.8379p pd=4.79u as=1.4994p ps=9.5u w=4.41u l=0.13u
+.ends
+
+.subckt sg13cmos5l_io_nand2_x1 nq i0 i1 vdd vss
+X0 nq i1 a_115_242# vss sg13_lv_nmos ad=1.4148p pd=8.58u as=0.7467p ps=4.31u w=3.93u l=0.13u
+X1 a_115_242# i0 vss vss sg13_lv_nmos ad=0.7467p pd=4.31u as=1.3362p ps=8.54u w=3.93u l=0.13u
+X2 vdd i1 nq vdd sg13_lv_pmos ad=1.5876p pd=9.54u as=0.8379p ps=4.79u w=4.41u l=0.13u
+X3 nq i0 vdd vdd sg13_lv_pmos ad=0.8379p pd=4.79u as=1.4994p ps=9.5u w=4.41u l=0.13u
+.ends
+
+.subckt sg13cmos5l_GateDecode ngate pgate core en iovdd vdd vss
+Xsg13cmos5l_io_inv_x1_0 sg13cmos5l_io_inv_x1_0/nq en vdd vss sg13cmos5l_io_inv_x1
+Xsg13cmos5l_LevelUp_0 pgate sg13cmos5l_LevelUp_0/i iovdd vdd vss sg13cmos5l_LevelUp
+Xsg13cmos5l_LevelUp_1 ngate sg13cmos5l_LevelUp_1/i iovdd vdd vss sg13cmos5l_LevelUp
+Xsg13cmos5l_io_nor2_x1_0 sg13cmos5l_LevelUp_1/i core sg13cmos5l_io_inv_x1_0/nq vdd
++ vss sg13cmos5l_io_nor2_x1
+Xsg13cmos5l_io_nand2_x1_0 sg13cmos5l_LevelUp_0/i core en vdd vss sg13cmos5l_io_nand2_x1
+.ends
+
+.subckt sg13cmos5l_IOPadInOut16mA pad p2c vdd iovdd iovss iovdd_uq0 c2p_en c2p sg13cmos5l_DCNDiode_0/guard
++ vss
+Xsg13cmos5l_DCPDiode_0 pad iovdd_uq0 vss pad sg13cmos5l_DCPDiode
+Xsg13cmos5l_Clamp_P8N8D_0 sg13cmos5l_GateDecode_0/pgate iovdd_uq0 vss pad pad pad
++ pad sg13cmos5l_Clamp_P8N8D
+Xsg13cmos5l_Clamp_N8N8D_0 sg13cmos5l_GateDecode_0/ngate vss pad pad pad pad sg13cmos5l_DCNDiode_0/guard
++ sg13cmos5l_Clamp_N8N8D
+Xsg13cmos5l_LevelDown_0 p2c pad vdd vss vss iovdd sg13cmos5l_LevelDown
+Xsg13cmos5l_GateDecode_0 sg13cmos5l_GateDecode_0/ngate sg13cmos5l_GateDecode_0/pgate
++ c2p c2p_en iovdd vdd vss sg13cmos5l_GateDecode
+Xsg13cmos5l_DCNDiode_0 vss pad sg13cmos5l_DCNDiode_0/guard pad sg13cmos5l_DCNDiode
+.ends
+
+.subckt sg13cmos5l_Clamp_N43N43D4R gate iovss pad pad_uq0 pad_uq1 pad_uq2 pad_uq3
++ pad_uq4 pad_uq5 pad_uq6 pad_uq7 pad_uq8 pad_uq9 pad_uq10 pad_uq11 pad_uq12 pad_uq13
++ pad_uq14 pad_uq15 pad_uq16 pad_uq17 pad_uq18 pad_uq19 pad_uq20 w_n124_n124#
+X0 iovss gate pad_uq1 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X1 iovss gate pad_uq19 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X2 iovss gate pad_uq15 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X3 iovss gate pad_uq13 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X4 pad_uq17 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X5 pad_uq15 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X6 pad_uq0 gate iovss iovss sg13_hv_nmos ad=3.256p pd=10.28u as=1.408p ps=5.04u w=4.4u l=0.6u
+X7 pad_uq12 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X8 pad_uq5 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X9 iovss gate pad_uq16 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X10 iovss gate pad_uq12 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X11 iovss gate pad_uq3 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X12 iovss gate pad_uq18 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X13 pad_uq6 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X14 pad gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X15 iovss gate pad_uq5 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X16 iovss gate pad_uq20 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X17 pad_uq14 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X18 pad_uq20 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=2.068p ps=9.74u w=4.4u l=0.6u
+X19 pad_uq10 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X20 iovss gate pad_uq9 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X21 pad_uq16 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X22 iovss gate pad_uq8 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X23 iovss gate pad_uq6 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X24 iovss gate pad_uq14 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X25 pad_uq11 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X26 iovss gate pad_uq2 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X27 iovss gate pad_uq10 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X28 pad_uq13 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X29 pad_uq8 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X30 pad gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X31 iovss gate pad_uq17 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X32 iovss gate pad_uq11 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X33 iovss gate pad_uq13 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X34 iovss gate pad_uq7 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X35 pad_uq1 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X36 pad_uq1 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X37 iovss gate pad_uq4 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X38 iovss gate pad_uq19 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X39 iovss gate pad_uq5 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X40 iovss gate pad_uq15 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X41 pad_uq3 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X42 pad_uq15 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X43 pad_uq14 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X44 pad_uq9 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X45 iovss gate pad_uq18 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X46 pad_uq4 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X47 iovss gate pad_uq3 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X48 iovss gate pad_uq9 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X49 pad_uq6 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X50 pad_uq18 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X51 pad_uq12 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X52 pad_uq8 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X53 iovss gate pad_uq5 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X54 iovss gate pad_uq6 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X55 iovss gate pad iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X56 iovss gate pad_uq1 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X57 pad_uq19 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X58 pad_uq5 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X59 pad_uq9 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X60 iovss gate pad_uq8 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X61 pad_uq11 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X62 iovss gate pad_uq14 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X63 pad_uq2 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X64 iovss gate pad_uq10 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X65 iovss gate pad_uq14 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X66 iovss gate pad_uq17 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X67 pad_uq17 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X68 pad_uq0 gate iovss iovss sg13_hv_nmos ad=3.256p pd=10.28u as=1.408p ps=5.04u w=4.4u l=0.6u
+X69 pad_uq7 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X70 pad_uq18 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X71 pad_uq5 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X72 iovss gate pad_uq4 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X73 pad_uq1 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X74 pad_uq13 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X75 iovss gate pad_uq18 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X76 pad_uq3 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X77 iovss gate pad_uq2 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X78 pad_uq14 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X79 pad_uq6 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X80 iovss gate pad_uq20 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X81 iovss gate pad_uq1 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X82 pad_uq20 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=2.068p ps=9.74u w=4.4u l=0.6u
+X83 pad_uq10 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X84 iovss gate pad_uq9 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X85 pad_uq16 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X86 pad_uq12 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X87 pad_uq19 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X88 pad_uq18 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X89 iovss gate pad_uq10 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X90 pad_uq8 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X91 iovss gate pad_uq16 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X92 iovss gate pad iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X93 iovss gate pad_uq12 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X94 iovss gate pad_uq3 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X95 pad_uq2 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X96 pad gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X97 pad_uq2 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X98 iovss gate pad_uq13 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X99 iovss gate pad_uq11 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X100 iovss gate pad_uq19 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X101 iovss gate pad_uq6 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X102 pad_uq15 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X103 iovss gate pad_uq15 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X104 iovss gate pad_uq2 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X105 iovss gate pad_uq17 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X106 pad_uq10 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X107 pad_uq15 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X108 iovss gate pad_uq19 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X109 pad_uq17 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X110 pad_uq13 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X111 pad_uq7 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X112 iovss gate pad_uq3 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X113 iovss gate pad_uq11 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X114 pad_uq6 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X115 iovss gate dantenna l=0.48u w=0.48u
+X116 iovss gate pad_uq7 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X117 iovss gate pad_uq5 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X118 iovss gate pad_uq1 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X119 iovss gate pad_uq8 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X120 pad_uq11 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X121 iovss gate pad_uq14 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X122 iovss gate pad_uq7 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X123 iovss gate pad_uq16 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X124 pad_uq4 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X125 iovss gate pad_uq10 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X126 pad_uq11 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X127 iovss gate pad_uq12 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X128 iovss gate pad_uq15 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X129 pad_uq0 gate iovss iovss sg13_hv_nmos ad=3.256p pd=10.28u as=1.408p ps=5.04u w=4.4u l=0.6u
+X130 pad_uq1 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X131 pad_uq19 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X132 iovss gate pad_uq4 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X133 pad_uq9 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X134 iovss gate pad_uq6 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X135 iovss gate pad_uq8 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X136 pad_uq3 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X137 iovss gate pad_uq2 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X138 pad_uq7 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X139 iovss gate pad_uq16 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X140 pad_uq20 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=2.068p ps=9.74u w=4.4u l=0.6u
+X141 iovss gate pad_uq9 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X142 pad_uq12 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X143 pad_uq18 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X144 iovss gate pad_uq11 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X145 pad_uq8 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X146 pad_uq0 gate iovss iovss sg13_hv_nmos ad=3.256p pd=10.28u as=1.408p ps=5.04u w=4.4u l=0.6u
+X147 iovss gate pad_uq7 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X148 pad_uq5 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X149 iovss gate pad_uq4 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X150 iovss gate pad iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X151 iovss gate pad_uq18 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X152 iovss gate pad_uq20 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X153 pad_uq14 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X154 pad_uq2 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X155 pad_uq20 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=2.068p ps=9.74u w=4.4u l=0.6u
+X156 pad_uq10 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X157 pad_uq3 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X158 pad_uq4 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X159 pad_uq16 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X160 iovss gate pad_uq12 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X161 iovss gate pad_uq17 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X162 pad_uq16 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X163 pad_uq17 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X164 pad_uq7 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X165 pad_uq19 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X166 iovss gate pad_uq20 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X167 pad_uq13 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X168 pad_uq9 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X169 pad gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X170 iovss gate pad iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+X171 pad_uq4 gate iovss iovss sg13_hv_nmos ad=2.596p pd=5.58u as=1.408p ps=5.04u w=4.4u l=0.6u
+X172 iovss gate pad_uq13 iovss sg13_hv_nmos ad=1.408p pd=5.04u as=2.596p ps=5.58u w=4.4u l=0.6u
+.ends
+
+.subckt sg13cmos5l_RCClampInverter out in iovss supply
+X0 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X1 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X2 iovss in out iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X3 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=2.38p ps=14.68u w=7u l=0.5u
+X4 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X5 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X6 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X7 out in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X8 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X9 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X10 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X11 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X12 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X13 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X14 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X15 iovss in iovss iovss sg13_hv_nmos ad=3.06p pd=18.68u as=0 ps=0 w=9u l=9.5u
+X16 out in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X17 iovss in out iovss sg13_hv_nmos ad=3.06p pd=18.68u as=1.71p ps=9.38u w=9u l=0.5u
+X18 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X19 iovss in iovss iovss sg13_hv_nmos ad=3.06p pd=18.68u as=0 ps=0 w=9u l=9.5u
+X20 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X21 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X22 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X23 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X24 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X25 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X26 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X27 iovss in out iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X28 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X29 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X30 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X31 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X32 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X33 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X34 out in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X35 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X36 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X37 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X38 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X39 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X40 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X41 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X42 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X43 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X44 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X45 iovss in out iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X46 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X47 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X48 supply in out supply sg13_hv_pmos ad=2.38p pd=14.68u as=1.33p ps=7.38u w=7u l=0.5u
+X49 out in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X50 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X51 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X52 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X53 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X54 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X55 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X56 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X57 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X58 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X59 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X60 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X61 out in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X62 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X63 iovss in out iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+X64 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X65 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X66 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X67 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X68 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X69 out in supply supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X70 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X71 supply in out supply sg13_hv_pmos ad=1.33p pd=7.38u as=1.33p ps=7.38u w=7u l=0.5u
+X72 iovss in out iovss sg13_hv_nmos ad=3.06p pd=18.68u as=1.71p ps=9.38u w=9u l=0.5u
+X73 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X74 iovss in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=0 ps=0 w=9u l=9.5u
+X75 out in iovss iovss sg13_hv_nmos ad=1.71p pd=9.38u as=1.71p ps=9.38u w=9u l=0.5u
+.ends
+
+.subckt sg13cmos5l_RCClampResistor pin1 pin2 sub
+X0 a_2640_4086# a_2970_0# sub rppd l=20u w=1u
+X1 a_3300_4086# a_2970_0# sub rppd l=20u w=1u
+X2 a_4620_4086# a_4950_0# sub rppd l=20u w=1u
+X3 a_5280_4086# a_4950_0# sub rppd l=20u w=1u
+X4 a_6600_4086# a_6930_0# sub rppd l=20u w=1u
+X5 a_7260_4086# a_6930_0# sub rppd l=20u w=1u
+X6 a_2640_4086# a_2310_0# sub rppd l=20u w=1u
+X7 a_4620_4086# a_4290_0# sub rppd l=20u w=1u
+X8 a_660_4086# a_990_0# sub rppd l=20u w=1u
+X9 a_6600_4086# a_6270_0# sub rppd l=20u w=1u
+X10 a_1980_4086# a_1650_0# sub rppd l=20u w=1u
+X11 a_1980_4086# a_2310_0# sub rppd l=20u w=1u
+X12 a_660_4086# a_330_0# sub rppd l=20u w=1u
+X13 a_3960_4086# a_3630_0# sub rppd l=20u w=1u
+X14 a_3960_4086# a_4290_0# sub rppd l=20u w=1u
+X15 a_5940_4086# a_5610_0# sub rppd l=20u w=1u
+X16 a_5940_4086# a_6270_0# sub rppd l=20u w=1u
+X17 a_7920_4086# a_7590_0# sub rppd l=20u w=1u
+X18 a_7920_4086# pin2 sub rppd l=20u w=1u
+X19 a_0_4086# pin1 sub rppd l=20u w=1u
+X20 a_1320_4086# a_1650_0# sub rppd l=20u w=1u
+X21 a_3300_4086# a_3630_0# sub rppd l=20u w=1u
+X22 a_0_4086# a_330_0# sub rppd l=20u w=1u
+X23 a_5280_4086# a_5610_0# sub rppd l=20u w=1u
+X24 a_7260_4086# a_7590_0# sub rppd l=20u w=1u
+X25 a_1320_4086# a_990_0# sub rppd l=20u w=1u
+.ends
+
+.subckt sg13cmos5l_IOPadIOVdd vdd iovdd iovss vss
+Xsg13cmos5l_Clamp_N43N43D4R_0 sg13cmos5l_RCClampInverter_0/out vss iovdd iovdd iovdd
++ iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd iovdd
++ iovdd iovdd iovdd iovdd iovdd iovdd sg13cmos5l_Clamp_N43N43D4R
+Xsg13cmos5l_RCClampInverter_0 sg13cmos5l_RCClampInverter_0/out sg13cmos5l_RCClampInverter_0/in
++ vss iovdd sg13cmos5l_RCClampInverter
+Xsg13cmos5l_RCClampResistor_0 iovdd sg13cmos5l_RCClampInverter_0/in vss sg13cmos5l_RCClampResistor
+.ends
+
+.subckt sg13cmos5l_IOPadVdd vdd iovdd iovss iovdd_uq0 vss w_n124_1076#
+Xsg13cmos5l_Clamp_N43N43D4R_0 sg13cmos5l_RCClampInverter_0/out vss vdd vdd vdd vdd
++ vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd vdd w_n124_1076#
++ sg13cmos5l_Clamp_N43N43D4R
+Xsg13cmos5l_RCClampInverter_0 sg13cmos5l_RCClampInverter_0/out sg13cmos5l_RCClampInverter_0/in
++ vss vdd sg13cmos5l_RCClampInverter
+Xsg13cmos5l_RCClampResistor_0 vdd sg13cmos5l_RCClampInverter_0/in vss sg13cmos5l_RCClampResistor
+.ends
+
+.subckt sg13cmos5l_tielo L_LO VDD VSS
+X0 L_LO a_223_58# VSS VSS sg13_lv_nmos ad=0.2992p pd=2.44u as=0.60422p ps=3.6u w=0.88u l=0.13u
+X1 VDD a_59_418# a_59_418# VDD sg13_lv_pmos ad=0.62572p pd=3.785u as=0.102p ps=1.28u w=0.3u l=0.13u
+X2 a_223_58# a_59_195# VDD VDD sg13_lv_pmos ad=0.3553p pd=2.77u as=0.62572p ps=3.785u w=1.045u l=0.13u
+X3 VSS a_59_418# a_59_195# VSS sg13_lv_nmos ad=0.60422p pd=3.6u as=0.1309p ps=1.45u w=0.385u l=0.13u
+.ends
+
+.subckt sg13cmos5l_decap_4 VDD VSS
+X0 VDD VSS VDD VDD sg13_lv_pmos ad=0.34p pd=2.68u as=0 ps=0 w=1u l=1u
+X1 VSS VDD VSS VSS sg13_lv_nmos ad=0.1428p pd=1.52u as=0 ps=0 w=0.42u l=1u
+.ends
+
+.subckt sg13cmos5l_tiehi L_HI VDD VSS
+X0 L_HI a_222_366# VDD VDD sg13_lv_pmos ad=0.3927p pd=2.99u as=0.76727p ps=3.885u w=1.155u l=0.13u
+X1 VDD a_23_195# a_23_429# VDD sg13_lv_pmos ad=0.76727p pd=3.885u as=0.2442p ps=2.06u w=0.66u l=0.13u
+X2 a_222_366# a_23_429# VSS VSS sg13_lv_nmos ad=0.27427p pd=2.28u as=0.49637p ps=3.565u w=0.795u l=0.13u
+X3 VSS a_23_195# a_23_195# VSS sg13_lv_nmos ad=0.49637p pd=3.565u as=0.111p ps=1.34u w=0.3u l=0.13u
+.ends
+
+.subckt user_id_programming mask_rev[0] mask_rev[1] mask_rev[2] mask_rev[3] mask_rev[4]
++ mask_rev[5] mask_rev[6] mask_rev[7] mask_rev[8] mask_rev[9] mask_rev[10] mask_rev[11]
++ mask_rev[12] mask_rev[13] mask_rev[14] mask_rev[15] mask_rev[16] mask_rev[17] mask_rev[18]
++ mask_rev[19] mask_rev[20] mask_rev[21] mask_rev[22] mask_rev[23] mask_rev[24] mask_rev[25]
++ mask_rev[26] mask_rev[27] mask_rev[28] mask_rev[29] mask_rev[30] mask_rev[31] VSS
++ VDD
+Xsg13cmos5l_tielo_24 mask_rev[15] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_13 mask_rev[26] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_25 mask_rev[13] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_14 mask_rev[28] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_30 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_26 mask_rev[11] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_15 mask_rev[30] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_30 sg13cmos5l_tiehi_30/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_31 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_27 sg13cmos5l_tielo_27/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_16 mask_rev[31] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_31 sg13cmos5l_tiehi_31/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_20 sg13cmos5l_tiehi_20/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_32 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_21 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_10 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tiehi_21 mask_rev[21] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_10 sg13cmos5l_tiehi_10/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tielo_28 mask_rev[7] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_17 sg13cmos5l_tielo_17/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_33 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_22 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_11 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_29 sg13cmos5l_tielo_29/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_18 mask_rev[27] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_22 sg13cmos5l_tiehi_22/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_11 sg13cmos5l_tiehi_11/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_34 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_23 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_12 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tiehi_23 mask_rev[17] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_12 sg13cmos5l_tiehi_12/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tielo_19 mask_rev[25] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_35 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_24 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_13 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tiehi_24 sg13cmos5l_tiehi_24/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_13 sg13cmos5l_tiehi_13/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_25 sg13cmos5l_tiehi_25/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_14 sg13cmos5l_tiehi_14/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_36 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_25 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_14 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_37 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_26 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_15 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tiehi_26 sg13cmos5l_tiehi_26/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_15 sg13cmos5l_tiehi_15/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_27 mask_rev[9] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_16 sg13cmos5l_tiehi_16/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_38 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_27 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_16 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_39 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_28 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_17 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tiehi_28 sg13cmos5l_tiehi_28/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_17 mask_rev[29] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_29 mask_rev[5] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_18 sg13cmos5l_tiehi_18/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_29 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_decap_4_18 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tiehi_19 sg13cmos5l_tiehi_19/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_0 sg13cmos5l_tiehi_0/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_1 sg13cmos5l_tiehi_1/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_2 mask_rev[4] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tiehi_3 sg13cmos5l_tiehi_3/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tielo_0 mask_rev[0] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_4 mask_rev[8] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_tielo_1 mask_rev[2] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_5 sg13cmos5l_tiehi_5/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_0 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_2 sg13cmos5l_tielo_2/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_6 sg13cmos5l_tiehi_6/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_1 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_3 mask_rev[6] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_7 sg13cmos5l_tiehi_7/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_2 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_4 sg13cmos5l_tielo_4/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_8 sg13cmos5l_tiehi_8/L_HI VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_3 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_5 mask_rev[10] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tiehi_9 mask_rev[18] VDD VSS sg13cmos5l_tiehi
+Xsg13cmos5l_decap_4_4 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_6 mask_rev[12] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_5 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_7 mask_rev[14] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_6 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_8 mask_rev[16] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_30 mask_rev[3] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_9 sg13cmos5l_tielo_9/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_7 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_31 mask_rev[1] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_20 mask_rev[23] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_8 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_21 sg13cmos5l_tielo_21/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_10 mask_rev[20] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_decap_4_9 VDD VSS sg13cmos5l_decap_4
+Xsg13cmos5l_tielo_22 mask_rev[19] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_11 mask_rev[22] VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_23 sg13cmos5l_tielo_23/L_LO VDD VSS sg13cmos5l_tielo
+Xsg13cmos5l_tielo_12 mask_rev[24] VDD VSS sg13cmos5l_tielo
+.ends
+
+.subckt user_id_routing mask_rev[0] mask_rev[1] mask_rev[2] mask_rev[3] mask_rev[4]
++ mask_rev[5] mask_rev[6] mask_rev[7] mask_rev[8] mask_rev[9] mask_rev[10] mask_rev[11]
++ mask_rev[12] mask_rev[13] mask_rev[14] mask_rev[15] mask_rev[16] mask_rev[17] mask_rev[18]
++ mask_rev[19] mask_rev[20] mask_rev[21] mask_rev[22] mask_rev[23] mask_rev[24] mask_rev[25]
++ mask_rev[26] mask_rev[27] mask_rev[28] mask_rev[29] mask_rev[30] mask_rev[31] vdd
++ vss
+Xuser_id_programming_0 mask_rev[0] mask_rev[1] mask_rev[2] mask_rev[3] mask_rev[4]
++ mask_rev[5] mask_rev[6] mask_rev[7] mask_rev[8] mask_rev[9] mask_rev[10] mask_rev[11]
++ mask_rev[12] mask_rev[13] mask_rev[14] mask_rev[15] mask_rev[16] mask_rev[17] mask_rev[18]
++ mask_rev[19] mask_rev[20] mask_rev[21] mask_rev[22] mask_rev[23] mask_rev[24] mask_rev[25]
++ mask_rev[26] mask_rev[27] mask_rev[28] mask_rev[29] mask_rev[30] mask_rev[31] vss
++ vdd user_id_programming
+.ends
+
+.subckt sg13cmos5l_IOPadIn pad p2c vdd vss iovdd sg13cmos5l_DCNDiode_0/guard
+Xsg13cmos5l_DCPDiode_0 pad iovdd vss pad sg13cmos5l_DCPDiode
+Xsg13cmos5l_LevelDown_0 p2c pad vdd vss vss iovdd sg13cmos5l_LevelDown
+Xsg13cmos5l_DCNDiode_0 vss pad sg13cmos5l_DCNDiode_0/guard pad sg13cmos5l_DCNDiode
+.ends
+
+.subckt sg13cmos5l_IOPadTriOut16mA pad vdd iovdd iovss iovdd_uq0 c2p_en c2p sg13cmos5l_DCNDiode_0/guard
++ vss
+Xsg13cmos5l_DCPDiode_0 pad iovdd_uq0 vss pad sg13cmos5l_DCPDiode
+Xsg13cmos5l_Clamp_P8N8D_0 sg13cmos5l_GateDecode_0/pgate iovdd_uq0 vss pad pad pad
++ pad sg13cmos5l_Clamp_P8N8D
+Xsg13cmos5l_Clamp_N8N8D_0 sg13cmos5l_GateDecode_0/ngate vss pad pad pad pad sg13cmos5l_DCNDiode_0/guard
++ sg13cmos5l_Clamp_N8N8D
+Xsg13cmos5l_GateDecode_0 sg13cmos5l_GateDecode_0/ngate sg13cmos5l_GateDecode_0/pgate
++ c2p c2p_en iovdd vdd vss sg13cmos5l_GateDecode
+Xsg13cmos5l_DCNDiode_0 vss pad sg13cmos5l_DCNDiode_0/guard pad sg13cmos5l_DCNDiode
+.ends
+
+.subckt sg13cmos5l_IOPadIOVss vdd vss iovdd sg13cmos5l_DCNDiode_0/guard
+Xsg13cmos5l_DCPDiode_0 vss iovdd vss vss sg13cmos5l_DCPDiode
+Xsg13cmos5l_DCNDiode_0 vss vss sg13cmos5l_DCNDiode_0/guard vss sg13cmos5l_DCNDiode
+.ends
+
+.subckt sg13cmos5l_padframe SDO SDI CSB SCK clk vddd gpio[0] gpio[1] gpio[2] gpio[3]
++ gpio[4] gpio[5] gpio[6] gpio[7] s1_an[1] s2_an[0] s3_an[0] s5_an[1] s5_an[2] s6_an[1]
++ s7_an[0] s9_an[1] s9_an[2] gpio[8] gpio[9] gpio[10] gpio[11] analog[1] s10_an[0]
++ s11_an[0] s13_an[1] s14_an[0] s14_an[1] s15_an[0] s16_an[0] s17_an[1] s18_an[0]
++ s18_an[1] SDO_out SDO_ena SDI_in CSB_in SCK_in clk_in gpio_0_in gpio_0_out gpio_0_oe
++ gpio_1_in gpio_1_out gpio_1_oe gpio_2_in gpio_2_out gpio_2_oe gpio_3_in gpio_3_out
++ gpio_3_oe gpio_4_in gpio_4_out gpio_4_oe gpio_5_in gpio_5_out gpio_5_oe gpio_6_in
++ gpio_6_out gpio_6_oe gpio_7_in gpio_7_out gpio_7_oe gpio_8_in gpio_8_out gpio_8_oe
++ gpio_9_in gpio_9_out gpio_9_oe gpio_10_in gpio_10_out gpio_10_oe gpio_11_in gpio_11_out
++ gpio_11_oe analog_0_esd analog_1_esd analog_2_esd analog_3_esd s1_an_0_esd s1_an_1_esd
++ s2_an_0_esd s2_an_1_esd s3_an_0_esd s3_an_1_esd s4_an_0_esd s5_an_0_esd s5_an_1_esd
++ s5_an_2_esd s6_an_0_esd s6_an_1_esd s7_an_0_esd s7_an_1_esd s8_an_0_esd s9_an_0_esd
++ s9_an_1_esd s9_an_2_esd s10_an_0_esd s10_an_1_esd s10_an_2_esd s11_an_0_esd s12_an_0_esd
++ s12_an_1_esd s13_an_0_esd s13_an_1_esd s14_an_0_esd s14_an_1_esd s14_an_2_esd s15_an_0_esd
++ s16_an_0_esd s16_an_1_esd s17_an_0_esd s17_an_1_esd s18_an_0_esd s18_an_1_esd mask_rev[0]
++ mask_rev[1] mask_rev[2] mask_rev[3] mask_rev[4] mask_rev[5] mask_rev[6] mask_rev[7]
++ mask_rev[8] mask_rev[9] mask_rev[10] mask_rev[11] mask_rev[12] mask_rev[13] mask_rev[14]
++ mask_rev[15] mask_rev[16] mask_rev[17] mask_rev[18] mask_rev[19] mask_rev[20] mask_rev[21]
++ mask_rev[22] mask_rev[23] mask_rev[24] mask_rev[25] mask_rev[26] mask_rev[27] mask_rev[28]
++ mask_rev[29] mask_rev[30] mask_rev[31] vdd3v3 vdd1v2 vss3v3 s1_an[0] s2_an[1] s17_an[0]
++ s16_an[1] s3_an[1] s4_an[0] s5_an[0] s14_an[2] s6_an[0] s13_an[0] s12_an[1] s7_an[1]
++ s12_an[0] s8_an[0] s9_an[0] s10_an[2] s10_an[1] analog[0] analog[2] analog[3]
+Xpad_s12_an_1 s12_an[1] s12_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vss1v2_0 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadVss
+Xpad_gpio_3 gpio[3] gpio_3_in vddd vdd3v3 vss3v3 vdd3v3 gpio_3_oe gpio_3_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s6_an_1 s6_an[1] s6_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vdd3v3_0 vddd vdd3v3 vss3v3 vss3v3 sg13cmos5l_IOPadIOVdd
+Xpad_vdd3v3_1 vdd1v2 vdd3v3 vss3v3 vss3v3 sg13cmos5l_IOPadIOVdd
+Xpad_vss1v2_1 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadVss
+Xpad_gpio_4 gpio[4] gpio_4_in vddd vdd3v3 vss3v3 vdd3v3 gpio_4_oe gpio_4_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s15_an_0 s15_an[0] s15_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s9_an_0 s9_an[0] s9_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vss1v2_2 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadVss
+Xpad_gpio_5 gpio[5] gpio_5_in vddd vdd3v3 vss3v3 vdd3v3 gpio_5_oe gpio_5_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_vdd3v3_2 vdd1v2 vdd3v3 vss3v3 vss3v3 sg13cmos5l_IOPadIOVdd
+Xpad_vdd3v3_3 vdd1v2 vdd3v3 vss3v3 vss3v3 sg13cmos5l_IOPadIOVdd
+Xpad_s9_an_1 s9_an[1] s9_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vss1v2_3 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadVss
+Xpad_gpio_6 gpio[6] gpio_6_in vddd vdd3v3 vss3v3 vdd3v3 gpio_6_oe gpio_6_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s9_an_2 s9_an[2] s9_an_2_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_gpio_7 gpio[7] gpio_7_in vddd vdd3v3 vss3v3 vdd3v3 gpio_7_oe gpio_7_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_vss1v2_4 vddd vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadVss
+Xpad_vdd3v3_4 vdd1v2 vdd3v3 vss3v3 vss3v3 sg13cmos5l_IOPadIOVdd
+Xpad_s18_an_0 s18_an[0] s18_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_gpio_8 gpio[8] gpio_8_in vdd1v2 vdd3v3 vss3v3 vdd3v3 gpio_8_oe gpio_8_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s18_an_1 s18_an[1] s18_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vdd1v2_0 vdd1v2 vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_gpio_9 gpio[9] gpio_9_in vdd1v2 vdd3v3 vss3v3 vdd3v3 gpio_9_oe gpio_9_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_vdd1v2_1 vdd1v2 vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_vdd1v2_2 vdd1v2 vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_s2_an_0 s2_an[0] s2_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s2_an_1 s2_an[1] s2_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vdd1v2_3 vdd1v2 vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_vddd_0 vddd vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_vdd1v2_4 vdd1v2 vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_s11_an_0 s11_an[0] s11_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s5_an_0 s5_an[0] s5_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vddd_1 vddd vdd3v3 vss3v3 vdd3v3 vss3v3 vdd3v3 sg13cmos5l_IOPadVdd
+Xpad_s5_an_1 s5_an[1] s5_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s5_an_2 s5_an[2] s5_an_2_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xproject_id mask_rev[0] mask_rev[1] mask_rev[2] mask_rev[3] mask_rev[4] mask_rev[5]
++ mask_rev[6] mask_rev[7] mask_rev[8] mask_rev[9] mask_rev[10] mask_rev[11] mask_rev[12]
++ mask_rev[13] mask_rev[14] mask_rev[15] mask_rev[16] mask_rev[17] mask_rev[18] mask_rev[19]
++ mask_rev[20] mask_rev[21] mask_rev[22] mask_rev[23] mask_rev[24] mask_rev[25] mask_rev[26]
++ mask_rev[27] mask_rev[28] mask_rev[29] mask_rev[30] mask_rev[31] vddd vss3v3 user_id_routing
+Xpad_s14_an_0 s14_an[0] s14_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s8_an_0 s8_an[0] s8_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s14_an_1 s14_an[1] s14_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s14_an_2 s14_an[2] s14_an_2_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s17_an_0 s17_an[0] s17_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s17_an_1 s17_an[1] s17_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s1_an_0 s1_an[0] s1_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s1_an_1 s1_an[1] s1_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s10_an_0 s10_an[0] s10_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s4_an_0 s4_an[0] s4_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s10_an_1 s10_an[1] s10_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_SDI SDI SDI_in vddd vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIn
+Xpad_gpio_10 gpio[10] gpio_10_in vdd1v2 vdd3v3 vss3v3 vdd3v3 gpio_10_oe gpio_10_out
++ vdd3v3 vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s10_an_2 s10_an[2] s10_an_2_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_gpio_11 gpio[11] gpio_11_in vdd1v2 vdd3v3 vss3v3 vdd3v3 gpio_11_oe gpio_11_out
++ vdd3v3 vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_analog_0 analog[0] analog_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s13_an_0 s13_an[0] s13_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s7_an_0 s7_an[0] s7_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_analog_1 analog[1] analog_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s13_an_1 s13_an[1] s13_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s7_an_1 s7_an[1] s7_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_SCK SCK SCK_in vddd vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIn
+Xpad_analog_2 analog[2] analog_2_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_CSB CSB CSB_in vddd vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIn
+Xpad_s16_an_0 s16_an[0] s16_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_clk clk clk_in vddd vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIn
+Xpad_analog_3 analog[3] analog_3_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_s16_an_1 s16_an[1] s16_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_SDO SDO vddd vdd3v3 vss3v3 vdd3v3 SDO_ena SDO_out vdd3v3 vss3v3 sg13cmos5l_IOPadTriOut16mA
+Xpad_vss3v3_0 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIOVss
+Xpad_vss3v3_1 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIOVss
+Xpad_vss3v3_2 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIOVss
+Xpad_s3_an_0 s3_an[0] s3_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vss3v3_3 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIOVss
+Xpad_gpio_0 gpio[0] gpio_0_in vddd vdd3v3 vss3v3 vdd3v3 gpio_0_oe gpio_0_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s3_an_1 s3_an[1] s3_an_1_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_gpio_1 gpio[1] gpio_1_in vddd vdd3v3 vss3v3 vdd3v3 gpio_1_oe gpio_1_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_vss3v3_4 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIOVss
+Xpad_s12_an_0 s12_an[0] s12_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_gpio_2 gpio[2] gpio_2_in vddd vdd3v3 vss3v3 vdd3v3 gpio_2_oe gpio_2_out vdd3v3
++ vss3v3 sg13cmos5l_IOPadInOut16mA
+Xpad_s6_an_0 s6_an[0] s6_an_0_esd vdd1v2 vdd3v3 vss3v3 vdd3v3 vdd3v3 vss3v3 sg13cmos5l_IOPadAnalog
+Xpad_vss3v3_5 vdd1v2 vss3v3 vdd3v3 vdd3v3 sg13cmos5l_IOPadIOVss
+.ends
+

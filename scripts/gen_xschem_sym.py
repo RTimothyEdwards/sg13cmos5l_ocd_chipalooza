@@ -1,7 +1,15 @@
 #!/usr/bin/env python3
-"""Generate an xschem symbol for a synthesized digital block.
+"""Generate the xschem symbols that are derived from another view.
 
-    scripts/gen_xschem_sym.py housekeeping_top user_project_control
+    scripts/gen_xschem_sym.py                     regenerate everything
+    scripts/gen_xschem_sym.py slot7_wrapper       regenerate just that one
+    scripts/gen_xschem_sym.py --help              this text
+
+With a module name, only that symbol (and its _lvs.v, if it has one) is
+written.  Every source is still READ, because the 18 slot wrappers share
+one bounding box and one row assignment:  regenerating one in isolation
+without reading the others would give it a geometry that disagrees with
+its siblings.
 
 The two synthesized blocks have 49 and 24 port declarations, which expand
 to 227 and 121 physical pins.  Drawing those by hand is not reasonable,
@@ -444,6 +452,13 @@ def emit_lvs_verilog(module, ports, outpath, source, simview=None):
 
 
 def main(argv):
+    only = None
+    if argv:
+        if argv[0] in ('-h', '--help'):
+            print(__doc__)
+            return
+        only = argv[0]
+
     root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
     outdir = os.path.join(root, 'xschem')
     os.makedirs(outdir, exist_ok=True)
@@ -452,11 +467,13 @@ def main(argv):
     sram = 'RM_IHPSG13_1P_1024x8_c2_bm_bist'
 
     jobs = []
+
     # The two synthesized blocks:  ports and ORDER from the gate-level
     # netlist that netgen reads, so the two sides line up positionally.
     # The .pnl.v already declares vddd/vssd, so no power pins are added.
     # Falls back to the RTL (plus POWER_PINS) only if the block has not
     # been through the flow yet, in which case the order is a guess.
+
     for m in ('housekeeping_top', 'user_project_control'):
         gl = os.path.join(root, 'verilog', 'gl', m + '.pnl.v')
         if os.path.isfile(gl):
@@ -465,16 +482,44 @@ def main(argv):
             print(f'  WARNING {m}: no {gl}, falling back to the RTL;'
                   ' pin ORDER will not match netgen')
             jobs.append((m, 'rtl', os.path.join(root, 'verilog', 'rtl', m + '.v')))
+
     # The 18 slots:  ports from the LAYOUT, which is authoritative here --
     # the cells are empty, and the layout names differ from the Verilog
     # (ibias[1:0] vs ibias0/ibias1, s1_an[1:0] vs analog_pin0/1).
+
     for n in range(1, 19):
         m = f'slot{n}_wrapper'
         jobs.append((m, 'mag', os.path.join(root, 'magic', m + '.mag')))
+
     # The SRAM:  ports from the CDL, which is the view substituted for
     # this primitive, so its port ORDER is what the instance must match.
+
     jobs.append((sram, 'cdl', os.path.join(
         pdk, 'libs.ref', 'sg13cmos5l_sram', 'cdl', sram + '.cdl')))
+
+    # The padframe:  ports from verilog/gl/sg13cmos5l_padframe.v, NOT from
+    # the layout, and NOT with the slot template.
+    #
+    # Not the template, because 'mag' means "one of the 18 slot wrappers":
+    # those are sized and placed as a SET (see slot_geometry), keyed by
+    # slot_key(), which strips the slot number so s7_an and s12_an share a
+    # row.  Correct for a wrapper, which has one;  wrong for the padframe,
+    # which has all eighteen and would stack them on a single row.
+    #
+    # Not the layout, because the padframe is instantiated in the top level
+    # schematic as a primitive:  its instance nets bind POSITIONALLY to
+    # sg13cmos5l_padframe.v, so the symbol's pin order has to be that
+    # file's port order.  Taking the ports from the same file makes the two
+    # agree by construction.  The pin NAMES still have to match the layout,
+    # and they do -- that is why the four shared analog ESD pads were
+    # renamed from analog_esd[3:0] to analog_<N>_esd.
+    #
+    # Kind 'vsrc' rather than 'rtl' because 'rtl' appends POWER_PINS
+    # (vddd/vssd) for the synthesized blocks, and the padframe declares its
+    # own supplies.  'vsrc' also keeps it out of _lvs.v generation, since
+    # sg13cmos5l_padframe.v is itself the LVS view.
+    jobs.append(('sg13cmos5l_padframe', 'vsrc', os.path.join(
+        root, 'verilog', 'gl', 'sg13cmos5l_padframe.v')))
 
     # Read every port list first:  the 18 wrappers are sized and placed
     # as a SET (see slot_geometry), so none can be written until all of
@@ -493,6 +538,8 @@ def main(argv):
                                 for n, d, r in rtl_ports(rtl, module)]
         elif kind == 'rtl':
             ports = rtl_ports(path, module) + [(n, d, '') for n, d in POWER_PINS]
+        elif kind == 'vsrc':
+            ports = rtl_ports(path, module)
         elif kind == 'mag':
             ports = mag_ports(path)
         else:
@@ -506,7 +553,19 @@ def main(argv):
         print(f'  slot template: {geom["width"]} x {geom["height"]} '
               f'({geom["nleft"]} left rows, {geom["nright"]} right)')
 
+    if only is not None:
+        names = [m for m, _, _ in loaded]
+        if only not in names:
+            sys.exit(f'{only}: not one of the generated symbols.\n'
+                     'Choose one of:\n  ' + '\n  '.join(names))
+
     for module, kind, ports in loaded:
+        # Everything is READ above even when only one symbol is written:
+        # the 18 wrappers share one bounding box and one row assignment,
+        # so regenerating a single one in isolation would give it a
+        # different geometry from its siblings.
+        if only is not None and module != only:
+            continue
         outpath = os.path.join(outdir, module + '.sym')
         n, nl, nr = emit(module, ports, outpath,
                          geom if kind == 'mag' else None,
@@ -531,4 +590,4 @@ def main(argv):
               f'({nl} left, {nr} right)  [{kind}]{extra}')
 
 
-main(sys.argv[1:] or [])
+main(sys.argv[1:])
