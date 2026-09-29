@@ -56,7 +56,7 @@ s14_source:	https://github.com/Intubun/chipalooza_lvds_pll
 s15_source:	https://github.com/srout/sg13cmos5l_srout_ip__tinyBGR
 s16_source:	https://github.com/arjun2000ananth/SAR_ADC_IHP
 s17_source:	https://github.com/AouissiBrahim/SG13CMOS5L_LPSVS
-s18_source:	https://bitbucket.org/chrisgj198/sg13cmos5l_chipalooza2_ic_vco
+s18_source:	https://bitbucket.org/chrisgj198/sg13cmos5l_chipalooza2_lc_vco
 
 #--------------------------------------------------------------------------------------
 # Project	Author

@@ -9,9 +9,26 @@ had been extracted BEFORE the symbols were regenerated, so the instance
 pin order in the netlist no longer agreed with the symbol it came from.
 Nothing in the flow complains about that.  This script does.
 
-It only compares modification times.  That is enough, because every
-relationship here is "regenerate B whenever A changes", and it is the
-check nobody remembers to do by hand.
+It compares modification times, because every relationship here is
+"regenerate B whenever A changes", and that is the check nobody
+remembers to do by hand.
+
+Two refinements keep it from crying wolf, which matters:  a checker
+that reports false alarms is a checker nobody reads.
+
+  * Re-running a generator rewrites its outputs whether or not the
+    contents change.  On 2026-09-28 a no-op run of
+    run_gen_xschem_syms.sh rewrote 23 symbols byte-for-byte identically
+    and all 23 then looked newer than the netlist extracted from them.
+    So when a source's mtime is newer, the source is compared against
+    the version git held at the moment the derived view was built.
+    Same bytes means the mtime moved but the content did not, and that
+    is not staleness.  (Uncommitted sources have no such history and
+    are always reported.)
+
+  * The schematic netlist depends on the symbols chipalooza_frame.sch
+    actually instantiates, not on every file in xschem/.  The list is
+    read from the schematic.
 
     scripts/check_staleness.py            report and exit 1 if stale
     scripts/check_staleness.py --quiet    exit status only
@@ -28,8 +45,10 @@ The chain, in dependency order:
 """
 
 import os
+import re
 import sys
 import glob
+import subprocess
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -39,6 +58,58 @@ def mtime(path):
         return os.path.getmtime(path)
     except OSError:
         return None
+
+
+def git(*args, **kw):
+    """Run git in ROOT.  Returns stdout, or None if git cannot answer."""
+    try:
+        r = subprocess.run(("git",) + args, cwd=ROOT, stdout=subprocess.PIPE,
+                           stderr=subprocess.DEVNULL, **kw)
+    except OSError:
+        return None
+    return r.stdout if r.returncode == 0 else None
+
+
+def unchanged_since(path, when):
+    """True if PATH holds the same bytes it held at time WHEN.
+
+    Answers the question a bare mtime cannot:  did re-running the
+    generator actually change anything?  Only a "yes, identical" is
+    trusted --- anything git cannot answer (untracked file, no such
+    commit, no git at all) returns False so the caller still reports.
+    """
+    rev = git("rev-list", "-1", "--before=@%d" % int(when), "HEAD")
+    if not rev or not rev.strip():
+        return False
+    rel = os.path.relpath(path, ROOT)
+    then = git("show", "%s:%s" % (rev.decode().strip(), rel))
+    if then is None:
+        return False                    # not in the tree back then
+    try:
+        with open(path, "rb") as f:
+            return f.read() == then
+    except OSError:
+        return False
+
+
+def symbols_used_by(sch):
+    """The symbols a schematic instantiates, as repo-relative paths.
+
+    xschem instance records look like:   C {slot1_wrapper.sym} ...
+    Symbols that live in the PDK rather than in xschem/ are skipped;
+    they are not ours to regenerate.
+    """
+    try:
+        with open(os.path.join(ROOT, sch)) as f:
+            text = f.read()
+    except OSError:
+        return []
+    used = set()
+    for name in re.findall(r"^C \{([^}]*\.sym)\}", text, re.M):
+        rel = os.path.join("xschem", os.path.basename(name))
+        if os.path.exists(os.path.join(ROOT, rel)):
+            used.add(rel)
+    return sorted(used)
 
 
 def expand(patterns):
@@ -70,7 +141,8 @@ RULES = [
      "scripts/run_gen_xschem_syms.sh"),
 
     ("netlist/schematic/chipalooza_frame.spice",
-     ["xschem/chipalooza_frame.sch", "xschem/*.sym"],
+     ["xschem/chipalooza_frame.sch"]
+     + symbols_used_by("xschem/chipalooza_frame.sch"),
      "xschem/run_extract_chipalooza_frame.sh"),
 
     ("netlist/layout/chipalooza_frame.spice",
@@ -129,7 +201,7 @@ def main(argv):
         newer = []
         for s in expand([sources] if isinstance(sources, str) else sources):
             st = mtime(s)
-            if st is not None and st > dt:
+            if st is not None and st > dt and not unchanged_since(s, dt):
                 newer.append((os.path.relpath(s, ROOT), st - dt))
         if newer:
             stale.append((derived, how, newer))
