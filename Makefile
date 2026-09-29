@@ -98,6 +98,36 @@ symbols:				## regenerate the derived xschem symbols and _lvs.v views
 	./scripts/run_gen_xschem_syms.sh
 
 # ---------------------------------------------------------------------
+# User projects
+#
+# The eighteen user projects are submodules at dependencies/slot_<N>,
+# cloned from the URLs in config.txt and pinned to the commits recorded
+# there.  See scripts/get_projects.sh --help for the file format.
+#
+# Slot numbers narrow any of these to a subset:
+#
+#	make projects SLOTS="3 7 12"
+
+SLOTS ?=
+
+.PHONY: projects projects-status projects-update projects-clean
+projects:				## clone the user projects named in config.txt
+	./scripts/get_projects.sh $(SLOTS)
+
+projects-status:			## report each slot against config.txt
+	@./scripts/get_projects.sh --status $(SLOTS)
+
+projects-update:			## move projects onto the versions in config.txt
+	./scripts/get_projects.sh --update $(SLOTS)
+
+# Refuses to discard a project with uncommitted changes in it;  add
+# FORCE=1 to remove it anyway.  What is committed always comes back
+# from config.txt, so this is only as destructive as the edits you
+# have not committed.
+projects-clean:				## remove all project submodules (empty harness)
+	./scripts/get_projects.sh --clean $(if $(FORCE),--force) $(SLOTS)
+
+# ---------------------------------------------------------------------
 # Digital blocks  (README 8)
 #
 # LibreLane runs inside a nix shell;  see librelane/*/README.  These
