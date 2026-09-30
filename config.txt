@@ -78,7 +78,7 @@ project_id: 20260908
 s1_source:	https://github.com/rcyaon/bidir-level-shifter
 s2_source:	https://github.com/robertsaabwoo/ttsky-analog-equalizer
 s3_source:	https://github.com/htfab/hsxo-cpz2
-s4_source:	https://github.com/phdridha_12/sg13cmos5l_Wind_Comp
+s4_source:	https://github.com/phdridha12/sg13cmos5l_Wind_Comp
 s5_source:	https://github.com/YacineSot/sg13cmos5l_yacinesot_ip__diff_opamp_cmfb
 s6_source:	https://github.com/vyges/sg13cmos5l_vyges_ip__pll_rosc
 s7_source:	https://github.com/tatzelbrumm/sg13cmos5l_cm_ip__draft_single2diff2single
