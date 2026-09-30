@@ -370,6 +370,11 @@ fi
 	echo "    puts \"ERROR: slot_$n.gds contains no cell named slot_$n\""
 	echo "    quit -noprompt"
 	echo "}"
+	echo "load slot_$n"
+	echo "# Remove GDS_END and set GDS_START to 0 so the cells get prefixed"
+	echo "property GDS_END \"\""
+	echo "property GDS_START 0"
+	echo "property LEFview true"
     done
     echo ""
     echo "load $topcell"

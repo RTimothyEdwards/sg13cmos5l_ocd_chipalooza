@@ -425,7 +425,7 @@ The following steps continue with the top-level chip integration
      This step runs the script "run_gen_filled_final_gds.sh" to get the
      (post-fill) final design.  The final top level has its own cell name.
      By default (which is not an IHP-approved name) the top level cell will
-     be called "sg13cmos5l_caravel_openframe_final".  For IHP submissions,
+     be called "sg13cmos5l_ocd_chipalooza_final".  For IHP submissions,
      IHP will provide the name of the top level cell as part of the
      submission process.  To get the correct final top level cell name and
      file name, set the environment variable "PROJECT" to the cell name
@@ -465,7 +465,7 @@ The following steps continue with the top-level chip integration
      is in a verilog netlist.  If the top level cell has been named
      according to environment variable PROJECT, then a top level verilog
      netlist needs to be made for a module with the name ${PROJECT}.  This
-     is easy to do by copying the "sg13cmos5l_caravel_openframe_final.v"
+     is easy to do by copying the "sg13cmos5l_ocd_chipalooza_final.v"
      file to ${PROJECT}.v and changing the module name to ${PROJECT}.
 
      [To do:  Currently top level LVS through magic and netgen fails due

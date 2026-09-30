@@ -25,6 +25,7 @@ crashbackups stop
 locking disable
 
 source ../scripts/layout_setup.tcl
+addpath sealring
 
 # Read chipalooza_frame and write GDS (with hierarchical processing)
 load chipalooza_frame
