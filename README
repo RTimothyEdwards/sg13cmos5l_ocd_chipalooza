@@ -101,6 +101,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      chip has the same upstream repository but exists in its own development branch.
 
 	git branch tapeout_nov_2026
+	git checkout tapeout_nov_2026
 
 (2)  All scripts make use of an environment variable PDK_ROOT which should be set
      appropriately to point to the directory containing the PDK (ihp-sg13cmos5l),
@@ -135,7 +136,7 @@ To create a new Chipalooza test chip with custom user analog projects:
 
      The slot assignments are followed by a list of repository branches and
      commit hashes.  These will normally be filled out automatically by using
-     "make projects-update", which freezes the state of all submodules.
+     "make projects", which effectively freezes the state of all submodules.
      After a freeze, if a designer wishes to provide an updated version of their
      design repository, the new commit hash can be entered here and the project
      updated with

@@ -30,9 +30,11 @@
 # The user ID number is a 32-bit value that is passed to this routine
 # as an 8-digit hex number.  If not given as an option, then the script
 # will look for the value of the key "project_id" in the config.txt file
-# in the project top level directory.  If in "-report" mode, it will
-# check the RTL top-level verilog to see if set_user_id.py has already
-# been applied, and pull the value from there.
+# in the project top level directory.  In "-report" mode it instead reads
+# verilog/gl/user_id_programming.v and prints the ID the design actually
+# holds, which is how to tell whether this script has been applied;  the
+# value reported is the one encoded by the mask_rev connections, since
+# those are what program the chip.
 #
 # user_id_vias layout map:
 # Positions marked (in microns) for value = 0.  For value = 1, move
@@ -81,6 +83,75 @@ import sys
 import re
 import subprocess
 
+# The parameter sits in the module's parameter list and so has no trailing
+# semicolon.  Hex digits may be either case.
+
+paramrex = re.compile(r"(parameter\s+USER_PROJECT_ID\s*=\s*32'h)([0-9A-Fa-f]+)")
+
+# One hard-coded mask_rev connection.  Anchored at the start of the line so
+# that the commented-out generate block above them cannot match.
+
+assignrex = re.compile(r"^(\s*)assign\s+mask_rev\[([0-9]+)\]\s*=\s*"
+		r"user_proj_id_(high|low)\[([0-9]+)\]\s*;\s*(?:/\*.*\*/)?\s*$")
+
+
+def parse_user_id(value):
+    """Parse a user ID and return (normalized string, integer, bit string).
+
+    The bit string is indexed by bit number, so bits[0] is the LSB.
+
+    The length is checked and not merely the hex-ness:  Step 3 indexes the
+    string directly, one character per hex digit of the layout text, so a
+    value of the wrong length would silently label the chip with the wrong
+    number rather than fail.  Raises ValueError if it is not exactly eight
+    hexadecimal digits.
+    """
+    v = value.strip().strip('"\'')
+    if len(v) != 8:
+        raise ValueError('"' + v + '" is ' + str(len(v)) +
+			' characters, not eight')
+    try:
+        n = int(v, 16)
+    except ValueError:
+        raise ValueError('"' + v + '" is not hexadecimal')
+    return (v.upper(), n, '{0:032b}'.format(n)[::-1])
+
+
+def read_programmed_id(vfile):
+    """Read the ID actually programmed into the verilog.
+
+    Returns (connections, parameter), either of which may be None if it
+    could not be read.  The two are separate on purpose:  the parameter is
+    documentation that nothing overrides, while the connections to the
+    tiehi and tielo cells are what reach the chip.
+    """
+    bits = {}
+    param = None
+
+    try:
+        with open(vfile, 'r') as ifile:
+            vlines = ifile.read().splitlines()
+    except OSError:
+        return (None, None)
+
+    for line in vlines:
+        amatch = assignrex.match(line)
+        if amatch:
+            idx = int(amatch.group(2))
+            if idx < 32 and idx == int(amatch.group(4)):
+                bits[idx] = '1' if amatch.group(3) == 'high' else '0'
+            continue
+        pmatch = paramrex.search(line)
+        if pmatch:
+            param = int(pmatch.group(2), 16)
+
+    connections = None
+    if len(bits) == 32:
+        connections = int(''.join(bits[i] for i in range(31, -1, -1)), 2)
+
+    return (connections, param)
+
+
 def usage():
     print("Usage:")
     print("set_user_id.py [<user_id_value>] [<path_to_project>] [-debug][-report]")
@@ -93,7 +164,10 @@ def usage():
     print("  If <path_to_project> is not given, then it is assumed to be the cwd.")
     print("")
     print("  -debug:  Output additional information while running.")
-    print("  -report: Find the existing value of the user ID and report it.")
+    print("  -report: Report the user ID currently programmed into")
+    print("           verilog/gl/user_id_programming.v and exit.  This reads")
+    print("           the verilog, not config.txt, so that it says what the")
+    print("           design holds rather than what it is meant to hold.")
     return 0
 
 if __name__ == '__main__':
@@ -136,22 +210,33 @@ if __name__ == '__main__':
     user_project_path = None
 
     if len(arguments) > 0:
-        user_id_value = arguments[0]
-
-        # Convert to binary
+        # The first argument is the ID, unless it does not look like one,
+        # in which case it is the project path.
         try:
-            user_id_int = int('0x' + user_id_value, 0)
-            user_id_bits = '{0:032b}'.format(user_id_int)[::-1]
-        except:
+            (user_id_value, user_id_int, user_id_bits) = parse_user_id(arguments[0])
+        except ValueError as e:
+            if len(arguments) == 2:
+                # Two arguments:  the first was certainly meant as an ID.
+                print('Error:  user ID ' + str(e) + '.')
+                print('        It must be exactly eight hexadecimal digits.')
+                sys.exit(1)
+
+            # Otherwise it is the project path.  user_id_value must be
+            # cleared, or the config.txt lookup below is skipped and
+            # user_id_int never gets set.
+            user_id_value = None
             user_project_path = arguments[0]
+            if not os.path.isdir(user_project_path):
+                print('Error:  "' + arguments[0] + '" is neither an eight-digit')
+                print('        hex user ID nor a readable project directory.')
+                sys.exit(1)
 
     if len(arguments) == 0:
         user_project_path = os.getcwd()
     elif len(arguments) == 2:
         user_project_path = arguments[1]
     elif user_project_path == None:
-        user_project_path = arguments[0]
-    else:
+        # One argument, and it parsed as an ID, so the path is the cwd.
         user_project_path = os.getcwd()
 
     if not os.path.isdir(user_project_path):
@@ -159,65 +244,70 @@ if __name__ == '__main__':
 		' exist or is not readable.')
         sys.exit(1)
 
-    # Check for valid directories
+    # -report asks a different question from the rest of the script:  not
+    # "what should the ID be" but "what ID does the design actually hold".
+    # So it reads the verilog.  Reading config.txt would report the intended
+    # value straight back, which says nothing about whether this script has
+    # been run --- and in a round-trip test that is the entire question.
+    # The connections are what program the chip, so those are what get
+    # reported, with a note if the parameter disagrees.
+    #
+    # The value goes to stdout on its own so the output can be used
+    # directly;  everything else goes to stderr.
+
+    if reportmode:
+        vfile = user_project_path + '/verilog/gl/user_id_programming.v'
+
+        if not os.path.isfile(vfile):
+            print('Error:  Cannot find programming block verilog ' + vfile +
+			'.  Is this script being run in the project directory?',
+			file=sys.stderr)
+            print('0')
+            sys.exit(1)
+
+        (connections, parameter) = read_programmed_id(vfile)
+
+        if connections == None:
+            print('Error:  Could not read all 32 mask_rev connections from ' +
+			vfile + '.', file=sys.stderr)
+            print('0')
+            sys.exit(1)
+
+        if parameter != None and parameter != connections:
+            print("Warning:  USER_PROJECT_ID reads 32'h" +
+			'{0:08X}'.format(parameter) + " but the connections encode " +
+			"32'h" + '{0:08X}'.format(connections) +
+			'.  Reporting the connections.', file=sys.stderr)
+
+        print(str(connections))
+        sys.exit(0)
 
     if not user_id_value:
-        if os.path.isfile(user_project_path + '/config.txt'):
-            with open(user_project_path + '/config.txt', 'r') as ifile:
-                infolines = ifile.read().splitlines()
-                for line in infolines:
-                    kvpair = line.split(':')
-                    if len(kvpair) == 2:
-                        key = kvpair[0].strip()
-                        value = kvpair[1].strip()
-                        if key == 'project_id':
-                            user_id_value = value.strip('"\'')
-                            break
-
-            if not user_id_value:
-                print('Error:  No project_id key:value pair found in project config.txt.')
-                sys.exit(1)
-
-            try:
-                user_id_int = int('0x' + user_id_value, 0)
-                user_id_bits = '{0:032b}'.format(user_id_int)[::-1]
-            except:
-                print('Error:  Cannot parse user ID "' + user_id_value +
-				'" as an 8-digit hex number.')
-                sys.exit(1)
-
-        elif reportmode:
-            found = False
-            idrex = re.compile("parameter USER_PROJECT_ID = 32'h([0-9A-F]+);")
-
-            # Check if USER_PROJECT_ID has a non-zero value in sg13cmos5l_ocd_chipalooza.v
-            rtl_top_path = user_project_path + '/verilog/gl/sg13cmos5l_ocd_chipalooza.v'
-            if os.path.isfile(rtl_top_path):
-                with open(rtl_top_path, 'r') as ifile:
-                    vlines = ifile.read().splitlines()
-                    outlines = []
-                    for line in vlines:
-                        imatch = idrex.search(line)
-                        if imatch:
-                            user_id_int = int('0x' + imatch.group(1), 0)
-                            found = True
-                            break
-            else:
-                print('Error:  Cannot find top-level RTL ' + rtl_top_path + '.' +
-			'  Is this script being run in the project directory?')
-            if not found:
-                if reportmode:
-                    user_id_int = 0
-                else:
-                    print('Error:  No USER_PROJECT_ID found in chipalooza top level verilog.')
-                    sys.exit(1)
-        else:
+        if not os.path.isfile(user_project_path + '/config.txt'):
             print('Error:  No config.txt file and no user ID argument given.')
             sys.exit(1)
 
-    if reportmode:
-        print(str(user_id_int))
-        sys.exit(0)
+        with open(user_project_path + '/config.txt', 'r') as ifile:
+            infolines = ifile.read().splitlines()
+            for line in infolines:
+                kvpair = line.split(':')
+                if len(kvpair) == 2:
+                    key = kvpair[0].strip()
+                    value = kvpair[1].strip()
+                    if key == 'project_id':
+                        user_id_value = value.strip('"\'')
+                        break
+
+        if not user_id_value:
+            print('Error:  No project_id key:value pair found in project config.txt.')
+            sys.exit(1)
+
+        try:
+            (user_id_value, user_id_int, user_id_bits) = parse_user_id(user_id_value)
+        except ValueError as e:
+            print('Error:  project_id in config.txt: ' + str(e) + '.')
+            print('        It must be exactly eight hexadecimal digits.')
+            sys.exit(1)
 
     if user_id_int == 0:
         print('Value zero is an invalid user ID.  Exiting.')
@@ -318,27 +408,136 @@ if __name__ == '__main__':
         print('Ending process.')
         sys.exit(1)
 
-    print('Step 2:  Add user project ID parameter to source verilog.')
+    print('Step 2:  Set the user project ID in the programming block verilog.')
 
-    changed = False
-    with open(vpath + '/gl/sg13cmos5l_ocd_chipalooza.v', 'r') as ifile:
+    vfile = vpath + '/gl/user_id_programming.v'
+
+    # Two things in this file encode the ID, and only one of them is real.
+    # USER_PROJECT_ID is a parameter that nothing overrides;  what actually
+    # reaches the chip is the set of hard-coded connections to the tiehi and
+    # tielo cells below it, which is what the layout and netgen see.
+    #
+    # Both are rewritten on every run, even when the parameter already reads
+    # correctly, because the two can drift apart.  If they ever do, it is the
+    # connections that taped out, so trusting the parameter and skipping the
+    # rest would hide the discrepancy rather than fix it.  Rewriting lines
+    # that are already correct costs nothing.
+    #
+    # paramrex and assignrex are defined at the top of this file and are
+    # shared with read_programmed_id(), so that what -report reads and what
+    # this step rewrites can never drift apart.
+    #
+    # NOTE:  the parameter is in the module's parameter list and so has no
+    # trailing semicolon.  An earlier version of that pattern required one
+    # and therefore never matched anything.
+
+    # Column at which the trailing /* bit */ comment starts, matching the
+    # file as it is written.  Keeping it means an unchanged ID produces no
+    # diff at all.
+    comment_col = 49
+
+    id_hex = '{0:08X}'.format(user_id_int)
+
+    oldbits = {}
+    outlines = []
+    nchanged = 0
+    paramfound = False
+    oldparam = None
+    errors = 0
+
+    with open(vfile, 'r') as ifile:
         vlines = ifile.read().splitlines()
-        outlines = []
-        for line in vlines:
-            oline = re.sub("parameter USER_PROJECT_ID = 32'h[0-9A-F]+;",
-			"parameter USER_PROJECT_ID = 32'h" + user_id_value + ";",
-			line)
-            if oline != line:
-                changed = True
-            outlines.append(oline)
 
-    if changed:
-        with open(vpath + '/gl/sg13cmos5l_ocd_chipalooza.v', 'w') as ofile:
+    for line in vlines:
+        amatch = assignrex.match(line)
+        if amatch:
+            indent = amatch.group(1)
+            idx = int(amatch.group(2))
+            rhsidx = int(amatch.group(4))
+
+            if idx > 31:
+                print('Error:  mask_rev[' + str(idx) + '] is out of range in ' + vfile)
+                errors += 1
+                outlines.append(line)
+                continue
+
+            # The left and right hand sides must name the same bit.  A
+            # mismatch here would quietly program the wrong bit.
+            if idx != rhsidx:
+                print('Error:  mask_rev[' + str(idx) + '] is driven from ' +
+			'user_proj_id_' + amatch.group(3) + '[' + str(rhsidx) +
+			'] in ' + vfile)
+                errors += 1
+                outlines.append(line)
+                continue
+
+            if idx in oldbits:
+                print('Error:  mask_rev[' + str(idx) + '] is assigned twice in ' + vfile)
+                errors += 1
+                outlines.append(line)
+                continue
+
+            oldbits[idx] = '1' if amatch.group(3) == 'high' else '0'
+
+            bit = user_id_bits[idx]
+            level = 'high' if bit == '1' else 'low'
+            body = (indent + 'assign mask_rev[' + str(idx) + '] = ' +
+			'user_proj_id_' + level + '[' + str(idx) + '];')
+            oline = body.ljust(comment_col) + '/* ' + bit + ' */'
+
+            if oline != line:
+                nchanged += 1
+                if debugmode:
+                    print('Bit ' + str(idx) + ':  ' + oldbits[idx] + ' -> ' + bit)
+            outlines.append(oline)
+            continue
+
+        if paramrex.search(line):
+            paramfound = True
+            oldparam = paramrex.search(line).group(2)
+            oline = paramrex.sub(lambda m: m.group(1) + id_hex, line)
+            if oline != line:
+                nchanged += 1
+            outlines.append(oline)
+            continue
+
+        outlines.append(line)
+
+    # Everything must have been found, or the file is not what we think.
+
+    missing = [i for i in range(0, 32) if i not in oldbits]
+    if missing:
+        print('Error:  no assign line found for mask_rev bit(s) ' +
+		', '.join(str(i) for i in missing) + ' in ' + vfile)
+        errors += 1
+
+    if not paramfound:
+        print('Error:  no USER_PROJECT_ID parameter found in ' + vfile)
+        errors += 1
+
+    # Report a parameter that disagreed with the connections.  This is the
+    # accident the whole belt-and-braces rewrite exists to catch, so say so
+    # rather than fixing it silently.
+
+    if paramfound and not missing:
+        oldconn = int(''.join(oldbits[i] for i in range(31, -1, -1)), 2)
+        if int(oldparam, 16) != oldconn:
+            print("Warning:  USER_PROJECT_ID read 32'h" + oldparam.upper() +
+			" but the connections encoded 32'h" +
+			'{0:08X}'.format(oldconn) + '.')
+            print('          The two had drifted apart.  It is the connections')
+            print("          that program the chip.  Both are now 32'h" + id_hex + '.')
+
+    if errors == 0:
+        with open(vfile, 'w') as ofile:
             for line in outlines:
                 print(line, file=ofile)
-            print('Done!')
+        if nchanged == 0:
+            print('Done!  (parameter and all 32 bits were already correct)')
+        else:
+            print('Done!  (' + str(nchanged) + ' line(s) changed)')
     else:
-        print('Error:  No substitutions done on verilog/gl/sg13cmos5l_ocd_chipalooza.v.')
+        print('There were errors in processing.  ' + vfile + ' not written.')
         print('Ending process.')
         sys.exit(1)
 
