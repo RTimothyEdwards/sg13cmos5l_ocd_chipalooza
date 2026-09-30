@@ -372,15 +372,27 @@ To create a new Chipalooza test chip with custom user analog projects:
      individual slot revises all views up to the chip top level, other
      slots are unaffected.
 
-(12) (Item to do, not yet automated)
+(12) Search the user project repositories for user project GDS:
 
-	make harness
+	make projects-gds
 
-     This step reads the "config.txt" file, finds the layout "slot_N.gds"
-     in each of the user project repositories and instantiates the
-     cell into the top level layout.
+     This runs the script "get_projects_gds.sh" which checks each of
+     the user project submodules and finds the "slot_<N>.gds" file,
+     including checks for various styles of repository ("final/gds/"
+     vs. "gds/"), allowing ".gds.gz" files, and failing if a GDS file
+     cannot be found or if both ".gds" and "gds.gz" files exist.
 
-(13) Generate fill patterns for the chip using
+(13) Assemble the chip top level (without fill):
+
+	make gds-prefill
+
+     This step assembles the chip top level prior to fill generation,
+     using the script generated in step (12) to drop the user projects
+     as "read-only" GDS into the top level layout over top the wrapper
+     locations.  It then places the seal ring and writes out the top-
+     level GDS. 
+
+(14) Generate fill patterns for the chip using
 
 	make fill
 
@@ -392,7 +404,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      This step generates the fill patterns for the chip, in a separate
      GDS file called sg13cmos5l_ocd_chipalooza_fill_pattern.gds.gz.
 
-(14) Create the final top-level GDS with
+(15) Create the final top-level GDS with
 
 	make gds-final
 
@@ -405,7 +417,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      file name, set the environment variable "PROJECT" to the cell name
      before running the script.
 
-(15) Final DRC verification:
+(16) Final DRC verification:
 
 	make drc-final
 
@@ -414,7 +426,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      been set (see above), then the final DRC result can be found in
      validate/${PROJECT}.lyrdb
 
-(16) Extraction for final LVS verification:
+(17) Extraction for final LVS verification:
 
 	make extract-sch-top
 	make extract-top
@@ -424,7 +436,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      in netlist/layout/.  If the PROJECT environment variable has been
      set, then the final netlist is netlist/layout/${PROJECT}.spice.
 
-(17) Final LVS:
+(18) Final LVS:
 
 	make lvs-top
 
@@ -452,7 +464,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      not been attempted and would require converting the verilog of the
      padframe, wrapper, and top level cell to SPICE/CDL.
      
-(18) (Item to do, not yet automated)
+(19) (Item to do, not yet automated)
      Preparation for foundry submission:
 
      IHP has its own requirements for chip submission that are not

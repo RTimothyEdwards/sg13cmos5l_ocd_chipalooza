@@ -176,6 +176,27 @@ RULES = [
      "validate/run_lvs_chipalooza_frame.sh"),
 ]
 
+# The user project placement Tcl.  Its sources are config.txt (which slot
+# holds which project), the frame layout (where each slot sits) and the
+# user GDS files themselves.
+#
+# This rule only applies once there is something to place:  an empty
+# harness legitimately has neither the projects nor the generated file,
+# and reporting that as NOT BUILT on every run would be exactly the kind
+# of standing false alarm that gets a checker ignored.
+
+USER_GDS = ["dependencies/slot_*/gds/slot_*.gds",
+            "dependencies/slot_*/gds/slot_*.gds.gz",
+            "dependencies/slot_*/final/gds/slot_*.gds",
+            "dependencies/slot_*/final/gds/slot_*.gds.gz"]
+
+if expand(USER_GDS) or os.path.exists(os.path.join(ROOT, "scripts/user_projects.tcl")):
+    RULES.append((
+        "scripts/user_projects.tcl",
+        ["config.txt", "magic/chipalooza_frame.mag",
+         "scripts/get_project_gds.sh"] + USER_GDS,
+        "make projects-gds"))
+
 # The 18 slot wrappers, generated as a set from the layouts.
 for _n in range(1, 19):
     RULES.append((

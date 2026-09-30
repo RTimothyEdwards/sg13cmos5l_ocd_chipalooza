@@ -127,6 +127,10 @@ projects-update:			## move projects onto the versions in config.txt
 projects-clean:				## remove all project submodules (empty harness)
 	./scripts/get_projects.sh --clean $(if $(FORCE),--force) $(SLOTS)
 
+.PHONY: projects-gds
+projects-gds:				## find each project's slot_<N>.gds, write the placement Tcl
+	./scripts/get_project_gds.sh $(SLOTS)
+
 # ---------------------------------------------------------------------
 # Digital blocks  (README 8)
 #
