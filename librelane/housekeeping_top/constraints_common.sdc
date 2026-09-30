@@ -110,6 +110,16 @@ set driving_cell    "sg13cmos5l_buf_4/X"
 # If a CLOCK net ever shows up in the max-slew violator list, that is a
 # real regression;  look at CTS rather than relaxing this number.
 #
+# ONE EXCEPTION, because it looks exactly like that regression and is not.
+# "report_check_types -max_slew" prints a bogus 10.000 ns for any pin that
+# ALSO violates max_fanout, and the clock tree has two of those, so a
+# clkbuf turns up in the violator list at the top of the sorted table on
+# every run.  It is an artifact of that report, not a slew.  Check the
+# pin in max.rpt before believing it:  in RUN_2026-09-26_16-35-14,
+# clkbuf_4_4__f_clk_regs/X reported 10.000 ns here while its real path
+# data was fanout 10, cap 0.157 pF, slew 0.143 ns --- inside this 1.0 ns
+# limit, never mind the library's 2.5074 ns.
+#
 # Do not try to express this as a tighter limit on [all_clocks]:  in
 # OpenSTA that constrains every pin in the clock's DOMAIN, not the clock
 # network, so it lands on data pins and makes things far worse.
@@ -129,14 +139,43 @@ set load_sram       0.010
 set load_local      0.045
 
 # The trunk up the centre of the chip, branching to all 18 control
-# blocks.  ~2.5 mm of wire plus 18 antenna diodes and gate inputs.
+# blocks:  ~2.5 mm of wire plus 18 antenna diodes and gate inputs.
 #
-# TODO: this is an estimate and it is the least certain number in this
-# file.  If the trunk gets repeater buffers --- which is likely the right
-# answer for clk_out --- then the load seen HERE drops to just the first
-# repeater and this should come down accordingly.  Revisit once the
-# trunk routing is decided.
-set load_trunk      0.300
+# MEASURED, 2026-09-29, replacing the earlier 0.300 estimate.  The gate
+# load alone exceeds that, so 0.300 was optimistic by roughly 2x:
+#
+#   worst trunk signal, "enable"    18 x 23.4 fF = 0.421 pF
+#   proj_sel[*]                     18 x 22.7 fF = 0.409 pF
+#   clk_out                         18 x 21.9 fF = 0.394 pF
+#   ~2.5 mm of wire at 93 aF/um                  = 0.233 pF
+#   18 antenna diodes                            ~ 0.03  pF
+#                                                  -------
+#   worst case                                   ~ 0.68  pF
+#
+# Pin capacitances are from the post-PnR liberty of user_project_control
+# at nom_slow_1p08V_125C (RUN_2026-09-18_19-34-18).
+#
+# NO REPEATERS ON THE TRUNK, so this is the whole load rather than the
+# load up to a first repeater.  That was evaluated for clk_out, the
+# signal most likely to need them, and both tests came out clear:
+#
+#   - Slew.  clk_out is driven by a buf_16, which at this load runs about
+#     0.27 ns at nom_slow_1p08V_125C.  It does not reach the 1.0 ns
+#     set_max_transition above until roughly 2.9 pF, better than 4x this
+#     load, and the cell is rated to 4.8 pF.
+#   - Skew.  Nothing downstream is skew sensitive.  The synthesized
+#     user_project_control holds two flip-flops, both in the proj_reset
+#     synchroniser, whose input is an SCK-domain register output and so
+#     is asynchronous by construction.  Its 24 dig_in latches are gated
+#     by dig_ena, configuration rather than clk.  The dig_out daisy chain
+#     between blocks is combinational (mux plus buf_4), and housekeeping
+#     samples the returning dbus_in combinationally into the SPI readback
+#     at 0x38/0x39, on SCK.  So clk_out feeds 18 independent local clock
+#     gates and no synchronous path crosses the trunk for skew to break.
+#
+# If a project slot is ever given a clk-domain path back to housekeeping,
+# this reasoning lapses and the trunk needs timing properly.
+set load_trunk      0.700
 
 #-----------------------------------------------------------------------
 # Port groups
