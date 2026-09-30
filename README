@@ -304,6 +304,15 @@ To create a new Chipalooza test chip with custom user analog projects:
 
      All pads in this library are the same size.
 
+-----------------------------------------------------------------------
+The following steps are for rebuilding the chip top-level with custom
+padframe changes due to users who have specified non-default I/O cell
+names for the dedicated pads connected to their projects (i.e., in
+config.txt one or more "Pad types" have been modified in the previous
+step).  If no changes were made to pad types in "config.txt", then
+proceed to step (8).
+-----------------------------------------------------------------------
+
 (5)  Parse the configuration file with
 
 	make config
@@ -345,21 +354,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      that a file "sg13cmos5_padframe.mag" exists, it will not run.  It may be run
      again at any time by deleting the padframe layout.
 
-(7)  Set the user ID with
-
-	make user-id
-
-     This step runs the script "set_user_id.py".  This script reads the configuration
-     file and produces:
-
-	1) A modified layout "user_id_textblock.mag" with the text of the project
-           ID in metal
-	2) A modified layout "user_id_vias.mag" with the via programming for the
-           32-bit ROM matching the project ID.
-	3) A modified "sg13cmos5l_ocd_chipalooza.v" with the project ID set
-	4) A modified "user_id_programming.v" with the project ID bits set
-
-(11) Rebuild the project slot wrappers with any custom definitions for
+(7) Rebuild the project slot wrappers with any custom definitions for
      the pads:
 
 	make gds-slots
@@ -373,7 +368,25 @@ To create a new Chipalooza test chip with custom user analog projects:
      individual slot revises all views up to the chip top level, other
      slots are unaffected.
 
-(12) Search the user project repositories for user project GDS:
+-----------------------------------------------------------------------
+The following steps continue with the top-level chip integration
+-----------------------------------------------------------------------
+
+(8)  Set the user ID with
+
+	make user-id
+
+     This step runs the script "set_user_id.py".  This script reads the configuration
+     file and produces:
+
+	1) A modified layout "user_id_textblock.mag" with the text of the project
+           ID in metal
+	2) A modified layout "user_id_vias.mag" with the via programming for the
+           32-bit ROM matching the project ID.
+	3) A modified "sg13cmos5l_ocd_chipalooza.v" with the project ID set
+	4) A modified "user_id_programming.v" with the project ID bits set
+
+(9) Search the user project repositories for user project GDS:
 
 	make projects-gds
 
@@ -383,7 +396,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      vs. "gds/"), allowing ".gds.gz" files, and failing if a GDS file
      cannot be found or if both ".gds" and "gds.gz" files exist.
 
-(13) Assemble the chip top level (without fill):
+(10) Assemble the chip top level (without fill):
 
 	make gds-prefill
 
@@ -393,7 +406,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      locations.  It then places the seal ring and writes out the top-
      level GDS. 
 
-(14) Generate fill patterns for the chip using
+(11) Generate fill patterns for the chip using
 
 	make fill
 
@@ -405,7 +418,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      This step generates the fill patterns for the chip, in a separate
      GDS file called sg13cmos5l_ocd_chipalooza_fill_pattern.gds.gz.
 
-(15) Create the final top-level GDS with
+(12) Create the final top-level GDS with
 
 	make gds-final
 
@@ -418,7 +431,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      file name, set the environment variable "PROJECT" to the cell name
      before running the script.
 
-(16) Final DRC verification:
+(13) Final DRC verification:
 
 	make drc-final
 
@@ -427,7 +440,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      been set (see above), then the final DRC result can be found in
      validate/${PROJECT}.lyrdb
 
-(17) Extraction for final LVS verification:
+(14) Extraction for final LVS verification:
 
 	make extract-sch-top
 	make extract-top
@@ -437,7 +450,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      in netlist/layout/.  If the PROJECT environment variable has been
      set, then the final netlist is netlist/layout/${PROJECT}.spice.
 
-(18) Final LVS:
+(15) Final LVS:
 
 	make lvs-top
 
@@ -465,7 +478,7 @@ To create a new Chipalooza test chip with custom user analog projects:
      not been attempted and would require converting the verilog of the
      padframe, wrapper, and top level cell to SPICE/CDL.
      
-(19) (Item to do, not yet automated)
+(16) (Item to do, not yet automated)
      Preparation for foundry submission:
 
      IHP has its own requirements for chip submission that are not
