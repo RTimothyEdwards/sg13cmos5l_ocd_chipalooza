@@ -364,15 +364,27 @@ fi
     for n in "${placed[@]}"; do
 	echo "gds read ../${GDSPATH[$n]}"
     done
-    echo ""
-    echo "load $topcell"
-    echo ""
     for n in "${placed[@]}"; do
 	echo "# slot $n --- ${GDSPATH[$n]}"
 	echo "if {[lsearch [cellname list allcells] slot_$n] < 0} {"
 	echo "    puts \"ERROR: slot_$n.gds contains no cell named slot_$n\""
 	echo "    quit -noprompt"
 	echo "}"
+	echo "load slot_$n"
+	echo "# Remove GDS_END and set GDS_START to 0 so the cells get prefixed"
+	echo "property GDS_END \"\""
+	echo "property GDS_START 0"
+	echo "property LEFview true"
+    done
+    echo ""
+    echo "load $topcell"
+    echo ""
+    for n in "${placed[@]}"; do
+        echo "# Remove any existing slot instance"
+        echo "if {[instance list exists slot_${n}_0] != \"\"} {"
+        echo "    select cell slot_${n}_0"
+        echo "    delete"
+        echo "}"
 	if [ -n "${MIRROR[$n]}" ]; then
 	    echo "getcell slot_$n h child 0 0 parent ${ANCHORX[$n]} ${ANCHORY[$n]}"
 	else

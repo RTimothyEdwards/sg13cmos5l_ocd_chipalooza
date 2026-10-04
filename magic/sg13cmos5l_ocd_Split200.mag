@@ -1710,9 +1710,6 @@ rlabel metal4 s 0 32440 200 35600 1 vss
 port 1 nsew ground bidirectional
 << properties >>
 string FIXED_BBOX 0 0 200 36000
-string GDS_END 43712294
-string GDS_FILE /home/tim/gits/ihp-sg13cmos5l/libs.ref/sg13cmos5l_io/gds/sg13cmos5l_io.gds
-string GDS_START 43669528
 string LEFclass PAD SPACER
 string LEFsite sg13cmos5l_ioSite
 string LEFsymmetry X Y R90
