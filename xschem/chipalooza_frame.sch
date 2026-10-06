@@ -1941,8 +1941,6 @@ N 3550 -1660 3590 -1660 {lab=voltgen_vout}
 N 3150 -1420 3250 -1420 {lab=project_zero}
 N 3170 -1660 3250 -1660 {lab=analog[0]}
 N 3170 -1310 3250 -1310 {lab=analog[2]}
-N 1970 -1490 1970 -1430 {lab=#net2}
-N 1970 -1430 2540 -1430 {lab=#net2}
 N 1930 -1460 1930 -1450 {lab=#net4}
 N 1930 -1460 2260 -1460 {lab=#net4}
 N 2260 -1470 2260 -1460 {lab=#net4}
@@ -1964,6 +1962,22 @@ N 1000 6280 1090 6280 {lab=s5_an_2_esd}
 N 1000 6310 1090 6310 {lab=s7_an_1_esd}
 N 1000 6340 1090 6340 {lab=s9_an_2_esd}
 N 1870 -1830 1920 -1830 {lab=analog_esd[3:0]}
+N 2840 -1330 2910 -1330 {lab=vgen_ena2}
+N 2740 -1740 2790 -1740 {lab=voltgen_vout}
+N 1970 -1490 1970 -1470 {lab=#net2}
+N 1970 -1470 2240 -1470 {lab=#net2}
+N 2240 -1620 2240 -1470 {lab=#net2}
+N 2240 -1620 2550 -1620 {lab=#net2}
+N 2550 -1670 2550 -1620 {lab=#net2}
+N 2550 -1670 2670 -1670 {lab=#net2}
+N 2670 -1690 2670 -1670 {lab=#net2}
+N 2690 -1700 2690 -1680 {lab=vss3v3}
+N 2690 -1810 2690 -1780 {lab=vdd3v3}
+N 2910 -1640 2910 -1410 {lab=#net1}
+N 2600 -1640 2910 -1640 {lab=#net1}
+N 2600 -1770 2620 -1770 {lab=vgen_ena2}
+N 2600 -1740 2620 -1740 {lab=#net1}
+N 2600 -1740 2600 -1640 {lab=#net1}
 C {iopin.sym} 1370 -2170 0 1 {name=p1 lab=vdd3v3}
 C {iopin.sym} 1370 -2130 0 1 {name=p3 lab=vdd1v2}
 C {iopin.sym} 1370 -2110 0 1 {name=p4 lab=vss1v2}
@@ -1997,7 +2011,6 @@ C {housekeeping_top.sym} 440 -1640 0 0 {name=x18}
 C {lab_pin.sym} 360 -1880 0 0 {name=p137 sig_type=std_logic lab=vss1v2}
 C {lab_pin.sym} 360 -1860 0 0 {name=p154 sig_type=std_logic lab=vddd}
 C {lab_pin.sym} 920 -570 0 1 {name=p50 sig_type=std_logic lab=vss1v2}
-C {sg13cmos5l_ocd_ip__voltgen_v2.sym} 2690 -1360 0 0 {name=x21}
 C {sg13cmos5l_ocd_ip__biasgen2.sym} 1570 -1350 0 0 {name=x22}
 C {sg13cmos5l_ocd_ip__bandgap_v3.sym} 2050 -1570 0 0 {name=x16}
 C {analog_pswitch_small.sym} 1570 -760 0 0 {name=x15[1:0]}
@@ -2088,7 +2101,6 @@ C {lab_pin.sym} 1760 -580 0 1 {name=p26 sig_type=std_logic lab=vdd3v3}
 C {lab_pin.sym} 540 -980 0 0 {name=p28 sig_type=std_logic lab=vss1v2}
 C {lab_pin.sym} 540 -960 0 0 {name=p29 sig_type=std_logic lab=vdd1v2}
 C {lab_pin.sym} 550 -680 0 0 {name=p30 sig_type=std_logic lab=vss1v2,vdd1v2,vss1v2,vdd1v2,vss1v2}
-C {noconn.sym} 2910 -1410 0 1 {name=l1}
 C {lab_pin.sym} 2910 -1360 0 1 {name=p31 sig_type=std_logic lab=voltgen_vout}
 C {lab_pin.sym} 1760 -880 0 1 {name=p32 sig_type=std_logic lab=voltgen_vout}
 C {lab_pin.sym} 1960 -1400 0 1 {name=p33 sig_type=std_logic lab=idac1_source}
@@ -2122,8 +2134,8 @@ C {lab_pin.sym} 2000 -1570 0 0 {name=p63 sig_type=std_logic lab=bandgap_trim[15:
 C {lab_pin.sym} 2000 -1610 0 0 {name=p64 sig_type=std_logic lab=bandgap_ena}
 C {lab_pin.sym} 2440 -1330 0 0 {name=p65 sig_type=std_logic lab=voltgen_high}
 C {lab_pin.sym} 2440 -1390 0 0 {name=p66 sig_type=std_logic lab=voltgen_ena[0]}
-C {lab_pin.sym} 2440 -1370 0 0 {name=p67 sig_type=std_logic lab=voltgen_ena[1]}
-C {lab_pin.sym} 2440 -1350 0 0 {name=p68 sig_type=std_logic lab=voltgen_ena[2]}
+C {lab_pin.sym} 2440 -1350 0 0 {name=p67 sig_type=std_logic lab=voltgen_ena[1]}
+C {lab_pin.sym} 2440 -1370 0 0 {name=p68 sig_type=std_logic lab=voltgen_ena[2]}
 C {lab_pin.sym} 2440 -1310 0 0 {name=p69 sig_type=std_logic lab=voltgen_value[2:0]}
 C {lab_pin.sym} 480 -720 0 0 {name=p77 sig_type=std_logic lab=clk_out}
 C {lab_pin.sym} 480 -780 0 0 {name=p78 sig_type=std_logic lab=reset}
@@ -3176,3 +3188,10 @@ C {noconn.sym} 1090 6310 0 1 {name=l7}
 C {noconn.sym} 1090 6340 0 1 {name=l8}
 C {opin.sym} 1920 -1830 0 0 {name=p1061 lab=analog_esd[3:0]}
 C {noconn.sym} 1870 -1830 0 0 {name=l9[3:0]}
+C {sg13cmos5l_ocd_ip__voltgen_v3.sym} 2690 -1360 0 0 {name=x101}
+C {lab_pin.sym} 2910 -1330 0 1 {name=p1062 sig_type=std_logic lab=vgen_ena2}
+C {lab_pin.sym} 2600 -1770 0 0 {name=p1063 sig_type=std_logic lab=vgen_ena2}
+C {lab_pin.sym} 2790 -1740 0 1 {name=p1064 sig_type=std_logic lab=voltgen_vout}
+C {lab_pin.sym} 2690 -1810 2 0 {name=p1065 sig_type=std_logic lab=vdd3v3}
+C {lab_pin.sym} 2690 -1680 2 0 {name=p1066 sig_type=std_logic lab=vss3v3}
+C {sg13cmos5l_ocd_ip__classab_buffer.sym} 2770 -1740 0 0 {name=x102}

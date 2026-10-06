@@ -83,7 +83,7 @@ s5_source:	https://github.com/YacineSot/sg13cmos5l_yacinesot_ip__diff_opamp_cmfb
 s6_source:	https://github.com/vyges/sg13cmos5l_vyges_ip__pll_rosc
 s7_source:	https://github.com/tatzelbrumm/sg13cmos5l_cm_ip__single2diff2single
 s8_source:	https://github.com/adankvitschal/sg13g2_mh_ip__cmos_vref
-s9_source:	https://github.com/orpheus016/Programmable-Instrumentation-Amplifier-IP
+s9_source:	https://github.com/orpheus016/sg13cmos5l_spma_ip__instramp
 s10_source:	https://github.com/lhrodovalho/sg13cmos5l_rodovalho_ip__lpopamp
 s11_source:	https://github.com/vyges/sg13cmos5l_vyges_ip__ldo_capless
 s12_source:	https://github.com/RFICExplorer/sg13cmos5l_chipalooza_analog_project
@@ -91,7 +91,7 @@ s13_source:	https://github.com/
 s14_source:	https://github.com/Intubun/chipalooza_lvds_pll
 s15_source:	https://github.com/srout/sg13cmos5l_srout_ip__tinyBGR
 s16_source:	https://github.com/arjun2000ananth/SAR_ADC_IHP
-s17_source:	https://github.com/AouissiBrahim/SG13CMOS5L_LPSVS
+s17_source:	https://github.com/AouissiBrahim/SG13CMOS5L_LPVSV_Chipalooza_2
 s18_source:	https://bitbucket.org/chrisgj198/sg13cmos5l_chipalooza2_lc_vco
 
 #--------------------------------------------------------------------------------------

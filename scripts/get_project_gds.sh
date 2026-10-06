@@ -20,10 +20,16 @@
 #
 # Users are instructed to provide a file named slot_<N>.gds holding a top
 # cell of the same name, generated with full hierarchical processing.  It
-# is read with "gds readonly true", which drops it in verbatim and gives
-# every cell below the top level a random two-letter prefix, so user cell
-# names cannot collide with the harness or with each other.  Only the top
-# cell keeps its name, which is why that name has to be agreed in advance.
+# is read with "gds readonly true" so that it goes in verbatim.
+#
+# Reading it read-only is not by itself enough to keep user cell names
+# apart.  A read-only cell records the byte range of its own definition in
+# GDS_START and GDS_END, and magic copies exactly that range back out, so
+# the names inside it survive untouched and two users who both started
+# from slot<N>_wrapper.gds would collide.  Clearing GDS_END and setting
+# GDS_START to 0 makes magic take the whole file instead and give every
+# cell below the top level a unique prefix.  The top cell keeps its name,
+# which is why that name has to be agreed in advance.
 #
 # WHERE THE GDS IS LOOKED FOR, in order:
 #
@@ -357,8 +363,9 @@ fi
     echo "# .mag file cannot come into it."
     echo "units microns"
     echo ""
-    echo "# readonly drops each user GDS in verbatim and prefixes every cell"
-    echo "# below its top level, so user cell names cannot collide."
+    echo "# readonly drops each user GDS in verbatim.  The GDS_START/GDS_END"
+    echo "# properties are cleared per cell below, which is what makes magic"
+    echo "# prefix the subcells so user cell names cannot collide."
     echo "gds readonly true"
     echo ""
     for n in "${placed[@]}"; do

@@ -1,7 +1,7 @@
 %!PS-Adobe-3.0
 %%Title: sg13cmos5l_chipalooza_harness_64pin.ps
-%%Creator: XCircuit v0.0 rev-994278923
-%%CreationDate: Sat Sep 26 17:32:00 2026
+%%Creator: XCircuit v0.0 rev-1083112971
+%%CreationDate: Tue Oct  6 17:18:35 2026
 %%Pages: 9
 %%BoundingBox: 0 0 612 792
 %%DocumentNeededResources: font Helvetica Helvetica-Bold Helvetica-Oblique 
@@ -1255,43 +1255,95 @@ sce
 (The IHP SRAM is only characterized for operation at 1.2V.  While the IHP low-voltage transistors are rated for continuous 1.5V operation,) 
 {/Helvetica cf} 10 28 0.000 1.000 -448 1984 label
 (Trim settings for proper operation of the Chipalooza harness chip:) 
-{/Helvetica cf} 2 28 0.000 1.000 -448 992 label
-(Bandgap trim:  ) {/Helvetica cf} 2 16 0.000 1.000 -448 896 label
-(Current bias controls:) {/Helvetica-Bold cf} 2 16 0.000 1.000 -448 800 label
-(Bandgap sink1 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 480 label
-(Bandgap sink2 = 250nA) {/Helvetica cf} 2 16 0.000 1.000 -384 416 label
-(Voltgen sink1 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 352 label
-(Voltgen sink2 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 288 label
-(Voltgen source = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 224 label
-(Enable = 1) {/Helvetica cf} 2 16 0.000 1.000 -384 736 label
-(Select bandgap = 1) {/Helvetica cf} 2 16 0.000 1.000 -384 672 label
-(Coarse = 0) {/Helvetica cf} 2 16 0.000 1.000 -384 608 label
-(Fine = 0) {/Helvetica cf} 2 16 0.000 1.000 -384 544 label
-(Register 0x1F) {/Helvetica cf} 2 16 0.000 1.000 128 224 label
-(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 480 224 label
-(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 128 352 label
-(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 480 352 label
-(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 128 288 label
-(Value = 32 \(4 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 480 288 label
-(\(Register 0x1E final value = 36\)) {/Helvetica cf} 2 16 0.000 1.000 1024 288 
+{/Helvetica cf} 2 28 0.000 1.000 -448 1152 label
+(Bandgap trim:  ) {/Helvetica cf} 2 16 0.000 1.000 -448 1056 label
+(Current bias controls:) {/Helvetica-Bold cf} 2 16 0.000 1.000 -448 960 label
+(Bandgap sink1 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 640 label
+(Bandgap sink2 = 250nA) {/Helvetica cf} 2 16 0.000 1.000 -384 576 label
+(Voltgen sink1 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 512 label
+(Voltgen sink2 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 448 label
+(Voltgen source = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -384 384 label
+(Enable = 1) {/Helvetica cf} 2 16 0.000 1.000 -384 896 label
+(Select bandgap = 1) {/Helvetica cf} 2 16 0.000 1.000 -384 832 label
+(Coarse = 0) {/Helvetica cf} 2 16 0.000 1.000 -384 768 label
+(Fine = 0) {/Helvetica cf} 2 16 0.000 1.000 -384 704 label
+(Register 0x1F) {/Helvetica cf} 2 16 0.000 1.000 128 384 label
+(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 480 384 label
+(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 128 512 label
+(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 480 512 label
+(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 128 448 label
+(Value = 32 \(4 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 480 448 label
+(\(Register 0x1E final value = 4 or 32; see below\)) {/Helvetica cf} 2 16 0.000 
+1.000 1024 448 label
+(Register 0x1D) {/Helvetica cf} 2 16 0.000 1.000 128 640 label
+(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 480 640 label
+(Register 0x1D) {/Helvetica cf} 2 16 0.000 1.000 128 576 label
+(Value = 8 \(1 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 480 576 label
+(\(Register 0x1D final value = 12\)) {/Helvetica cf} 2 16 0.000 1.000 1024 576 
 label
-(Register 0x1D) {/Helvetica cf} 2 16 0.000 1.000 128 480 label
-(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 480 480 label
-(Register 0x1D) {/Helvetica cf} 2 16 0.000 1.000 128 416 label
-(Value = 8 \(1 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 480 416 label
-(\(Register 0x1D final value = 12\)) {/Helvetica cf} 2 16 0.000 1.000 1024 416 
+(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 704 label
+(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 768 label
+(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 832 label
+(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 896 label
+(Value = 0) {/Helvetica cf} 2 16 0.000 1.000 480 704 label
+(Value = 0) {/Helvetica cf} 2 16 0.000 1.000 480 768 label
+(Value = 8 \(1 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 480 832 label
+(Value = 1) {/Helvetica cf} 2 16 0.000 1.000 480 896 label
+(\(Register 0x18 final value = 9\)) {/Helvetica cf} 2 16 0.000 1.000 1024 704 
 label
-(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 544 label
-(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 608 label
-(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 672 label
-(Register 0x18) {/Helvetica cf} 2 16 0.000 1.000 128 736 label
-(Value = 0) {/Helvetica cf} 2 16 0.000 1.000 480 544 label
-(Value = 0) {/Helvetica cf} 2 16 0.000 1.000 480 608 label
-(Value = 8 \(1 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 480 672 label
-(Value = 1) {/Helvetica cf} 2 16 0.000 1.000 480 736 label
-(\(Register 0x18 final value = 9\)) {/Helvetica cf} 2 16 0.000 1.000 1024 544 
+(\(Register 0x1F final value = 4\)) {/Helvetica cf} 2 16 0.000 1.000 1024 384 
 label
-(\(Register 0x1F final value = 4\)) {/Helvetica cf} 2 16 0.000 1.000 1024 224 
+(Voltage bias controls:) {/Helvetica-Bold cf} 2 16 0.000 1.000 -448 256 label
+
+(together in the harness chip, so the inactive output should be disabled along with its corresponding bias current.) 
+{CR} 
+(drive output for lower voltages or if the user project does not draw current through that signal line.  The two outputs are connected) 
+{CR} 
+(draws current from that line.  The voltage bias generator can supply over 100uA of current with the high drive output.  Use the low) 
+{CR} 
+(The high power/high drive should be used if higher voltage outputs are being used \(around 2.5V or higher\), or if the user project) 
+{CR} 
+(Note that the voltage bias has two outputs.  One is high power/high drive and one is low power/low drive.) 
+{/Helvetica cf} 10 16 0.000 1.000 -384 32 label
+(Low power / low drive voltage bias output:) {/Helvetica cf} 2 16 0.000 1.000 
+-384 -160 label
+(High power / high drive voltage bias output:) {/Helvetica cf} 2 16 0.000 1.000 
+-384 -576 label
+(Voltgen sink1 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -304 -224 label
+(Voltgen sink2 = 0uA) {/Helvetica cf} 2 16 0.000 1.000 -304 -288 label
+(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 208 -224 label
+(Value = 4) {/Helvetica cf} 2 16 0.000 1.000 560 -224 label
+(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 208 -288 label
+(Value = 0) {/Helvetica cf} 2 16 0.000 1.000 560 -288 label
+(\(Register 0x1E final value = 4\)) {/Helvetica cf} 2 16 0.000 1.000 1104 -288 
+label
+(Voltgen sink1 = 0uA) {/Helvetica cf} 2 16 0.000 1.000 -304 -656 label
+(Voltgen sink2 = 1uA) {/Helvetica cf} 2 16 0.000 1.000 -304 -720 label
+(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 208 -656 label
+(Value = 0) {/Helvetica cf} 2 16 0.000 1.000 560 -656 label
+(Register 0x1E) {/Helvetica cf} 2 16 0.000 1.000 208 -720 label
+(Value = 32 \(4 shifted up 3\)) {/Helvetica cf} 2 16 0.000 1.000 560 -720 label
+(\(Register 0x1E final value = 32\)) {/Helvetica cf} 2 16 0.000 1.000 1104 -720 
+label
+
+(Regardless of the output used, the voltage bias generator itself must be enabled and its source current enabled as show above.) 
+{/Helvetica cf} 2 28 0.000 1.000 -384 -16 label
+(Voltage enable) {/Helvetica cf} 2 16 0.000 1.000 -304 -352 label
+(Register 0x1B) {/Helvetica cf} 2 16 0.000 1.000 208 -352 label
+(Voltage bias2 enable) {/Helvetica cf} 2 16 0.000 1.000 -304 -848 label
+(Register 0x1B) {/Helvetica cf} 2 16 0.000 1.000 208 -848 label
+1 1.000 976 544 1008 544 1008 432 976 432 4 polygon
+(Value = 1 ) {/Helvetica cf} 2 16 0.000 1.000 560 -352 label
+(Voltage bias1 enable) {/Helvetica cf} 2 16 0.000 1.000 -304 -416 label
+(Register 0x1B) {/Helvetica cf} 2 16 0.000 1.000 208 -416 label
+(Value = 2 \(1 shifted up 1\) ) {/Helvetica cf} 2 16 0.000 1.000 560 -416 label
+(Voltage enable) {/Helvetica cf} 2 16 0.000 1.000 -304 -784 label
+(Register 0x1B) {/Helvetica cf} 2 16 0.000 1.000 208 -784 label
+(Value = 1 ) {/Helvetica cf} 2 16 0.000 1.000 560 -784 label
+(Value = 4 \(1 shifted up 2\) ) {/Helvetica cf} 2 16 0.000 1.000 560 -848 label
+(\(Register 0x1B final value = 3\)) {/Helvetica cf} 2 16 0.000 1.000 1104 -416 
+label
+(\(Register 0x1B final value = 5\)) {/Helvetica cf} 2 16 0.000 1.000 1104 -848 
 label
 pgsave restore showpage
 

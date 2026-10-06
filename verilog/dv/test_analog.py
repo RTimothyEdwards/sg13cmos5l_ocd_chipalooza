@@ -24,6 +24,7 @@ from cocotb.triggers import Timer
 
 from harness import (
     REG, NAN, reset, isnan, proj_config, proj_bias, bandgap_cfg, voltgen_cfg,
+    voltgen_sink_cfg, VGEN_OFF, VGEN_MASTER, VGEN_CLASSAB, VGEN_CASCODE,
     apply_bias_defaults, drive_pad, read_pad, ANALOG_PINS,
     BANDGAP_TRIM_V, BANDGAP_NOMINAL_TRIM, BANDGAP_NOMINAL_V,
 )
@@ -134,6 +135,13 @@ async def test_bias_switches_route_to_selected_slot(dut):
     spi = await reset(dut)
     slot, i = 12, 11
 
+    # The voltgen must actually be driving:  these are switch-routing
+    # tests, and with no output buffer enabled the trunk is high
+    # impedance and every slot would read NaN whatever the switches do.
+    await apply_bias_defaults(spi)
+    await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=1, trim=8))
+    await spi.write_reg(REG["voltgen"],
+                        voltgen_cfg(ena=VGEN_CASCODE, value=4))
     await spi.write_reg(REG["proj_sel"], slot)
     await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
     await spi.write_reg(REG["proj_bias"], proj_bias(ibias=0b11, vbias=1))
@@ -160,6 +168,13 @@ async def test_bias_switches_independent(dut):
     spi = await reset(dut)
     slot, i = 6, 5
 
+    # The voltgen must actually be driving:  these are switch-routing
+    # tests, and with no output buffer enabled the trunk is high
+    # impedance and every slot would read NaN whatever the switches do.
+    await apply_bias_defaults(spi)
+    await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=1, trim=8))
+    await spi.write_reg(REG["voltgen"],
+                        voltgen_cfg(ena=VGEN_CASCODE, value=4))
     await spi.write_reg(REG["proj_sel"], slot)
     await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
 
@@ -194,7 +209,7 @@ async def test_vbias_follows_voltgen(dut):
 
     # voltgen enabled, bandgap off:  the reference is 0 V, so is the bias.
     await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=0))
-    await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=0b001, value=0))
+    await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=VGEN_CASCODE, value=0))
     await Timer(SETTLE_NS, unit="ns")
     v = float(dut.user_vbias[i].value)
     assert not isnan(v), "vbias switch is on but reads NaN"
@@ -209,7 +224,7 @@ async def test_vbias_follows_voltgen(dut):
     # And the selector must move it monotonically upward.
     last = base
     for s in range(1, 8):
-        await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=0b001, value=s))
+        await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=VGEN_CASCODE, value=s))
         await Timer(SETTLE_NS, unit="ns")
         v = float(dut.user_vbias[i].value)
         assert v > last, \
@@ -218,13 +233,21 @@ async def test_vbias_follows_voltgen(dut):
 
 
 @cocotb.test()
-async def test_voltgen_disabled_is_zero_not_floating(dut):
-    """A disabled voltgen outputs 0 V, which is different from NaN.
+async def test_voltgen_with_no_buffer_is_high_impedance(dut):
+    """With no output buffer enabled the bias trunk is undriven, not 0 V.
 
-    0.0 is the correct off value for a generator --- it really does sit
-    at ground --- whereas NaN means "not connected".  Confusing the two
-    is the whole reason the sentinel exists, so the distinction is worth
-    pinning down at the point it reaches a project.
+    THIS REVERSES WHAT v2 DID, deliberately.  The v2 generator had one
+    buffer that followed the master enable, so a disabled generator drove
+    a connected 0 V and the old test asserted exactly that.
+
+    v3 has two buffers sharing one trunk, each with its own enable, and
+    each properly tri-stated when off -- 19.6 Mohm and a few pA measured
+    on the extracted netlist.  So the master enable alone drives nothing,
+    and the honest model is NaN:  nobody is holding the node.
+
+    That distinction matters to a project designer.  A disabled bias used
+    to be a defined 0 V; now it floats, and a slot that wants a known
+    level has to have a buffer selected.
     """
     spi = await reset(dut)
     await apply_bias_defaults(spi)
@@ -234,13 +257,91 @@ async def test_voltgen_disabled_is_zero_not_floating(dut):
     await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
     await spi.write_reg(REG["proj_bias"], proj_bias(vbias=1))
     await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=1, trim=16))
-    await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=0b000, value=7))
-    await Timer(SETTLE_NS, unit="ns")
 
-    v = float(dut.user_vbias[i].value)
-    assert not isnan(v), \
-        "a disabled voltgen reads NaN;  it should be a connected 0 V"
-    assert abs(v) < 1e-9, f"disabled voltgen put out {v} V"
+    for ena, what in ((VGEN_OFF, "fully disabled"),
+                      (VGEN_MASTER, "master enable only, no buffer")):
+        await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=ena, value=7))
+        await Timer(SETTLE_NS, unit="ns")
+        v = float(dut.user_vbias[i].value)
+        assert isnan(v), \
+            f"voltgen {what} drove {v} V;  both buffers are off, so the " \
+            f"trunk should be undriven"
+
+
+@cocotb.test()
+async def test_vbias_through_each_output_buffer(dut):
+    """Either output buffer can deliver the voltage bias, and they agree.
+
+    The two buffer the same resistor tap through different amplifiers --
+    a folded cascode on board the generator, and a class-AB beside it in
+    the frame -- so the delivered voltage must not depend on which is
+    selected.  Only one is enabled at a time;  both at once is not a
+    supported configuration.
+
+    The sink bias is steered to match the selected buffer, which is the
+    documented usage:  sink1 feeds the class-AB and sink2 the cascode,
+    and a disabled amplifier should not be left with a live bias.
+    """
+    spi = await reset(dut)
+    await apply_bias_defaults(spi)
+    slot, i = 5, 4
+
+    await spi.write_reg(REG["proj_sel"], slot)
+    await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
+    await spi.write_reg(REG["proj_bias"], proj_bias(vbias=1))
+    await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=1, trim=8))
+
+    readings = {}
+    for ena, sink, name in ((VGEN_CASCODE, voltgen_sink_cfg(sink1=0, sink2=4),
+                             "folded cascode"),
+                            (VGEN_CLASSAB, voltgen_sink_cfg(sink1=4, sink2=0),
+                             "class-AB")):
+        await spi.write_reg(REG["voltgen_sink"], sink)
+        await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=ena, value=3))
+        await Timer(SETTLE_NS, unit="ns")
+        v = float(dut.user_vbias[i].value)
+        assert not isnan(v), f"{name} selected but the trunk reads NaN"
+        assert v > 0.0, f"{name} selected but the bias is {v} V"
+        readings[name] = v
+
+    a, b = readings["folded cascode"], readings["class-AB"]
+    assert abs(a - b) < 1e-9, \
+        f"the two buffers disagree: cascode {a} V, class-AB {b} V"
+
+
+@cocotb.test()
+async def test_vbias_buffer_selection_tracks_the_selector(dut):
+    """Each buffer independently follows the tap selector.
+
+    Guards against a buffer that happens to read correctly at one code
+    because something else is driving the trunk:  the value has to move
+    with s through BOTH paths.
+    """
+    spi = await reset(dut)
+    await apply_bias_defaults(spi)
+    slot, i = 9, 8
+
+    await spi.write_reg(REG["proj_sel"], slot)
+    await spi.write_reg(REG["proj_config"], proj_config(proj_ena=1))
+    await spi.write_reg(REG["proj_bias"], proj_bias(vbias=1))
+    await spi.write_reg(REG["bandgap"], bandgap_cfg(ena=1, trim=8))
+
+    for ena, sink, name in ((VGEN_CASCODE, voltgen_sink_cfg(sink1=0, sink2=4),
+                             "folded cascode"),
+                            (VGEN_CLASSAB, voltgen_sink_cfg(sink1=4, sink2=0),
+                             "class-AB")):
+        await spi.write_reg(REG["voltgen_sink"], sink)
+        last = None
+        for sel in range(8):
+            await spi.write_reg(REG["voltgen"],
+                                voltgen_cfg(ena=ena, value=sel))
+            await Timer(SETTLE_NS, unit="ns")
+            v = float(dut.user_vbias[i].value)
+            assert not isnan(v), f"{name} at selector {sel} reads NaN"
+            if last is not None:
+                assert v > last, \
+                    f"{name}: selector {sel} gave {v} V, not above {last} V"
+            last = v
 
 
 # =====================================================================
@@ -332,6 +433,13 @@ async def test_diagnostic_switches_drive_the_shared_pins(dut):
     """
     spi = await reset(dut)
     await apply_bias_defaults(spi)
+
+    # One of these four lines carries the voltage bias trunk, and this
+    # test uses "not NaN" as the proxy for "the switch is conducting".
+    # That proxy only holds if something is driving the trunk, so a
+    # buffer has to be selected:  an open switch onto an undriven source
+    # still reads NaN, and the test would blame the switch.
+    await spi.write_reg(REG["voltgen"], voltgen_cfg(ena=VGEN_CASCODE, value=4))
 
     # Slot 0 selected, bandgap off.
     await spi.write_reg(REG["proj_sel"], 0)
