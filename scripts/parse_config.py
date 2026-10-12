@@ -357,7 +357,7 @@ with open(tcl_in_file, 'r') as ifile:
                 signal_name = padrec[1]
                 if 'IOPadTriOut' in pad_type or 'IOPadInOut' in pad_type:
                     slot_num = int(pad_slot_idx)
-                    if pad_num >= 0 and pad_num <= 8:
+                    if slot_num >= 0 and slot_num <= 8:
                         side = 'right'
                     else:
                         side = 'left'
@@ -375,7 +375,7 @@ with open(tcl_in_file, 'r') as ifile:
                 signal_name = padrec[1]
                 if 'IOPadTriOut' in pad_type or 'IOPadInOut' in pad_type:
                     slot_num = int(pad_slot_idx)
-                    if pad_num >= 0 and pad_num <= 8:
+                    if slot_num >= 0 and slot_num <= 8:
                         side = 'right'
                     else:
                         side = 'left'
