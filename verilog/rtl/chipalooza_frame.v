@@ -188,12 +188,18 @@ module chipalooza_frame (
 `ifdef LVS_STRUCTURAL
     wire [1:0] user_ibias_shared;
     wire user_vbias_shared;
+    wire vout_to_amp;			// unbuffered tap -> class-AB input
+    wire vbias_from_cascode;		// folded-cascode buffer output
+    wire vbias_from_classab;		// class-AB buffer output
     wire [3:0] user_analog_shared;
     wire [3:0] analog_diag;
     wire vbandgap;
 `else
     wire real user_ibias_shared [0:1];
     wire real user_vbias_shared;
+    wire real vout_to_amp;		// unbuffered tap -> class-AB input
+    wire real vbias_from_cascode;	// folded-cascode buffer output
+    wire real vbias_from_classab;	// class-AB buffer output
     wire real user_analog_shared [0:3];		// The resolved shared analog pins
     wire real analog_diag [0:3];		// Diagnostic drive onto those pins
     wire real vbandgap;
@@ -586,7 +592,20 @@ module chipalooza_frame (
 	.vbg(vbandgap)
     );
 
-    sg13cmos5l_ocd_ip__voltgen_v2 voltgen (
+    wire	vgen_ena2_h;
+
+    sg13cmos5l_ocd_ip__classab_buffer classab (
+	`ifdef USE_POWER_PINS
+	    .vdd(vdd3v3),
+	    .vss(vss3v3),
+	`endif
+	.ena(vgen_ena2_h),
+	.bias(voltgen_sink1_ibias),
+	.inp(vout_to_amp),
+	.out(vbias_from_classab)
+    );
+
+    sg13cmos5l_ocd_ip__voltgen_v3 voltgen (
 	`ifdef USE_POWER_PINS
 	    .dvdd(vdd1v2),
 	    .dvss(vss1v2),
@@ -594,16 +613,16 @@ module chipalooza_frame (
 	    .vss(vss3v3),
 	`endif
 	.ena(voltgen_ena[0]),
-	.ena1(voltgen_ena[1]),
-	.ena2(voltgen_ena[2]),
+	.ena1(voltgen_ena[2]),
+	.ena2(voltgen_ena[1]),
 	.high(voltgen_high),
 	.s(voltgen_value),
 	.ibias1u_1(voltgen_source_ibias),
 	.ibias1u_2(voltgen_sink2_ibias),
-	.ibias1u_3(voltgen_sink1_ibias),
 	.vbg(vbandgap),
-	.vout1(),				/* Not used, maybe should provide a switch? */
-	.vout2(user_vbias_shared)
+	.vgen_ena2_h(vgen_ena2_h),
+	.vout_unbuf(vout_to_amp),
+	.vout_buf(vbias_from_cascode)
     );
     
     sg13cmos5l_ocd_ip__biasgen2 biasgen (
@@ -739,6 +758,29 @@ module chipalooza_frame (
 	.out(analog_diag[3])
     );
 
+    /* Resolve the two voltage bias buffers onto the shared trunk.
+     *
+     * The folded-cascode buffer and the class-AB buffer drive the same
+     * node in the layout, and exactly one of them should be enabled at a
+     * time.  A disabled buffer is high impedance in silicon -- 19.6 Mohm
+     * measured, a few pA -- and models as NaN, so this picks whichever
+     * is actually driving.  If both are enabled the cascode wins here,
+     * which is arbitrary;  in silicon they would fight, and the
+     * configuration is documented as not allowed.
+     *
+     * "x == x" is false only for NaN;  see the note on the analog pin
+     * resolution below for why it must not be rewritten as a comparison
+     * against a constant.
+     */
+`ifdef LVS_STRUCTURAL
+    assign user_vbias_shared = vbias_from_cascode;
+`else
+    assign user_vbias_shared =
+	(vbias_from_cascode == vbias_from_cascode) ? vbias_from_cascode :
+	(vbias_from_classab == vbias_from_classab) ? vbias_from_classab :
+	(0.0 / 0.0);
+`endif
+
     /* Resolve each shared analog pin.
      *
      * A diagnostic switch that is conducting drives the pin;  when it is
@@ -748,9 +790,9 @@ module chipalooza_frame (
      * constant, because every comparison against NaN is false and the
      * test would always take the same branch.
      *
-     * Note this is the only place a real is resolved between two
-     * sources in this design;  everywhere else a single source fans out
-     * through switches.
+     * Note this and the voltage bias trunk above are the only places a
+     * real is resolved between two sources in this design;  everywhere
+     * else a single source fans out through switches.
      */
 `ifdef LVS_STRUCTURAL
     /* Structurally there is no resolution to do:  the diagnostic switch
