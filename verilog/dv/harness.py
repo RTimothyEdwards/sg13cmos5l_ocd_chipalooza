@@ -313,8 +313,41 @@ def biasgen_cfg(ena=0, coarse=0, fine=0, ref_vbg=0):
 
 
 def voltgen_cfg(ena=0, high=0, value=0):
-    """Register 0x1B.  ena is three bits."""
+    """Register 0x1B.  ena is three bits;  see the VGEN_* constants."""
     return (ena & 0x7) | ((high & 1) << 3) | ((value & 0x7) << 4)
+
+
+def voltgen_sink_cfg(sink1=0, sink2=0):
+    """Register 0x1E.  Two 3-bit sink iDAC settings, sink1 in the low bits."""
+    return (sink1 & 0x7) | ((sink2 & 0x7) << 3)
+
+
+# Voltage bias buffer selection, the three enable bits of register 0x1B.
+#
+# Bit 0 is the master enable, which runs the resistor chain and the
+# feedback amplifier.  Bits 1 and 2 pick which of the two output buffers
+# drives the shared bias trunk:
+#
+#   VGEN_CASCODE   bit 2 -> voltgen_ena[2] -> ena1 -> folded cascode
+#   VGEN_CLASSAB   bit 1 -> voltgen_ena[1] -> ena2 -> class-AB
+#
+# The index crossing between the enable and the amplifier is deliberate
+# in chipalooza_frame:  it pairs each enable with the SINK BIAS of the
+# same number, so ena[1] goes with sink1 (which feeds the class-AB) and
+# ena[2] with sink2 (which feeds the cascode).
+#
+# The master enable ALONE drives nothing.  Both buffers are then off and
+# high impedance, so the trunk reads NaN rather than 0 V -- which is a
+# change from the v2 generator, where the single buffer followed the
+# master enable.
+#
+# Enabling both buffers at once is not a supported configuration:  they
+# would fight in silicon, and the behavioural model resolves the tie
+# arbitrarily in favour of the cascode.
+VGEN_OFF     = 0b000
+VGEN_MASTER  = 0b001
+VGEN_CLASSAB = 0b011
+VGEN_CASCODE = 0b101
 
 
 def isnan(x):

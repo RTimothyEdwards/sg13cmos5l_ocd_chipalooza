@@ -20,10 +20,16 @@
 #
 # Users are instructed to provide a file named slot_<N>.gds holding a top
 # cell of the same name, generated with full hierarchical processing.  It
-# is read with "gds readonly true", which drops it in verbatim and gives
-# every cell below the top level a random two-letter prefix, so user cell
-# names cannot collide with the harness or with each other.  Only the top
-# cell keeps its name, which is why that name has to be agreed in advance.
+# is read with "gds readonly true" so that it goes in verbatim.
+#
+# Reading it read-only is not by itself enough to keep user cell names
+# apart.  A read-only cell records the byte range of its own definition in
+# GDS_START and GDS_END, and magic copies exactly that range back out, so
+# the names inside it survive untouched and two users who both started
+# from slot<N>_wrapper.gds would collide.  Clearing GDS_END and setting
+# GDS_START to 0 makes magic take the whole file instead and give every
+# cell below the top level a unique prefix.  The top cell keeps its name,
+# which is why that name has to be agreed in advance.
 #
 # WHERE THE GDS IS LOOKED FOR, in order:
 #
@@ -357,41 +363,69 @@ fi
     echo "# .mag file cannot come into it."
     echo "units microns"
     echo ""
-    echo "# readonly drops each user GDS in verbatim and prefixes every cell"
-    echo "# below its top level, so user cell names cannot collide."
+    echo "# readonly drops each user GDS in verbatim.  The GDS_START/GDS_END"
+    echo "# properties are cleared per cell below, which is what makes magic"
+    echo "# prefix the subcells so user cell names cannot collide."
     echo "gds readonly true"
     echo ""
     for n in "${placed[@]}"; do
 	echo "gds read ../${GDSPATH[$n]}"
     done
+    echo "# Slots whose GDS turned out not to contain the expected top level"
+    echo "# cell.  A missing cell is recorded here and the slot is skipped at"
+    echo "# placement time below, so that one bad project leaves its own slot"
+    echo "# empty rather than aborting magic and losing the whole chip GDS."
+    echo "set missing_slots {}"
+    echo ""
     for n in "${placed[@]}"; do
 	echo "# slot $n --- ${GDSPATH[$n]}"
 	echo "if {[lsearch [cellname list allcells] slot_$n] < 0} {"
 	echo "    puts \"ERROR: slot_$n.gds contains no cell named slot_$n\""
-	echo "    quit -noprompt"
+	echo "    puts \"       slot $n not placed:  no getcell was done.\""
+	echo "    puts \"       NOTE:  if the project was laid out directly in\""
+	echo "    puts \"       slot${n}_wrapper it replaces the harness wrapper of\""
+	echo "    puts \"       that name and may still appear in the chip anyway.\""
+	echo "    puts \"       Check the slot visually, and rely on chip level LVS\""
+	echo "    puts \"       to confirm the slot pins survived.\""
+	echo "    lappend missing_slots $n"
+	echo "} else {"
+	echo "    load slot_$n"
+	echo "    # Properties apply to the current edit cell, so these must stay"
+	echo "    # inside the else, after the load."
+	echo "    property GDS_END \"\""
+	echo "    property GDS_START 0"
+	echo "    property LEFview true"
 	echo "}"
-	echo "load slot_$n"
-	echo "# Remove GDS_END and set GDS_START to 0 so the cells get prefixed"
-	echo "property GDS_END \"\""
-	echo "property GDS_START 0"
-	echo "property LEFview true"
     done
     echo ""
     echo "load $topcell"
     echo ""
     for n in "${placed[@]}"; do
-        echo "# Remove any existing slot instance"
-        echo "if {[instance list exists slot_${n}_0] != \"\"} {"
-        echo "    select cell slot_${n}_0"
-        echo "    delete"
-        echo "}"
+        echo "if {[lsearch \$missing_slots $n] >= 0} {"
+        echo "    puts \"skipping slot $n (top level cell not found)\""
+        echo "} else {"
+        echo "    # Remove any existing slot instance"
+        echo "    if {[instance list exists slot_${n}_0] != \"\"} {"
+        echo "        select cell slot_${n}_0"
+        echo "        delete"
+        echo "    }"
 	if [ -n "${MIRROR[$n]}" ]; then
-	    echo "getcell slot_$n h child 0 0 parent ${ANCHORX[$n]} ${ANCHORY[$n]}"
+	    echo "    getcell slot_$n h child 0 0 parent ${ANCHORX[$n]} ${ANCHORY[$n]}"
 	else
-	    echo "getcell slot_$n child 0 0 parent ${ANCHORX[$n]} ${ANCHORY[$n]}"
+	    echo "    getcell slot_$n child 0 0 parent ${ANCHORX[$n]} ${ANCHORY[$n]}"
 	fi
+        echo "}"
 	echo ""
     done
+    echo "# Final tally, so a missing slot cannot scroll past unnoticed in"
+    echo "# magic's output."
+    echo "if {[llength \$missing_slots] > 0} {"
+    echo "    puts \"\""
+    echo "    puts \"WARNING: slot(s) not placed, no top level cell found: \$missing_slots\""
+    echo "    puts \"The chip GDS was still written.  Those slots are empty unless\""
+    echo "    puts \"the project was laid out directly in its slotN_wrapper cell.\""
+    echo "    puts \"\""
+    echo "}"
 } > "$outfile"
 
 note ""

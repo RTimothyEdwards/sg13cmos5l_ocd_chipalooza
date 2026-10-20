@@ -54,7 +54,8 @@
 `include "../../dependencies/sg13cmos5l_ocd_ip__analog_switches/verilog/power_stage1v2.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__analog_switches/verilog/power_stage2.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__bandgap_v3.v"
-`include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__voltgen_v2.v"
+`include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__voltgen_v3.v"
+`include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__classab_buffer.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__biasgen/verilog/sg13cmos5l_ocd_ip__biasgen2.v"
 `include "../../dependencies/sg13cmos5l_ocd_ip__por/verilog/sg13cmos5l_ocd_ip__por.v"
 
