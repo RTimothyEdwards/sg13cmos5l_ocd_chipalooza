@@ -49,13 +49,13 @@
 #
 #    A. The "pad type" is one of 11 valid pad types:
 #		sg13cmos5l_IOPadIn
-#		sg13cmos5l_IOPadOut16mA
+#		sg13cmos5l_IOPadOut4mA
 #		sg13cmos5l_IOPadOut16mA
 #		sg13cmos5l_IOPadOut30mA
-#		sg13cmos5l_IOPadTriOut16mA
+#		sg13cmos5l_IOPadTriOut4mA
 #		sg13cmos5l_IOPadTriOut16mA
 #		sg13cmos5l_IOPadTriOut30mA
-#		sg13cmos5l_IOPadInOut16mA
+#		sg13cmos5l_IOPadInOut4mA
 #		sg13cmos5l_IOPadInOut16mA
 #		sg13cmos5l_IOPadInOut30mA
 #		sg13cmos5l_IOPadAnalog
@@ -151,8 +151,8 @@ s4_an[0]:	sg13cmos5l_IOPadAnalog		s4_an_0
 s5_an[0]:	sg13cmos5l_IOPadAnalog		s5_an_0
 s5_an[1]:	sg13cmos5l_IOPadAnalog		s5_an_1
 s5_an[2]:	sg13cmos5l_IOPadAnalog		s5_an_2
-s6_an[0]:	sg13cmos5l_IOPadAnalog		s6_an_0
-s6_an[1]:	sg13cmos5l_IOPadAnalog		s6_an_1
+s6_an[0]:	sg13cmos5l_IOPadIn		s6_an_0
+s6_an[1]:	sg13cmos5l_IOPadOut16mA		s6_an_1
 s7_an[0]:	sg13cmos5l_IOPadAnalog		s7_an_0
 s7_an[1]:	sg13cmos5l_IOPadAnalog		s7_an_1
 s8_an[0]:	sg13cmos5l_IOPadAnalog		s8_an_0
@@ -165,15 +165,15 @@ s10_an[2]:	sg13cmos5l_IOPadAnalog		s10_an_2
 s11_an[0]:	sg13cmos5l_IOPadAnalog		s11_an_0
 s12_an[0]:	sg13cmos5l_IOPadAnalog		s12_an_0
 s12_an[1]:	sg13cmos5l_IOPadAnalog		s12_an_1
-s13_an[0]:	sg13cmos5l_IOPadAnalog		s13_an_0
-s13_an[1]:	sg13cmos5l_IOPadAnalog		s13_an_1
+s13_an[0]:	sg13cmos5l_IOPadIn		s13_an_0
+s13_an[1]:	sg13cmos5l_IOPadOut16mA		s13_an_1
 s14_an[0]:	sg13cmos5l_IOPadAnalog		s14_an_0
 s14_an[1]:	sg13cmos5l_IOPadAnalog		s14_an_1
 s14_an[2]:	sg13cmos5l_IOPadAnalog		s14_an_2
 s15_an[0]:	sg13cmos5l_IOPadAnalog		s15_an_0
 s16_an[0]:	sg13cmos5l_IOPadAnalog		s16_an_0
 s16_an[1]:	sg13cmos5l_IOPadAnalog		s16_an_1
-s17_an[0]:	sg13cmos5l_IOPadAnalog		s17_an_0
-s17_an[1]:	sg13cmos5l_IOPadAnalog		s17_an_1
+s17_an[0]:	sg13cmos5l_IOPadOut16mA		s17_an_0
+s17_an[1]:	sg13cmos5l_IOPadOut16mA		s17_an_1
 s18_an[0]:	sg13cmos5l_IOPadAnalog		s18_an_0
 s18_an[1]:	sg13cmos5l_IOPadAnalog		s18_an_1
