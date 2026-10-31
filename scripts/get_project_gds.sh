@@ -365,8 +365,11 @@ fi
     echo ""
     echo "# readonly drops each user GDS in verbatim.  The GDS_START/GDS_END"
     echo "# properties are cleared per cell below, which is what makes magic"
-    echo "# prefix the subcells so user cell names cannot collide."
+    echo "# prefix the subcells so user cell names cannot collide.  This must"
+    echo "# be done in conjunction with the noduplicates option, otherwise"
+    echo "# name collision can still occur when reading the cells."
     echo "gds readonly true"
+    echo "gds noduplicates true"
     echo ""
     for n in "${placed[@]}"; do
 	echo "gds read ../${GDSPATH[$n]}"

@@ -1,13 +1,7 @@
 magic
 tech ihp-sg13cmos5l
 magscale 1 2
-timestamp 1791731383
-<< error_s >>
-rect 4768 1260 4770 2700
-rect 5096 1008 5098 2568
-rect 6168 1728 6176 2568
-rect 6168 888 6176 1248
-rect 6496 890 6504 2690
+timestamp 1793048104
 << fillblock >>
 rect 0 14730 31362 17760
 rect 0 9856 33792 13572
@@ -59,7 +53,7 @@ transform 1 0 7348 0 1 14824
 box 0 0 360 2520
 use font_6D  font_6D_0 alpha
 timestamp 1598776905
-transform 1 0 6496 0 1 890
+transform 1 0 6506 0 1 890
 box 0 0 1800 1800
 use font_6E  font_6E_1 alpha
 timestamp 1598776997
@@ -223,7 +217,7 @@ transform 1 0 12408 0 1 14828
 box 0 0 1080 1800
 use font_62  font_62_0 alpha
 timestamp 1598775406
-transform 1 0 8736 0 1 903
+transform 1 0 8746 0 1 903
 box 0 0 1080 2520
 use font_63  font_63_0 alpha
 timestamp 1598836169
@@ -231,11 +225,11 @@ transform 1 0 11590 0 1 10724
 box 0 0 1080 1800
 use font_65  font_65_0 alpha
 timestamp 1598775915
-transform 1 0 5096 0 1 888
+transform 1 0 5098 0 1 888
 box 0 0 1080 1800
 use font_65  font_65_1
 timestamp 1598775915
-transform 1 0 10186 0 1 909
+transform 1 0 10196 0 1 909
 box 0 0 1080 1800
 use font_65  font_65_7
 timestamp 1598775915
@@ -287,7 +281,7 @@ transform 1 0 24216 0 1 5844
 box 0 -720 1080 1800
 use font_72  font_72_0 alpha
 timestamp 1598777237
-transform 1 0 11650 0 1 908
+transform 1 0 11660 0 1 908
 box 0 0 1080 1800
 use font_72  font_72_4
 timestamp 1598777237
