@@ -278,9 +278,9 @@ gds-final:				## assemble the post-fill final GDS  (14)
 all:
 	make setup
 	make projects
+	make setup-custom
 	make clean-config
 	make config
-	make custom-config
 	make padframe
 	make gds-slots
 	make user-id

@@ -43,7 +43,10 @@
 # GDS_START is set to 0.  This forces magic to write out the
 # entire GDS file for the pad, with all of its subcells prefixed,
 # so that subcells of different pads which happen to have the
-# same name cannot collide in the chip GDS.
+# same name cannot collide in the chip GDS.  For the same reason
+# the .mag view of the pad is flattened and has no subcells;  its
+# contents are only for viewing and extraction, since the GDS
+# output comes directly from the pad's GDS file.
 
 export PDK_ROOT=${PDK_ROOT:-/home/tim/gits}
 export PDK=${PDK:-ihp-sg13cmos5l}
@@ -251,23 +254,52 @@ for pad in "${gdslist[@]}"; do
 drc off
 crashbackups stop
 locking disable
+units microns
+snap internal
 #
 # Prepare for library import
 gds readonly true
 gds rescale false
+gds drccheck off
 cd $customdir
 gds read $gdsfile
-cellname delete {(UNNAMED)}
 if {[lsearch -exact [cellname list allcells] $pad] < 0} {
     puts stderr "SETUP_CUSTOM_ERROR: $gdsfile contains no cell named $pad"
     quit -noprompt
 }
 load $pad
+select top cell
+set gdsfile [property GDS_FILE]
+
+# Record the abutment box
+box values {*}[property FIXED_BBOX]
+set bbox [box values]
+
+# Replace the pad with a flattened copy having no subcells.  Pads
+# from different designers can have subcells with the same names,
+# and in magic those would collide.
+
+flatten ${pad}_flat
+load ${pad}_flat
+cellname delete $pad
+cellname rename ${pad}_flat $pad
+
+# The flatten generates mask hints;  they are not needed because
+# the output comes from the GDS file.
+foreach prop [property] {
+    if {[string match MASKHINTS_* [lindex \$prop 0]]} {
+	property [lindex \$prop 0] {}
+    }
+}
 
 # Force the entire GDS file to be written out with all subcells
 # prefixed, so that subcell names cannot collide with other pads.
-property GDS_END ""
+# (There is no GDS_END, so this cannot be confused with a library cell.)
+property GDS_FILE \$gdsfile
 property GDS_START 0
+
+box values {*}\$bbox
+property FIXED_BBOX [box values]
 
 # Annotate with LEF
 $lefcmd
@@ -275,8 +307,8 @@ $lefcmd
 # Annotate with SPICE
 $spicecmd
 
-# Write the .mag file out
-writeall force
+# Write the .mag file out (the pad only;  it has no subcells)
+save $pad
 quit -noprompt
 EOF
     # The stamp is created before magic starts, so a .mag file left over
