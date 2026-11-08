@@ -290,6 +290,7 @@ all:
 	make clean-config
 	make config
 	make padframe
+	make wrappers
 	make gds-slots
 	make user-id
 	make projects-gds
