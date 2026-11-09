@@ -299,9 +299,10 @@ all:
 	make projects-gds
 	make gds-prefill
 	make fill
-	make gds-final
-	make drc-precheck
-	make drc-final
+	make PROJECT=MPC9639 gds-final
+	make PROJECT=MPC9639 drc-precheck
+	make PROJECT=MPC9639 drc-final
+	make PROJECT=MPC9639 extract-top
 
 all-default:
 	make setup
@@ -313,6 +314,7 @@ all-default:
 	make gds-final
 	make drc-precheck
 	make drc-final
+	make extract-top
 
 .PHONY: clean
 clean: sim-clean			## remove simulation and LVS build products

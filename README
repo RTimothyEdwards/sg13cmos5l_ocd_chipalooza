@@ -485,3 +485,37 @@ The following steps continue with the top-level chip integration
      exactly compatible with this repository;  the entire project needs
      to be copied into a compatible repository with various directories
      populated as dictated by IHP.  This step will be automated.
+
+----------------------------------------------------------------------
+Caveats:
+     Currently it is necessary to preserve the local magic layout files
+     "slot1_wrapper.mag", "slot7_wrapper.mag", "slot8_wrapper.mag", and
+     "chipalooza_frame.mag" before the build and to copy them back to
+     the magic/ directory between steps "make wrappers" and "make
+     gds-slots".  This preserves custom layout required to pass DRC.
+
+     Slot 1:  The DIGITALID virtual ground marker cut through contacts
+     and needed to be expanded to encompass the entire contact and
+     surrounding diffusion.
+
+     Slot 7:  The original analog pin in metal3 needed to be removed.
+     Automation rebuilding the slot wrapper with the custom pad pins
+     has not yet been completely automated.
+
+     Slot 8:  Required some thick oxide over small notch violations,
+     and an nwell needed a tie to the power supply.
+
+     Chipalooza frame:  Same issue with slot 7, the analog pins on
+     metal 3 needed to be removed, as automation around custom user
+     pads is incomplete.
+
+     Note that LVS is never run on the populated chip.  LVS is run
+     independently by the user project designers, and an LVS result
+     is available for the core harness chip design without the user
+     projects.  This LVS result can be found in validate/
+     comp_sg13cmos5l_ocd_chipalooza.out.
+
+     Note that the default chip name is "sg13cmos5l_ocd_chipalooza"
+     while for the IHP tapeout, the name is changed to "MPC9639" in
+     accordance with IHP methodology, by setting environment variable
+     PROJECT to "MPC9639".
