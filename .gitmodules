@@ -7,3 +7,57 @@
 [submodule "dependencies/sg13cmos5l_ocd_ip__por"]
 	path = dependencies/sg13cmos5l_ocd_ip__por
 	url = https://github.com/RTimothyEdwards/sg13cmos5l_ocd_ip__por
+[submodule "dependencies/slot_1"]
+	path = dependencies/slot_1
+	url = https://github.com/rcyaon/bidir-level-shifter
+[submodule "dependencies/slot_2"]
+	path = dependencies/slot_2
+	url = https://github.com/Belal-Elshinnawey/sg13cmos5l_slot2_backup
+[submodule "dependencies/slot_3"]
+	path = dependencies/slot_3
+	url = https://github.com/htfab/hsxo-cpz2
+[submodule "dependencies/slot_4"]
+	path = dependencies/slot_4
+	url = https://github.com/phdridha12/sg13cmos5l_Wind_Comp
+[submodule "dependencies/slot_5"]
+	path = dependencies/slot_5
+	url = https://github.com/YacineSot/sg13cmos5l_yacinesot_ip__diff_opamp_cmfb
+[submodule "dependencies/slot_6"]
+	path = dependencies/slot_6
+	url = https://github.com/RTimothyEdwards/sg13cmos5l_vyges_ip__pll_rosc
+[submodule "dependencies/slot_7"]
+	path = dependencies/slot_7
+	url = https://github.com/tatzelbrumm/sg13cmos5l_cm_slot7
+[submodule "dependencies/slot_8"]
+	path = dependencies/slot_8
+	url = https://github.com/adankvitschal/sg13g2_mh_ip__cmos_vref
+[submodule "dependencies/slot_9"]
+	path = dependencies/slot_9
+	url = https://github.com/orpheus016/sg13cmos5l_spma_ip__instramp
+[submodule "dependencies/slot_10"]
+	path = dependencies/slot_10
+	url = https://github.com/RTimothyEdwards/sg13cmos5l_rodovalho_ip__lpopamp
+[submodule "dependencies/slot_11"]
+	path = dependencies/slot_11
+	url = https://github.com/Belal-Elshinnawey/sg13cmos5l_slot11_backup
+[submodule "dependencies/slot_12"]
+	path = dependencies/slot_12
+	url = https://github.com/Belal-Elshinnawey/sg13cmos5l_slot12_backup
+[submodule "dependencies/slot_13"]
+	path = dependencies/slot_13
+	url = https://github.com/bhagwat-rahul/sg13cmos5l_rahulbhagwat_ip_pll_fractional_n_charge_pump_ring_osc
+[submodule "dependencies/slot_14"]
+	path = dependencies/slot_14
+	url = https://github.com/Intubun/chipalooza_lvds_pll
+[submodule "dependencies/slot_15"]
+	path = dependencies/slot_15
+	url = https://github.com/srout/sg13cmos5l_srout_ip__tinyBGR
+[submodule "dependencies/slot_16"]
+	path = dependencies/slot_16
+	url = https://github.com/arjun2000ananth/SAR_ADC_IHP
+[submodule "dependencies/slot_17"]
+	path = dependencies/slot_17
+	url = https://github.com/AouissiBrahim/SG13CMOS5L_LPVSV_Chipalooza_2
+[submodule "dependencies/slot_18"]
+	path = dependencies/slot_18
+	url = https://bitbucket.org/chrisgj198/sg13cmos5l_chipalooza2_lc_vco

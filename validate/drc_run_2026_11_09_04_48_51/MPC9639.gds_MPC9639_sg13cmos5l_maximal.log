@@ -1,0 +1,9 @@
+# Logfile created on 2026-11-08 23:48:53 -0500 by logger.rb/v1.6.0
+2026-11-08 23:48:53 -0500: Memory Usage (414840K) : Starting running IHP-SG13CMOS5L Klayout DRC maximum runset on /home/tim/projects/opencircuitdesign/Chipalooza/challenge_ihp_1/tapeout/sg13cmos5l_ocd_chipalooza/gds/MPC9639.gds.gz
+2026-11-08 23:48:53 -0500: Memory Usage (414840K) : Ruby Version for klayout: 3.3.10
+2026-11-08 23:48:54 -0500: Memory Usage (516644K) : Loading database to memory is complete.
+2026-11-08 23:48:54 -0500: Memory Usage (516644K) : IHP-SG13CMOS5L Klayout DRC maximum runset output at: /home/tim/projects/opencircuitdesign/Chipalooza/challenge_ihp_1/tapeout/sg13cmos5l_ocd_chipalooza/validate/drc_run_2026_11_09_04_48_51/MPC9639.gds_MPC9639_sg13cmos5l_maximal.lyrdb
+2026-11-08 23:48:54 -0500: Memory Usage (516900K) : Evaluate switches.
+2026-11-08 23:48:54 -0500: Memory Usage (516900K) : Klayout will use  thread(s)
+2026-11-08 23:48:54 -0500: Memory Usage (516900K) : deep mode is enabled for sg13cmos5l_maximal runset.
+2026-11-09 00:06:22 -0500: Memory Usage (5190956K) : KLayout DRC run for maximum ruleSet completed in 1048.5 seconds
