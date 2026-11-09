@@ -983,7 +983,9 @@ style patternfill variants (),(tiled)
  templayer	met4fill_coarse topbox
         # slots   0 5000 420 0 5000 420 1700 850
 	# Make spacing 2.00um so that max density is < 50%
-        slots   0 5000 2000 0 5000 2000 4500 3500
+        # slots   0 5000 2000 0 5000 2000 4500 3500
+	# Make spacing 2.50um so that max density is < 60%
+        slots   0 5000 2500 0 5000 2500 4500 3500
         and-not obstruct_m4
 	and	topbox
 	orthogonal
