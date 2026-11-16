@@ -82,7 +82,7 @@ s4_source:	https://github.com/phdridha12/sg13cmos5l_Wind_Comp
 s5_source:	https://github.com/YacineSot/sg13cmos5l_yacinesot_ip__diff_opamp_cmfb
 s6_source:	https://github.com/RTimothyEdwards/sg13cmos5l_vyges_ip__pll_rosc
 s7_source:	https://github.com/tatzelbrumm/sg13cmos5l_cm_slot7
-s8_source:	https://github.com/adankvitschal/sg13g2_mh_ip__cmos_vref
+s8_source:	https://github.com/adankvitschal/sg13cmos5l_ak_ip__cmos_vref
 s9_source:	https://github.com/orpheus016/sg13cmos5l_spma_ip__instramp
 s10_source:	https://github.com/RTimothyEdwards/sg13cmos5l_rodovalho_ip__lpopamp
 s11_source:	https://github.com/Belal-Elshinnawey/sg13cmos5l_slot11_backup
